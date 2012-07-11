@@ -1,0 +1,76 @@
+TODO
+====
+
+Decide which helpers to port.
+
+Test existing helpers on Python 3. 
+
+Make webhelpers.html use MarkupSafe objects.
+
+Consider replacing HTML builder function with a Stan-like HTML generator. It
+must have an .\_\_html\_\_ method and escape its arguments.
+
+Get documentation onto ReadTheDocs.
+
+Convert all Doctests to unit tests. Consider whether to switch to Unittest 2.7
+or stick to Nose.
+
+HELPERS DISPOSITION
+==================
+
+- webhelpers.constants: maybe port.
+
+- webhelpers.containers: port Counter, Accumulator, UniqueAcculumulator,
+  DumbObject, unique.
+  Don't port defaultdict.
+  Maybe port correlate_dicts, correlate_objects, distribute, except_keys,
+  extract_keys, only_some_keys, ordered_items, get_many, transpose.
+  New helpers coalesce, first_true [but that's same as or'ing], key_if_dict,
+  attr_if_object.
+  Maybe port del_quiet (change signature to *keys_or_subscripts).
+
+- webhelpers.date: maybe port.
+
+- webhelpers.feedgenerator: spin off. Check API of extrernal package.
+
+- webhelpers.html.builder: see above.
+
+- webhelpers.html.converters: port format_paragraphs, nl2br.
+  Don't port markdown, textilize.
+
+- webhelpers.html.grid: spin off.
+
+- webhelpers.html.tags: port.
+
+- webhelpers.html.tools: maybe port, except deprecated args. Look for
+  duplication with webhelpers.html.converters.
+
+- webhelpers.media: maybe port.
+
+- webhelpers.mimehelper: don't port. (Useless?)
+
+- webhelpers.misc: don't port all, any, no.
+  Port count_true, NotGiven, subclasses_only (rename to subclasses_of),
+  deprecate.
+  Maybe port convert_or_none, flatten, format_exception, .
+  Don't port DeclarativeException.
+  Move OverwriteError to webhelpers.errors.
+
+- webhelpers.errors: new package.
+  File/DirectoryExists/Missing error, OverwriteError.
+  Rename DeclarativeException to something?
+  Better exception builder for multiple args?
+
+- webhelpers.number: port.
+
+- webhelpers.paginate: spin off.
+
+- webhelpers.text: port chop_at, convert_accented_entities, excerpt, lchop,
+  rchop, series, truncate, urlify
+  Maybe port plural and rename?
+  Maybe port collapse, convert_accented_entities, remove_formatting,
+  replace_whitespace, strip_leading_whitespace, wrap_paragraphs.
+  Don't port convert_misc_entities?
+
+- webhelpers.util: maybe port update_params, cgi_escape, html_escape.
+  Don't port iri_to_uri, Partial, SimpleXMLGenerator, UnicodeMultiDict.
