@@ -1,22 +1,41 @@
 TODO
-====
+%%%%
 
-Decide which helpers to port.
+:Updated: 2012-11-26 by Mike Orr
 
-Test existing helpers on Python 3. 
+WebHelpers2 migration
+=====================
 
-Make webhelpers.html use MarkupSafe objects.
+:New repository:  https://github.com/mikeorr/WebHelpers2
+:Old repository: https://bitbucket.org/bbangert/webhelpers
 
-Consider replacing HTML builder function with a Stan-like HTML generator. It
-must have an .\_\_html\_\_ method and escape its arguments.
+* Import WebHelpers 1.3 files.
+* Verify unit tests and doc generation, with existing bugs.
+* Delete subpackages and helpers designated "don't port" below, along with their tests
+  and docs.
+* Delete obsolete tests.  Fix remaining tests that fail.  
+* Rename distro and package to WebHelpers2/webhelpers2. Adjust setup.py,
+  imports, tests, and setup.cfg.
+* Convert tests in Nose and Doctest format to Unittest (Python 2.7). Figure out
+  a compatibility plan for Python 2.6, possibly with a mixin class as in
+  https://code.launchpad.net/~cbehrens/nova/assert-in-fixes/+merge/73208 .
+  (Or decide if there are any compelling reasons to stick to Nose.)
+* Port code to Python 3. Drop Python 2.4 and 2.5 compatibility, and maybe 2.6.
+* Small enhancements.
+* Update docs. New WebHelpers2 name. Add a page explaining the differences in
+  WebHelpers2. Publish on ReadTheDocs.
+* Review the pending issues and pull requests in the old repository.
+* Alpha release.
+* Pie-in-the-sky ideas.
 
-Get documentation onto ReadTheDocs.
+The 2.x series **MUST** have a distinct PyPI distribution and top-level package
+name to avoid breaking existing Pylons applications that depend on the latest
+WebHelpers and expect it to be compatible with 1.0. The new name is
+WebHelpers2/webhelpers2, and its first version will be 2.0a1.
 
-Convert all Doctests to unit tests. Consider whether to switch to Unittest 2.7
-or stick to Nose.
 
 HELPERS DISPOSITION
-==================
+===================
 
 - webhelpers.constants: maybe port.
 
@@ -27,13 +46,23 @@ HELPERS DISPOSITION
   extract_keys, only_some_keys, ordered_items, get_many, transpose.
   New helpers coalesce, first_true [but that's same as or'ing], key_if_dict,
   attr_if_object.
-  Maybe port del_quiet (change signature to *keys_or_subscripts).
+  Maybe port ``del_keys(dic, *keys)``, ``del_attrs(obj, *attrs)``. This deletes the
+  items quietly, without complaining if they don't exist. Note: the equivalent
+  for sets is ``x.difference_update(iterable)``. There does not appear to be
+  a use case for del_set_items, is there?
+
+  ``coalesce(*args, default=None, empty=False, zero=False, false=False)``. Empty is
+  defined as len(x) == 0. Zero is defined as x == 0. False is defined as
+  otherwise not x (which includes None). Is this too complex? There's a tension
+  between SQL coalesce (which returns the first non-None argument) and Python
+  OR (which returns the first true argument). Maybe separate coalesce_string,
+  coalesce_number, coalesce_collection helpers? 
 
 - webhelpers.date: maybe port.
 
 - webhelpers.feedgenerator: spin off. Check API of extrernal package.
 
-- webhelpers.html.builder: see above.
+- webhelpers.html.builder: see below.
 
 - webhelpers.html.converters: port format_paragraphs, nl2br.
   Don't port markdown, textilize.
@@ -74,3 +103,25 @@ HELPERS DISPOSITION
 
 - webhelpers.util: maybe port update_params, cgi_escape, html_escape.
   Don't port iri_to_uri, Partial, SimpleXMLGenerator, UnicodeMultiDict.
+
+- Overall: There are many strip_tags / sanitize / bleach functions.
+
+HTML builder
+============
+
+Convert to MarkupSafe. Alias ``literal`` to ``markupsafe.Markup`` for backward
+compatibility in templates, and ``escape`` to ``escape_silent``.
+
+Consider using an object backend for the tag helpers. Maybe Tavis Rudd's
+non-template-engine can do this and has C speedups? The idea is that instead of
+generating strings immediately, the functions would return tag objects
+(possibly nested), which would be converted to strings when str() or
+.\_\_html\_\_() is called. (Properly escaping their children and attributes.)
+Stan/Breve almost does this but not quite.
+
+Miscellaneous
+=============
+
+The "unfinished" directory in the WebHelpers source distribution contains
+potential future helpers which are not finished enough for release. These are
+not installed by the installer; they are available only in the source tarball.
