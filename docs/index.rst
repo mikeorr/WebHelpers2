@@ -1,9 +1,9 @@
 WebHelpers
 %%%%%%%%%%
-:Version: 1.3, released 2011-03-23
+:Version: 2.0a1, released XXXX-XX-XX
 :PyPI: http://pypi.python.org/pypi/WebHelpers
-:Docs: https://webhelpers.readthedocs.org/en/latest/
-:Source: https://bitbucket.org/bbangert/webhelpers (Mercurial)
+:Docs: https://webhelpers2.readthedocs.org/en/latest/
+:Source: https://github.com/mikeorr/WebHelpers2 (Git)
 
 .. image:: _static/webhelpers-logo.png
    :width: 100px
