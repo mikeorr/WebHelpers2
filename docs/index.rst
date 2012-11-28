@@ -1,5 +1,5 @@
-WebHelpers
-%%%%%%%%%%
+WebHelpers2
+%%%%%%%%%%%
 :Version: 2.0a1, released XXXX-XX-XX
 :PyPI: http://pypi.python.org/pypi/WebHelpers
 :Docs: https://webhelpers2.readthedocs.org/en/latest/
