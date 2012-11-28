@@ -7,8 +7,4 @@
 
 .. autofunction:: format_paragraphs
 
-.. autofunction:: markdown
-
 .. autofunction:: nl2br
-
-.. autofunction:: textilize

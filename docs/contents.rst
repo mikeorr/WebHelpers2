@@ -19,13 +19,3 @@ All helpers are organized into subpackages.
    modules/number
    modules/text
    modules/util
-
-Non-essential subpackages
-+++++++++++++++++++++++++
-
-.. toctree::
-    :maxdepth: 2
-
-    modules/markdown
-    modules/textile
-
