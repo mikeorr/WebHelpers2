@@ -5,11 +5,11 @@ except ImportError:
     use_setuptools()
     from setuptools import setup, find_packages
 
-version = '1.3'
+from webhelpers import __version__
 
 setup(
     name="WebHelpers",
-    version=version,
+    version=__version__,
     description='Web Helpers',
     long_description="""
 Web Helpers is a library of helper functions intended to make writing 
