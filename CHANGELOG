@@ -3,4 +3,12 @@
 
 * Import code and docs from WebHelpers 1.3. Source:
   https://bitbucket.org/bbangert/webhelpers/changeset/979fc4537c87c54eed933e5a84d43df51be88ff2
-  
+* Delete submodules: 
+
+  - feedgenerator
+  - html.grid
+  - html.grid_demo
+  - markdown
+  - mimetypes
+  - pylonslib (flash, grid, minify, secure_form)
+  - textile
