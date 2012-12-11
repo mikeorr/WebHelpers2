@@ -30,9 +30,8 @@ def _delta_string(delta, granularity):
 
 
 def _is_leap_year(year):
-    if year % 4 == 0 and year % 400 != 0:
-        return True
-    return False
+    # Algorithm contributed by "rejoc" on GitHub
+    return (year % 400 == 0) or (year % 4 == 0 and year % 100 != 0)
 
 
 def distance_of_time_in_words(from_time, to_time=0, granularity="second",

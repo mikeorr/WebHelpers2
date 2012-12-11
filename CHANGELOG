@@ -12,3 +12,5 @@
   - mimetypes
   - pylonslib (flash, grid, minify, secure_form)
   - textile
+* Bugfix in leap year algorithm contributed by "rejoc" on GitHub.
+  (``webhelpers.date._is_leap_year()``)

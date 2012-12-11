@@ -5,6 +5,7 @@ from datetime import timedelta
 import time
 
 from webhelpers.date import *
+from webhelpers.date import _is_leap_year
 
 class TestDateHelper(WebHelpersTestCase):
     
@@ -85,8 +86,28 @@ class TestDateHelper(WebHelpersTestCase):
         to_time = datetime(220, 3, 2, 12, 30, 31, 0, None) # 12:30:31, Mar 2, 220AD
         self.assertEqual(distance_of_time_in_words(from_time, to_time), 
              "2 decades, 1 month and 1 second")
+
+class TestLeapYears(WebHelpersTestCase):
+
+    def test_is_leap_year_1900(self):
+        self.assertFalse(_is_leap_year(1900))
+
+    def test_is_leap_year_2000(self):
+        self.assertTrue(_is_leap_year(2000))
+
+    def test_is_leap_year_2011(self):
+        self.assertFalse(_is_leap_year(2011))
+
+    def test_is_leap_year_2012(self):
+        self.assertTrue(_is_leap_year(2012))
+
+    def test_is_leap_year_2100(self):
+        self.assertFalse(_is_leap_year(2100))
         
 if __name__ == '__main__':
-    suite = [unittest.makeSuite(TestDateHelper)]
+    suite = [
+        unittest.makeSuite(TestDateHelper),
+        unittest.makeSuite(TestLeapYears),
+        ]
     for testsuite in suite:
         unittest.TextTestRunner(verbosity=1).run(testsuite)
