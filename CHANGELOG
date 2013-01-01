@@ -12,16 +12,25 @@
   * mimehelper
   * pylonslib (flash, grid, minify, secure_form)
   * textile
+  * util
 
 - webhelpers.containers:
   
-  * Delete Accumulator: use ``collections.defaultdict(list)`` or WebOb's `MultiDict``. 
-  * Delete UniqueAccumulator: use ``collections.defaultdict(set)``.
+  * Delete Accumulator: use ``collections.defaultdict(list)`` in stdlib or 
+    WebOb's `MultiDict``. 
+  * Delete UniqueAccumulator: use ``collections.defaultdict(set)`` in stdlib.
 
 - webhelpers.misc:
 
   * Rename 'subclasses_only' to 'subclasses_of'.
   * Delete DeclarativeException and OverwriteError.
+
+- webhelpers.util:
+
+  * Delete iri_to_uri. Was used by feedgenerator.
+  * Delete Partial: use ``functools.partial`` in stdlib.
+  * Delete SimplerXMLGenerator. Was used by feedgenerator.
+  * Delete UnicodeMultiDict: use WebOb's MultiDict.
 
 - Bugfix in leap year algorithm contributed by "rejoc" on GitHub.
   (``webhelpers.date._is_leap_year()``)
