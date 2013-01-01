@@ -107,68 +107,6 @@ class Counter(object):
     correlate = classmethod(correlate)
 
 
-class Accumulator(object):
-    """Accumulate a dict of all values for each key.
-
-    Call the instance to register a value. The result is available as the
-    ``.result`` attribute.  Example::
-
-        >>> bowling_scores = Accumulator()
-        >>> bowling_scores("Fred", 0)
-        >>> bowling_scores("Barney", 10)
-        >>> bowling_scores("Fred", 1)
-        >>> bowling_scores("Barney", 9)
-        >>> sorted(bowling_scores.result.items())
-        [('Barney', [10, 9]), ('Fred', [0, 1])]
-
-        >> bowling_scores.result
-        {'Fred': [0, 1], 'Barney': [10, 9]}
-
-    The values are stored in the order they're registered.
-
-    Alternatives to this class include ``paste.util. multidict.MultiDict``
-    in Ian Bicking's Paste package.
-    """
-
-    def __init__(self):
-        self.result = collections.defaultdict(list)
-
-    def __call__(self, key, value):
-        """Register a key-value pair."""
-        self.result[key].append(value)
-
-    def correlate(class_, iterable, key):
-        """Create an Accumulator based on several related values.
-
-        ``key`` is a function to calculate the key for each item, akin to
-        ``list.sort(key=)``.
-
-        This is the same as adding each item individually.
-        """
-        accumulator = class_()
-        for v in iterable:
-            k = key(v)
-            accumulator(k, v)
-        return accumulator
-    correlate = classmethod(correlate)
-
-class UniqueAccumulator(object):
-    """Accumulate a dict of unique values for each key.
-
-    The values are stored in an unordered set.
-
-    Call the instance to register a value. The result is available as the
-    ``.result`` attribute.
-    """
-
-    def __init__(self):
-        self.result = collections.defaultdict(set)
-
-    def __call__(self, key, value):
-        """Register a key-value pair."""
-        self.result[key].add(value)
-
-
 def unique(it):
     """Return a list of unique elements in the iterable, preserving the order.
 
@@ -218,8 +156,8 @@ def except_keys(dic, keys):
     return ret
 
 def extract_keys(dic, keys):
-    """Return two copies of the dict.  The first has only the keys specified.
-    The second has all the *other* keys from the original dict.
+    """Return two copies of the dict.  The first will contain only the specified keys.
+    The second will contain all the *other* keys from the original dict.
 
     ::
 

@@ -1,16 +1,22 @@
 2.0a1 (xxxx-xx-xx)
 ------------------
 
-* Import code and docs from WebHelpers 1.3. Source:
+- Import code and docs from WebHelpers 1.3. Source:
   https://bitbucket.org/bbangert/webhelpers/changeset/979fc4537c87c54eed933e5a84d43df51be88ff2
-* Delete submodules: 
+- Delete submodules: 
 
-  - feedgenerator
-  - html.grid
-  - html.grid_demo
-  - markdown
-  - mimetypes
-  - pylonslib (flash, grid, minify, secure_form)
-  - textile
-* Bugfix in leap year algorithm contributed by "rejoc" on GitHub.
+  * feedgenerator
+  * html.grid
+  * html.grid_demo
+  * markdown
+  * mimetypes
+  * pylonslib (flash, grid, minify, secure_form)
+  * textile
+
+- Delete helpers in 'containers' submodule:
+  
+  * Accumulator: use ``collections.defaultdict(list)`` or WebOb's `MultiDict``. 
+  * UniqueAccululator: use ``collections.defaultdict(set)``.
+
+- Bugfix in leap year algorithm contributed by "rejoc" on GitHub.
   (``webhelpers.date._is_leap_year()``)
