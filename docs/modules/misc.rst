@@ -20,18 +20,10 @@ Class-related and miscellaneous
 
 .. autoclass:: NotGiven
 
-.. autofunction:: subclasses_only
+.. autofunction:: subclasses_of
 
 Exceptions and deprecation
 --------------------------
 
 .. autofunction:: deprecate
 .. autofunction:: format_exception
-
-.. autoclass:: DeclarativeException
-    :members:
-    :undoc-members:
-
-.. autoclass:: OverwriteError
-   :members:
-   :undoc-members:

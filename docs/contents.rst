@@ -18,4 +18,3 @@ All helpers are organized into subpackages.
    modules/misc
    modules/number
    modules/text
-   modules/util
