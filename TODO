@@ -1,7 +1,7 @@
 TODO
 %%%%
 
-:Updated: 2012-11-26 by Mike Orr
+:Updated: 2013-01-01 by Mike Orr
 
 WebHelpers2 migration
 =====================
@@ -37,87 +37,101 @@ WebHelpers2/webhelpers2, and its first version will be 2.0a1.
 HELPERS DISPOSITION
 ===================
 
-- webhelpers.constants: maybe port.
+Delete submodules
+-----------------
 
-- webhelpers.containers: port Counter, Accumulator, UniqueAcculumulator,
-  DumbObject, unique.
-  Don't port defaultdict.
-  Maybe port correlate_dicts, correlate_objects, distribute, except_keys,
-  extract_keys, only_some_keys, ordered_items, get_many, transpose.
-  New helpers coalesce, first_true [but that's same as or'ing], key_if_dict,
-  attr_if_object.
-  Maybe port ``del_keys(dic, *keys)``, ``del_attrs(obj, *attrs)``. This deletes the
-  items quietly, without complaining if they don't exist. Note: the equivalent
-  for sets is ``x.difference_update(iterable)``. There does not appear to be
-  a use case for del_set_items, is there?
+  * feedgenerator
+  * html.grid
+  * html.grid_demo
+  * markdown
+  * mimehelper
+  * pylonslib (flash, grid, minify, secure_form)
+  * textile
+  * util
 
-  ``coalesce(*args, default=None, empty=False, zero=False, false=False)``. Empty is
-  defined as len(x) == 0. Zero is defined as x == 0. False is defined as
-  otherwise not x (which includes None). Is this too complex? There's a tension
-  between SQL coalesce (which returns the first non-None argument) and Python
-  OR (which returns the first true argument). Maybe separate coalesce_string,
-  coalesce_number, coalesce_collection helpers? 
+DONE.
 
-- webhelpers.date: maybe port.
+webhelpers.constants
+--------------------
 
-- webhelpers.feedgenerator: spin off. Check API of extrernal package.
+Enhancements: unicode_literals. Move ISO countries to separate text file.
 
-- webhelpers.html.builder: see below.
+webhelpers.containers
+---------------------
 
-- webhelpers.html.converters: port format_paragraphs, nl2br.
-  Don't port markdown, textilize.
+Keep: Counter, DumbObject.
 
-- webhelpers.html.grid: spin off.
+Delete: Accumulator, UniqueAccumulator, Python 2.4 fallback for defaultdict.
 
-- webhelpers.html.tags: port.
+Probably keep: correlate_dicts, correlate_objects, del_quiet, distribute, only_some_keys,
+except_keys, extract_keys, ordered_items, get_many, transpose, unique.
 
-- webhelpers.html.tools: maybe port, except deprecated args. Look for
-  duplication with webhelpers.html.converters.
+Enhancements: change del_quiet's arg to \*keys. coalesce(), needs some thought.
+get_key_attr(), get_key_keys.
 
-- webhelpers.media: maybe port.
 
-- webhelpers.mimehelper: don't port. (Useless?)
+webhelpers.date
+---------------
 
-- webhelpers.misc: don't port all, any, no.
-  Port count_true, NotGiven, subclasses_only (rename to subclasses_of),
-  deprecate.
-  Maybe port convert_or_none, flatten, format_exception, .
-  Don't port DeclarativeException.
-  Move OverwriteError to webhelpers.errors.
+Probably keep.
 
-- webhelpers.errors: new package.
-  File/DirectoryExists/Missing error, OverwriteError.
-  Rename DeclarativeException to something?
-  Better exception builder for multiple args?
-
-- webhelpers.number: port.
-
-- webhelpers.paginate: spin off.
-
-- webhelpers.text: port chop_at, convert_accented_entities, excerpt, lchop,
-  rchop, series, truncate, urlify
-  Maybe port plural and rename?
-  Maybe port collapse, convert_accented_entities, remove_formatting,
-  replace_whitespace, strip_leading_whitespace, wrap_paragraphs.
-  Don't port convert_misc_entities?
-
-- webhelpers.util: maybe port update_params, cgi_escape, html_escape.
-  Don't port iri_to_uri, Partial, SimpleXMLGenerator, UnicodeMultiDict.
-
-- Overall: There are many strip_tags / sanitize / bleach functions.
-
-HTML builder
-============
+webhelpers.html.builder
+-----------------------
 
 Convert to MarkupSafe. Alias ``literal`` to ``markupsafe.Markup`` for backward
 compatibility in templates, and ``escape`` to ``escape_silent``.
 
-Consider using an object backend for the tag helpers. Maybe Tavis Rudd's
-non-template-engine can do this and has C speedups? The idea is that instead of
-generating strings immediately, the functions would return tag objects
-(possibly nested), which would be converted to strings when str() or
-.\_\_html\_\_() is called. (Properly escaping their children and attributes.)
-Stan/Breve almost does this but not quite.
+C speedup for ``make_tag()``.
+
+webhelpers.html.converters, render, and tools
+---------------------------------------------
+
+Consolidate overlapping helpers in converters and tools. 
+
+Rename format_paragraphs to text_to_html.  Rename render to html_to_text.
+
+sanitize is same as tools-strip_links but implementation is much more complex.
+Worth keeping complex implementation? Note that escape
+(markupsafe.escape_silent) makes HTML strings safe by escaping markup, but
+that's different than stripping tags.
+
+Delete markdown and textilize wrappers.
+
+Delete deprecated 'highlighter' arg in tools.highlight.
+
+
+webhelpers.media
+----------------
+
+Maybe keep. Rename to images?
+
+webhelpers.misc
+---------------
+
+Delete all, any, no, DeclarativeException, OverwriteError.
+
+Keep count_true, NotGiven, subclasses_of (renamed from subclasses_only), deprecate.
+
+Maybe keep convert_or_none, flatten, format_exception, .
+
+webhelpers.number
+-----------------
+
+Keep.
+
+webhelpers.text
+---------------
+
+Keep port chop_at, convert_accented_entities, excerpt, lchop,
+  rchop, series, truncate, urlify
+
+Maybe keep plural and rename?
+
+Maybe keep collapse, convert_accented_entities, remove_formatting,
+  replace_whitespace, strip_leading_whitespace, wrap_paragraphs.
+
+Delete convert_misc_entities?
+
 
 Miscellaneous
 =============
@@ -125,3 +139,17 @@ Miscellaneous
 The "unfinished" directory in the WebHelpers source distribution contains
 potential future helpers which are not finished enough for release. These are
 not installed by the installer; they are available only in the source tarball.
+
+Replacement for 'util.update_params' in *unfinished/update_params.py*.
+
+Replacement for 'misc.DeclarativeException'. Can we make a better API with
+metaclasses or something?
+
+
+Abandoned
+=========
+
+Gave up on object backend for tag builder. I can't remember what the use case
+was for it. Could not find existing implementation: neither Tavis Rudd's
+nontemplate nor Breve/Stan do what I want. The clincher is that users expect
+the result to have string methods and otherwise behave like a string.
