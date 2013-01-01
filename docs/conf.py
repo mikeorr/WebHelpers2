@@ -51,8 +51,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General substitutions.
-project = 'WebHelpers3'
-copyright = '2009-2012, Ben Bangert and Mike Orr'
+project = 'WebHelpers2'
+copyright = '2009-2013, Ben Bangert and Mike Orr'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
