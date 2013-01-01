@@ -9,17 +9,26 @@ WebHelpers2 migration
 :New repository:  https://github.com/mikeorr/WebHelpers2
 :Old repository: https://bitbucket.org/bbangert/webhelpers
 
+DONE:
+
 * Import WebHelpers 1.3 files.
 * Verify unit tests and doc generation, with existing bugs.
-* Delete subpackages and helpers designated "don't port" below, along with their tests
-  and docs.
+* Delete subpackages and helpers designated "don't port", along with their tests and docs.
 * Delete obsolete tests.  Fix remaining tests that fail.  
 * Rename distro and package to WebHelpers2/webhelpers2. Adjust setup.py,
   imports, tests, and setup.cfg.
-* Convert tests in Nose and Doctest format to Unittest (Python 2.7). Figure out
-  a compatibility plan for Python 2.6, possibly with a mixin class as in
+
+TODO:
+
+* Finish deleting and renaming helpers.
+* Move tests to webhelpers/tests, converting them all to a modern Unittest 
+  interface, standardizing their syntax, and dropping silly/archaic tests.
+* Convert doctests to unit tests. Use unicode_literals where possible to avoid
+  u"".
+* Switch to Unittest (Python 2.7). Figure out a compatibility plan for Python
+  2.6 testing, possibly with a mixin class as in
   https://code.launchpad.net/~cbehrens/nova/assert-in-fixes/+merge/73208 .
-  (Or decide if there are any compelling reasons to stick to Nose.)
+  (Or stick to Nose or don't support Python 2.6.)
 * Port code to Python 3. Drop Python 2.4 and 2.5 compatibility, and maybe 2.6.
 * Small enhancements.
 * Update docs. New WebHelpers2 name. Add a page explaining the differences in
