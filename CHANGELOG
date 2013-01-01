@@ -9,14 +9,18 @@
   * html.grid
   * html.grid_demo
   * markdown
-  * mimetypes
+  * mimehelper
   * pylonslib (flash, grid, minify, secure_form)
   * textile
 
-- Delete helpers in 'containers' submodule:
+- webhelpers.containers:
   
-  * Accumulator: use ``collections.defaultdict(list)`` or WebOb's `MultiDict``. 
-  * UniqueAccululator: use ``collections.defaultdict(set)``.
+  * Delete Accumulator: use ``collections.defaultdict(list)`` or WebOb's `MultiDict``. 
+  * Delete UniqueAccumulator: use ``collections.defaultdict(set)``.
+
+- webhelpers.misc:
+
+  * Rename 'subclasses_only' to 'subclasses_of'.
 
 - Bugfix in leap year algorithm contributed by "rejoc" on GitHub.
   (``webhelpers.date._is_leap_year()``)

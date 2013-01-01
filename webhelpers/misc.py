@@ -127,7 +127,7 @@ def flatten(iterable):
 
 
 
-def subclasses_only(class_, it, exclude=None):
+def subclasses_of(class_, it, exclude=None):
     """Extract the subclasses of a class from a module, dict, or iterable.
 
     Return a list of subclasses found. The class itself will not be included.
