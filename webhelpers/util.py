@@ -12,11 +12,7 @@ import urlparse
 from UserDict import DictMixin
 from xml.sax.saxutils import XMLGenerator
 
-try:
-    from urlparse import parse_qs
-except ImportError:   # Python < 2.6
-    from cgi import parse_qs
-
+from urlparse import parse_qs
 
 def update_params(_url, _debug=False, **params):
     """Update query parameters in a URL.
