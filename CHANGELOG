@@ -21,6 +21,7 @@
 - webhelpers.misc:
 
   * Rename 'subclasses_only' to 'subclasses_of'.
+  * Delete DeclarativeException and OverwriteError.
 
 - Bugfix in leap year algorithm contributed by "rejoc" on GitHub.
   (``webhelpers.date._is_leap_year()``)
