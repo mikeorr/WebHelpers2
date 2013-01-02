@@ -39,8 +39,6 @@ http://bitbucket.org/bbangert/webhelpers (Mercurial)
         ],
     tests_require=[ 
       'Nose',
-      'Routes',
-      'WebOb',
       ], 
     test_suite='nose.collector',
     classifiers=["Development Status :: 4 - Beta",
