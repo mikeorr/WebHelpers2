@@ -20,6 +20,10 @@
     WebOb's `MultiDict``. 
   * Delete UniqueAccumulator: use ``collections.defaultdict(set)`` in stdlib.
 
+- webhelpers.html.tags:
+
+  * Delete Doctype: use simply "<!DOCTYPE html>" for HTML 5.
+
 - webhelpers.misc:
 
   * Rename 'subclasses_only' to 'subclasses_of'.

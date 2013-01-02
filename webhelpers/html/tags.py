@@ -39,7 +39,7 @@ __all__ = [
            "ol", "ul", "image", "BR",
            # Head tags and document type
            "stylesheet_link", "javascript_link", "auto_discovery_link",
-           "Doctype", "xml_declaration",
+           "xml_declaration",
            # Utility functions
            "css_classes", "convert_boolean_attrs",
            ]
@@ -1044,10 +1044,6 @@ def css_classes(value_condition_pairs):
 
 #### Tags for the HTML head
 
-    #### Private methods
-    def _make_doctype(self, type, uri, dtd):
-        return literal('<!DOCTYPE %s PUBLIC "%s" "%s">') % (type, uri, dtd)
-
 def javascript_link(*urls, **attrs):
     """Return script include tags for the specified javascript URLs.
     
@@ -1145,70 +1141,6 @@ def auto_discovery_link(url, feed_type="rss", **attrs):
         feed_type = 'application/%s+xml' % feed_type.lower()
     attrs.setdefault("title", title)
     return HTML.link(rel="alternate", type=feed_type, href=url, **attrs)
-
-#### Document type and XML declaration
-
-class Doctype(object):
-    """Document type declarations for HTML and XHTML."""
-
-    def html5(self):
-        """Create a <!DOCTYPE> for HTML 5.
-        
-        Usage::
-
-            >>> Doctype().html5()
-            literal(u'<!doctype html>')
-        """
-        return literal("<!doctype html>")
-
-    def xhtml1(self, subtype="transitional", version="1.0"):
-        """Create a <!DOCTYPE> for XHTML 1.
-
-           Usage::
-
-               >>> Doctype().xhtml1()
-               literal(u'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">')
-               >>> Doctype().xhtml1("strict")
-               literal(u'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">')
-               >>> Doctype().xhtml1("frameset")
-               literal(u'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">')
-        """
-        if subtype in ["transitional", "loose"]:
-            name = "Transitional"
-            dtd = "transitional"
-        else:
-            name = subtype.capitalize()
-            dtd = subtype.lower()
-        uri = "-//W3C//DTD XHTML %s %s//EN" % (version, name)
-        dtd = "http://www.w3.org/TR/xhtml1/DTD/xhtml1-%s.dtd" % dtd
-        return self._make_doctype("html", uri, dtd)
-
-    def html4(self, subtype="transitional", version="4.01"):
-        """Create a <!DOCTYPE> for HTML 4.
-
-           Usage:
-
-               >>> Doctype().html4()
-               literal(u'<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">')
-               >>> Doctype().html4("strict")
-               literal(u'<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">')
-               >>> Doctype().html4("frameset")
-               literal(u'<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">')
-        """
-        if subtype in ["transitional", "loose"]:
-            name = "Transitional"
-            dtd = "loose"
-        else:
-            name = subtype.capitalize()
-            dtd = subtype.lower()
-        uri = "-//W3C//DTD HTML %s %s//EN" % (version, name)
-        dtd = "http://www.w3.org/TR/html4/%s.dtd" % dtd
-        return self._make_doctype("HTML", uri, dtd)
-
-    #### Private methods
-    def _make_doctype(self, type, uri, dtd):
-        return literal('<!DOCTYPE %s PUBLIC "%s" "%s">') % (type, uri, dtd)
-
 
 def xml_declaration(version="1.0", encoding="utf-8"):
     """Create an XML declaration.

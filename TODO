@@ -92,6 +92,11 @@ compatibility in templates, and ``escape`` to ``escape_silent``.
 
 C speedup for ``make_tag()``.
 
+webhelpers.html.tags
+--------------------
+
+Delete Doctype class. DONE.
+
 webhelpers.html.converters, render, and tools
 ---------------------------------------------
 
