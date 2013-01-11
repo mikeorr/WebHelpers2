@@ -91,9 +91,6 @@ Head tags and document type
 
 .. autofunction:: auto_discovery_link
 
-.. autoclass:: Doctype
-   :members:
-
 .. autofunction:: xml_declaration
 
 
