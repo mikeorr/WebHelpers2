@@ -1,7 +1,7 @@
 WebHelpers2
 %%%%%%%%%%%
 :Version: |release|, released XXXX-XX-XX
-:PyPI: http://pypi.python.org/pypi/WebHelpers
+:PyPI: http://pypi.python.org/pypi/WebHelpers2
 :Docs: https://webhelpers2.readthedocs.org/en/latest/
 :Source: https://github.com/mikeorr/WebHelpers2 (Git)
 
@@ -11,31 +11,29 @@ WebHelpers2
    :alt: WebHelpers Logo
    :align: right
 
-WebHelpers is a wide variety of utility functions for web applications and
-other applications. It can be used with any web framework.  See 
-`What's New`_ for a list of changes and upgrading hints.
+**WebHelpers2** is the successor to the widely-used WebHelpers_ utility functions.
+The name was changed to avoid breaking applications that depend on
+the 1.x API but are not formally pinned to it.
 
-Version 1.3 improves Pyramid support in Paginate via URL generator classes.
-(Note: 1.3b1 had a performance regression in Paginate. This is fixed in 1.3
-final.)
+*This documentation is in flux. It may not fully reflect changes since 1.3, and
+it may have internal inconsistencies.*
 
-WebHelpers includes the widely-used HTML tag builder with smart escaping and
-convenience functions for common tags such as form fields. The common builder
-ensures the tags are syntactically correct and prevent cross-site scripting
-attacks and double-escaping. 
+**WebHelpers2** narrows the focus to a core set of utilities that are most widely
+used, relevant to the new Pyramid framework, and easiest to maintain and port
+to Python 3. In particular it keeps the HTML builder and HTML tag functions,
+and most of the text-processing, number formatting, statistics, and date
+functions. It removes the large third-party subpackages: feedgenerator, grid, 
+paginage, markdown, and textile. These are or will be available as separate
+PyPI distributions maintained by their own authors. Some other helpers were
+deleted because they depended on Pylons, were superceded by standard library
+functions (as of Python 2.6), were little-used, or seemed like good ideas at the
+time.
 
-Other helpers perform text processing, split a large number of records into
-pages, generate Atom/RSS feeds with geographical (GIS) data, handle MIME types,
-calculate numerica statistics, and more.  There are also high-level container
-types, including a value counter and accumulator.  There are lists of country
-names, country codes, US states, Canadian provinces, and UK counties.
-
-WebHelpers itself depends only on MarkupSafe_, which has an optional C
-speedup for HTML escaping. However, a few individual helpers depend on 
-Routes_, Unidecode_, WebOb_, or Pylons_
-as noted in their documentation.  WebHelpers requires Python 2.4 or higher,
-and has not yet been tested with Python 3. An extensive test suite for doctest
-and Nose is included.
+**Version 2.0a1** works on Python 2.6 and 2.7. The final will support Python 3.
+For a roadmap, things being considered for deletion, and ways you can help, see
+the `TODO <todo.html>`. WebHelpers2 depends on MarkupSafe_, and can use
+Unidecode_ if it's installed.  An extensive test suite for doctest and Nose is
+included.
 
 For support/questions/patches, please use the pylons-discuss_ mailing list.
 
@@ -65,3 +63,4 @@ For support/questions/patches, please use the pylons-discuss_ mailing list.
 .. _WebOb: http://pythonpaste.org/webob/
 .. _Pylons: http://pylonshq.com/
 .. _pylons-discuss: http://groups.google.com/group/pylons-discuss
+.. _WebHelpers: http://pypi.python.org/pypi/WebHelpers
