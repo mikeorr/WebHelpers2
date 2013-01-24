@@ -1,5 +1,5 @@
-WebHelpers Documentation
-========================
+Module Documentation
+====================
 
 All helpers are organized into subpackages.
 

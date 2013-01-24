@@ -1,7 +1,7 @@
 TODO
 %%%%
 
-:Updated: 2013-01-01 by Mike Orr
+:Updated: 2013-01-21 by Mike Orr
 
 WebHelpers2 migration
 =====================
@@ -18,30 +18,32 @@ DONE:
 * Rename distro and package to WebHelpers2/webhelpers2. Adjust setup.py,
   imports, tests, and setup.cfg.
 
-TODO:
+GOALS FOR 2.0:
 
 * Finish deleting and renaming helpers.
-* Move tests to webhelpers/tests, converting them all to a modern Unittest 
-  interface, standardizing their syntax, and dropping silly/archaic tests.
-* Convert doctests to unit tests. Use unicode_literals where possible to avoid
-  u"".
-* Switch to Unittest (Python 2.7). Figure out a compatibility plan for Python
-  2.6 testing, possibly with a mixin class as in
-  https://code.launchpad.net/~cbehrens/nova/assert-in-fixes/+merge/73208 .
-  (Or stick to Nose or don't support Python 2.6.)
 * Port code to Python 3. Drop Python 2.4 and 2.5 compatibility, and maybe 2.6.
-* Small enhancements.
 * Update docs. New WebHelpers2 name. Add a page explaining the differences in
   WebHelpers2. Publish on ReadTheDocs.
 * Review the pending issues and pull requests in the old repository.
-* Alpha release.
-* Pie-in-the-sky ideas.
 
-The 2.x series **MUST** have a distinct PyPI distribution and top-level package
-name to avoid breaking existing Pylons applications that depend on the latest
-WebHelpers and expect it to be compatible with 1.0. The new name is
-WebHelpers2/webhelpers2, and its first version will be 2.0a1.
+CONSIDERING:
 
+* Move tests to webhelpers/tests, converting them all to a modern Unittest 
+  interface, standardizing their syntax, and dropping silly/archaic tests.
+* Convert Nose tests to Unittest (with Python 2.7 enhancements). May need a
+  mixin class for Python 2.6 as in 
+  https://code.launchpad.net/~cbehrens/nova/assert-in-fixes/+merge/73208 .
+* Convert doctests to unit tests. Use unicode_literals where possible to avoid
+  u"".
+
+ABANDONED:
+
+* Object backend for tag builder, which would return tag objects instead of
+  strings and defer stringification until .\_\_str\_\_ is called.  I don't
+  remember what the use case was for this, and it would violate the expectation
+  that the return value have string methods. I'd thought there was an existing
+  implementation of this but neither Tavis Rudd's nontemplate nor Breve/Stan do
+  what I was looking for.
 
 HELPERS DISPOSITION
 ===================
@@ -158,12 +160,3 @@ Replacement for 'util.update_params' in *unfinished/update_params.py*.
 
 Replacement for 'misc.DeclarativeException'. Can we make a better API with
 metaclasses or something?
-
-
-Abandoned
-=========
-
-Gave up on object backend for tag builder. I can't remember what the use case
-was for it. Could not find existing implementation: neither Tavis Rudd's
-nontemplate nor Breve/Stan do what I want. The clincher is that users expect
-the result to have string methods and otherwise behave like a string.

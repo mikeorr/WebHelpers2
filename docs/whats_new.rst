@@ -1,38 +1,72 @@
-What's New in WebHelpers2
+.. _changes-in-webhelpers2:
+
+Changes in WebHelpers2
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-This is a high-level overview of recent changes. **Incompatible changes are
-in boldface;** these may require modifying your application.  See `Changelog
-<changelog.html>`_ for the full changelog.
+Deleted modules
+---------------
 
-Version 2.0a1
-=============
+Most of the large third-party modules are deleted because they were the hardest
+parts of WebHelpers to support since the WebHelpers maintainer was not expert
+in those areas, and every upstream release had to be patched to fit into
+WebHelpers. Some of the deleted modules are available as standalone
+distributions in PyPI.
 
-Incompatible changes from WebHelpers 1.3
-----------------------------------------
+Deleted **webhelpers.feedgenerator**. Alex Metaireau has released feedgenerator_, an
+independent port of the same Django original. We're in discussion with the 
+author about merging the WebHelpers feedgenerator enhancements into his
+distribution. Note that this version may follow Django's convention of
+putting longitude first in latitude-longitude tuples. WebHelpers
+feedgenerator was switchable but defaulted to latitude first, as is more common. 
 
-**Delete ``webhelpers.feedgenerator``.**  A standalone feedgenerator_ package
-is on PyPI. The reason for removing it is that it's a lot of work to port changes
-from the upstream Django version and reconcile them with the WebHelpers
-patches. The current WebHelpers maintainers aren't GIS or RSS experts so we
-can't effectively evaluate the upstream changes and user pull requests.
-Alexis Metaireau has released a standalone feedgenerator_ package on PyPI,
-which is an independent port of Django's feed generator. We are still
-evaluating it but hope to recommend it or another package soon. It does not
-have the WebHelpers enhancements, however. We're in discussion with the author
-about getting these enhancements merged in in a way satisfactory to both
-WebHelpers users and the package's other users. The biggest issue is that 
-``feedgenerator`` probably expects latitude-longitude pairs per Django's
-convention, while ``webhelpers.feedgenerator`` defaults to the more common (and
-RSS required) longitude-latitude format and can switch to either style.
+Deleted **webhelpers.html.grid** and its derivatives (webhelpers.html.grid_demo,
+webhelpers.pylonslib.grid). Its author Ergo^ has said he will release a
+standalone distribution.
 
-**Delete ``webhelpers.html.grid`` and derivatives
-(``webhelpers.html.grid_demo``, ``webhelpers.pylonslib.grid``).**
+Deleted **webhelpers.markdown** and **webhelpers.textile** and their wrappers
+``markdown()`` and ``textilize()`` in webhelpers.html.converters.
+These had stagnated behind their upstream versions, and their wrappers hardly
+did anything.
 
-**Delete ``webhelpers.markdown`` and ``webhelpers.textile`` and their front-end
-helpers ``markdown()`` and ``textilize()`` in ``webhelpers.html.converters``.**
+Deleted **webhelpers.mimehelper**. It had undeclared Pylons dependencies and
+didn't really do much useful.
 
-**Delete ``webhelpers.pylonslib`` and all its submodules (flash, grid, minify,
-secure_form).**
+Deleted **webhelpers.paginate**. Its author Christoph Haas has updated the
+standalone paginate_ distribution.
+
+Deleted **webhelpers.pylonslib** and all its submodules (flash, grid, minify,
+secure_form). These were all designed for Pylons 1, which has been superceded
+by Pyramid.
+
+Deleted **webhelpers.util**. Most of it was support functions for other helpers,
+and most of that was either obsolete or superceded by the Python standard
+library, MarkupSafe, or newer versions of WebOb. (This leaves *update_params()*
+without a home; it's currently in the unfinished directory until a location is
+determined.)
+
+Changes in webhelpers.containers
+--------------------------------
+
+Deleted 'Accumulator'.  Use ``collections.defaultdict(list)`` in stdlib or
+WebOb's MultiDict.  
+
+Deleted 'UniqueAccumulator'.  Use ``collections.defaultdict(set)`` in stdlib.
+
+Changes in webhelpers.html.tags
+-------------------------------
+
+Deleted 'Doctype'. Use simply "<!DOCTYPE html>" for HTML 5.
+
+Changes in webhelpers.html.misc
+-------------------------------
+
+Renamed 'subclasses_only()' to ``subclasses_of()``.
+
+Deleted 'DeclarativeException'. It was too specialized for general use.
+
+Deleted 'OverwriteError'. Python 3 may add an exception for this; otherwise you
+can use one of the stdlib exceptions or make your own.
+
 
 .. _feedgenerator: http://pypi.python.org/pypi/feedgenerator/1.2.1
+.. _paginate: http://pypi.python.org/pypi/paginate/0.4.0

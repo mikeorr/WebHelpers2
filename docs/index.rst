@@ -22,19 +22,15 @@ it may have internal inconsistencies.*
 used, relevant to the new Pyramid framework, and easiest to maintain and port
 to Python 3. In particular it keeps the HTML builder and HTML tag functions,
 and most of the text-processing, number formatting, statistics, and date
-functions. It removes the large third-party subpackages: feedgenerator, grid, 
-paginage, markdown, and textile. These are or will be available as separate
-PyPI distributions maintained by their own authors. Some other helpers were
-deleted because they depended on Pylons, were superceded by standard library
-functions (as of Python 2.6), were little-used, or seemed like good ideas at the
-time.
+functions. It removes the large third-party subpackages and some obsolete or
+little-used helpers. See :ref:`changes-in-webhelpers2` for a list of deletions
+and incompatible changes, and the :ref:`todo` for the list of goals for 2.0 and
+which helpers are still being considered for deletion.
 
 **Version 2.0a1** works on Python 2.6 and 2.7. The final will support Python 3.
-For a roadmap, things being considered for deletion, and ways you can help, see
-the `TODO <todo.html>`. WebHelpers2 depends on MarkupSafe_, and can use
-Unidecode_ if it's installed.  An extensive test suite for doctest and Nose is
-included.
 
+WebHelpers2 depends on MarkupSafe_, and can use Unidecode_ if it's installed.
+An extensive test suite for doctest and Nose is included.
 For support/questions/patches, please use the pylons-discuss_ mailing list.
 
 .. toctree::
@@ -50,7 +46,6 @@ For support/questions/patches, please use the pylons-discuss_ mailing list.
    third_party
    todo
    development
-   todo
 
 * :ref:`genindex`
 * :ref:`modindex`
