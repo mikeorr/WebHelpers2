@@ -10,6 +10,7 @@
   * html.grid_demo
   * markdown
   * mimehelper
+  * paginate
   * pylonslib (flash, grid, minify, secure_form)
   * textile
   * util
