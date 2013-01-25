@@ -17,9 +17,3 @@ States & Provinces
 .. autofunction:: us_territories
 .. autofunction:: canada_provinces
 .. autofunction:: uk_counties
-
-Deprecations
-------------
-
-The timezone helpers were removed in WebHelpers 0.6.  Install the PyTZ
-package if you need them.
