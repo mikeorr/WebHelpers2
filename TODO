@@ -1,66 +1,21 @@
 TODO
 %%%%
 
-:Updated: 2013-01-21 by Mike Orr
-
-WebHelpers2 migration
-=====================
+:Updated: 2013-01-24 by Mike Orr
 
 :New repository:  https://github.com/mikeorr/WebHelpers2
 :Old repository: https://bitbucket.org/bbangert/webhelpers
 
-DONE:
-
-* Import WebHelpers 1.3 files.
-* Verify unit tests and doc generation, with existing bugs.
-* Delete subpackages and helpers designated "don't port", along with their tests and docs.
-* Delete obsolete tests.  Fix remaining tests that fail.  
-* Rename distro and package to WebHelpers2/webhelpers2. Adjust setup.py,
-  imports, tests, and setup.cfg.
-
-GOALS FOR 2.0:
+REQUIREMENTS FOR 2.0
+====================
 
 * Finish deleting and renaming helpers.
 * Port code to Python 3. Drop Python 2.4 and 2.5 compatibility, and maybe 2.6.
-* Update docs. New WebHelpers2 name. Add a page explaining the differences in
-  WebHelpers2. Publish on ReadTheDocs.
+* Update docs. Publish on ReadTheDocs.
 * Review the pending issues and pull requests in the old repository.
 
-CONSIDERING:
-
-* Move tests to webhelpers/tests, converting them all to a modern Unittest 
-  interface, standardizing their syntax, and dropping silly/archaic tests.
-* Convert Nose tests to Unittest (with Python 2.7 enhancements). May need a
-  mixin class for Python 2.6 as in 
-  https://code.launchpad.net/~cbehrens/nova/assert-in-fixes/+merge/73208 .
-* Convert doctests to unit tests. Use unicode_literals where possible to avoid
-  u"".
-
-ABANDONED:
-
-* Object backend for tag builder, which would return tag objects instead of
-  strings and defer stringification until .\_\_str\_\_ is called.  I don't
-  remember what the use case was for this, and it would violate the expectation
-  that the return value have string methods. I'd thought there was an existing
-  implementation of this but neither Tavis Rudd's nontemplate nor Breve/Stan do
-  what I was looking for.
-
-HELPERS DISPOSITION
-===================
-
-Delete submodules
------------------
-
-  * feedgenerator
-  * html.grid
-  * html.grid_demo
-  * markdown
-  * mimehelper
-  * pylonslib (flash, grid, minify, secure_form)
-  * textile
-  * util
-
-DONE.
+CONSIDERING
+===========
 
 webhelpers.constants
 --------------------
@@ -70,34 +25,33 @@ Enhancements: unicode_literals. Move ISO countries to separate text file.
 webhelpers.containers
 ---------------------
 
-Keep: Counter, DumbObject.
+Rename 'extract_keys' to 'split_dict'?
+Rename 'get_many' to 'unpack_items', 'unpack_dict', or 'get_items'?
 
-Delete: Accumulator, UniqueAccumulator, Python 2.4 fallback for defaultdict.
+Change 'del_quiet(dic, [keys])' to 'del_items(dic, *keys)'?
 
-Probably keep: correlate_dicts, correlate_objects, del_quiet, distribute, only_some_keys,
-except_keys, extract_keys, ordered_items, get_many, transpose, unique.
+Pondering a helper to drill down a nested dict, fetching a specified series of
+keys, and returning the default if any key doesn't exist or has the value None.
+Can't think of a name. get_recursive? getr? rget?
 
-Enhancements: change del_quiet's arg to \*keys. coalesce(), needs some thought.
-get_key_attr(), get_key_keys.
-
-
-webhelpers.date
----------------
-
-Probably keep.
+Pondering a helper to fetch an attribute and then an item in it, returning the
+default if the attribute's value is none. 
 
 webhelpers.html.builder
 -----------------------
 
-Convert to MarkupSafe. Alias ``literal`` to ``markupsafe.Markup`` for backward
-compatibility in templates, and ``escape`` to ``escape_silent``.
+Convert fully to MarkupSafe. Alias ``literal`` to ``markupsafe.Markup`` for backward
+compatibility in templates, and ``escape`` to ``markupsafe.escepe_silent``. 
 
-C speedup for ``make_tag()``.
+There's one problem with MarkupSafe: it uses 'escape' internally, meaning that
+``None`` stringifies to ``"None"`` rather than the expected ``""``. The only
+way to fix this is to patch MarkupSafe by assigning 'escape' to '_escape' and
+reassigning 'escape_silent' to 'escape'. This could be done automatically at
+import, or it could require the user to call a builder function at application
+startup.
 
-webhelpers.html.tags
---------------------
-
-Delete Doctype class. DONE.
+Can somebody volunteer to write a C speedup for ``make_tag()``. This is the
+backend for all the tag helpers.
 
 webhelpers.html.converters, render, and tools
 ---------------------------------------------
@@ -111,46 +65,57 @@ Worth keeping complex implementation? Note that escape
 (markupsafe.escape_silent) makes HTML strings safe by escaping markup, but
 that's different than stripping tags.
 
-Delete markdown and textilize wrappers.
-
 Delete deprecated 'highlighter' arg in tools.highlight.
 
 
 webhelpers.media
 ----------------
 
-Maybe keep. Rename to images?
+Rename to images?
 
 webhelpers.misc
 ---------------
 
-Delete all, any, no, DeclarativeException, OverwriteError.
+Delete all, any, no, DeclarativeException, OverwriteError. The first three have
+recipes in the itertools docs. When not using a custom predicate, 'any' and
+'all' can be replaced by the stdlib builtins.
 
-Keep count_true, NotGiven, subclasses_of (renamed from subclasses_only), deprecate.
+Rename 'convert_or_none' to 'convert'.
 
-Maybe keep convert_or_none, flatten, format_exception, .
+Check if format_exception does what it claims. Also look into a new helper for
+logging an exception with file/line info.
 
-webhelpers.number
------------------
-
-Keep.
+Pondering a helper like SQL COALESCE, which would return the first acceptable
+value. This could be called 'first' or 'coalesce'. The complication is how to
+define an acceptable value. SQL COALESCE returns the first non-NULL value, but
+sometimes you want the first true value, other times you'll accept zero,
+the empty string, or an empty container. But we can't really test for empty
+container without len(), and non-sequence types are not len-safe.
 
 webhelpers.text
 ---------------
 
-Keep port chop_at, convert_accented_entities, excerpt, lchop,
-  rchop, series, truncate, urlify
+Rename 'plural'?
 
-Maybe keep plural and rename?
+Maybe delete collapse, convert_accented_entities, convert_misc_entities,
+remove_formatting, replace_whitespace, strip_leading_whitespace,
+wrap_paragraphs.
 
-Maybe keep collapse, convert_accented_entities, remove_formatting,
-  replace_whitespace, strip_leading_whitespace, wrap_paragraphs.
+Tests
+-----
 
-Delete convert_misc_entities?
+* Existing tests are Nose and Doctest. Convert to Unittest or py.test?
+* All new tests should be Unittest compatible. No new doctests.
+* Reevaluate all tests, delete archaic/silly tests, standardize syntax.
+* Convert doctests to unit tests. Use unicode_literals where needed to avoid
+  u"".
+* If using Unittest, may need a mixin to use Unittest-Python-2.7 enhancements
+  in Python 2.6 as in
+  https://code.launchpad.net/~cbehrens/nova/assert-in-fixes/+merge/73208 .
 
 
 Miscellaneous
-=============
+-------------
 
 The "unfinished" directory in the WebHelpers source distribution contains
 potential future helpers which are not finished enough for release. These are
