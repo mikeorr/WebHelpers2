@@ -1,9 +1,9 @@
-:mod:`webhelpers.media`
+:mod:`webhelpers2.media`
 ================================================
 
-.. automodule:: webhelpers.media
+.. automodule:: webhelpers2.media
 
-.. currentmodule:: webhelpers.media
+.. currentmodule:: webhelpers2.media
 
 .. autofunction:: choose_height
 .. autofunction:: get_dimensions_pil

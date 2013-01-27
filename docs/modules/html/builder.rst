@@ -1,9 +1,9 @@
-:mod:`webhelpers.html.builder`
+:mod:`webhelpers2.html.builder`
 ================================================
 
-.. automodule:: webhelpers.html.builder
+.. automodule:: webhelpers2.html.builder
 
-.. currentmodule:: webhelpers.html.builder
+.. currentmodule:: webhelpers2.html.builder
 
 Classes
 -------
@@ -38,4 +38,4 @@ Functions
 The ``markupsafe`` package has a function ``soft_unicode`` which converts a
 string to Unicode if it's not already. Unlike the Python builtin ``unicode()``,
 it will not convert ``Markup`` (``literal``) to plain Unicode, to avoid
-overescaping. This is not included in WebHelpers but you may find it useful.
+overescaping. This is not included in webhelpers2 but you may find it useful.

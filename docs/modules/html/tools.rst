@@ -1,9 +1,9 @@
-:mod:`webhelpers.html.tools`
+:mod:`webhelpers2.html.tools`
 ================================================
 
-.. automodule:: webhelpers.html.tools
+.. automodule:: webhelpers2.html.tools
 
-.. currentmodule:: webhelpers.html.tools
+.. currentmodule:: webhelpers2.html.tools
 
 .. autofunction:: auto_link
 

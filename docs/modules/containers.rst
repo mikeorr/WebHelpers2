@@ -1,9 +1,9 @@
-:mod:`webhelpers.containers`
+:mod:`webhelpers2.containers`
 ================================================
 
-.. automodule:: webhelpers.containers
+.. automodule:: webhelpers2.containers
 
-.. currentmodule:: webhelpers.containers
+.. currentmodule:: webhelpers2.containers
 
 Classes
 -------

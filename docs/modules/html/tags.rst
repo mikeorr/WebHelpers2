@@ -1,9 +1,9 @@
-:mod:`webhelpers.html.tags`
+:mod:`webhelpers2.html.tags`
 ================================================
 
-.. automodule:: webhelpers.html.tags
+.. automodule:: webhelpers2.html.tags
 
-.. currentmodule:: webhelpers.html.tags
+.. currentmodule:: webhelpers2.html.tags
 
 Form tags
 ---------

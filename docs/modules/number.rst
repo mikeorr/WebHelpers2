@@ -1,9 +1,9 @@
-:mod:`webhelpers.number`
+:mod:`webhelpers2.number`
 ================================================
 
-.. automodule:: webhelpers.number
+.. automodule:: webhelpers2.number
 
-.. currentmodule:: webhelpers.number
+.. currentmodule:: webhelpers2.number
 
 Calculations
 ------------

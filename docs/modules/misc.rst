@@ -1,9 +1,9 @@
-:mod:`webhelpers.misc`
+:mod:`webhelpers2.misc`
 ================================================
 
-.. automodule:: webhelpers.misc
+.. automodule:: webhelpers2.misc
 
-.. currentmodule:: webhelpers.misc
+.. currentmodule:: webhelpers2.misc
 
 Data processing
 ---------------

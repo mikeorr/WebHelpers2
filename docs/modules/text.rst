@@ -1,9 +1,9 @@
-:mod:`webhelpers.text`
+:mod:`webhelpers2.text`
 ================================================
 
-.. automodule:: webhelpers.text
+.. automodule:: webhelpers2.text
 
-.. currentmodule:: webhelpers.text
+.. currentmodule:: webhelpers2.text
 
 .. autofunction:: chop_at
 .. autofunction:: collapse

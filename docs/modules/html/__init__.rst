@@ -1,6 +1,6 @@
-:mod:`webhelpers.html`
-======================
+:mod:`webhelpers2.html`
+=======================
 
-.. automodule:: webhelpers.html
+.. automodule:: webhelpers2.html
 
-.. currentmodule:: webhelpers.html
+.. currentmodule:: webhelpers2.html

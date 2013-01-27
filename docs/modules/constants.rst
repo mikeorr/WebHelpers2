@@ -1,9 +1,9 @@
-:mod:`webhelpers.constants`
+:mod:`webhelpers2.constants`
 ================================================
 
-.. automodule:: webhelpers.constants
+.. automodule:: webhelpers2.constants
 
-.. currentmodule:: webhelpers.constants
+.. currentmodule:: webhelpers2.constants
 
 Countries
 ---------
