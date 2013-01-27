@@ -108,24 +108,24 @@ The ``HTML`` object has the following methods for tag building:
 
     >>> HTML.tag("a", href="http://www.yahoo.com", name=None, 
     ... c="Click Here")
-    literal(u'<a href="http://www.yahoo.com">Click Here</a>')
+    literal('<a href="http://www.yahoo.com">Click Here</a>')
 
 
 ``HTML.__getattr__``
     Same as ``HTML.tag`` but using attribute access.  Example:
 
     >>> HTML.a("Foo", href="http://example.com/", class_="important")
-    literal(u'<a class="important" href="http://example.com/">Foo</a>')
+    literal('<a class="important" href="http://example.com/">Foo</a>')
 
 ``HTML.cdata``
     Wrap the text in a "<![CDATA[ ... ]]>" section. Plain strings will not be
     escaped because CDATA itself is an escaping syntax.
 
-    >>> HTML.cdata(u"Foo")
-    literal(u'<![CDATA[Foo]]>')
+    >>> HTML.cdata("Foo")
+    literal('<![CDATA[Foo]]>')
 
-    >>> HTML.cdata(u"<p>")
-    literal(u'<![CDATA[<p>]]>')
+    >>> HTML.cdata("<p>")
+    literal('<![CDATA[<p>]]>')
 
 About XHTML and HTML
 --------------------
@@ -155,9 +155,16 @@ If you _really_ want tags without training slashes (e.g., ``<br>`)`, you can
 abuse ``_closed=False`` to produce them.
 
 """
+from __future__ import unicode_literals
 import re
-from urllib import quote as url_escape
-from UserDict import DictMixin
+try:
+    from urllib import quote as url_escape
+except ImportError:
+    from urllib.parse import quote as url_escape
+try:
+    from UserDict import DictMixin
+except ImportError:
+    from collections import MutableMapping as DictMixin
 
 import markupsafe
 try:
@@ -293,7 +300,7 @@ def _attr_decode(v):
 
 
 def make_tag(tag, *args, **kw):
-    if kw.has_key("c"):
+    if "c" in kw:
         assert not args, "The special 'c' keyword argument cannot be used "\
 "in conjunction with non-keyword arguments"
         args = kw.pop("c")
@@ -325,14 +332,14 @@ def format_attrs(**attrs):
 
     Usage:
     >>> format_attrs(p=2, q=3)
-    literal(u' p="2" q="3"')
+    literal(' p="2" q="3"')
     >>> format_attrs(p=2, q=None)
-    literal(u' p="2"')
+    literal(' p="2"')
     >>> format_attrs(p=None)
-    literal(u'')
+    literal('')
     """
-    strings = [u' %s="%s"' % (_attr_decode(attr), escape(value))
-        for attr, value in sorted(attrs.iteritems())
+    strings = [' %s="%s"' % (_attr_decode(attr), escape(value))
+        for attr, value in sorted(attrs.items())
         if value is not None]
     return literal("".join(strings))
 
@@ -357,8 +364,8 @@ empty_tags = set(["area", "base", "basefont", "br", "col", "frame", "hr",
 HTML = HTMLBuilder()
 
 # Constants depending on ``literal()`` and/or ``HTML``.
-NL = literal(u"\n")
-EMPTY = literal(u"")
+NL = literal("\n")
+EMPTY = literal("")
 BR = HTML.br(_nl=True)
-_CDATA_START = literal(u"<![CDATA[") 
-_CDATA_END = literal(u"]]>")
+_CDATA_START = literal("<![CDATA[") 
+_CDATA_END = literal("]]>")
