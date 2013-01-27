@@ -15,9 +15,6 @@ WebHelpers2
 The name was changed to avoid breaking applications that depend on
 the 1.x API but are not formally pinned to it.
 
-*This documentation is in flux. It may not fully reflect changes since 1.3, and
-it may have internal inconsistencies.*
-
 **WebHelpers2** narrows the focus to a core set of utilities that are most widely
 used, relevant to the new Pyramid framework, and easiest to maintain and port
 to Python 3. In particular it keeps the HTML builder and HTML tag functions,
@@ -27,9 +24,9 @@ little-used helpers. See :ref:`changes-in-webhelpers2` for a list of deletions
 and incompatible changes, and the :ref:`todo` for the list of goals for 2.0 and
 which helpers are still being considered for deletion.
 
-**Version 2.0a1** works on Python 2.6 and 2.7. The final will support Python 3.
+**Version 2.0b1** works on Python 2.6 and 2.7. The final will support Python 3.
 
-WebHelpers2 depends on MarkupSafe_, and can use Unidecode_ if it's installed.
+WebHelpers2 depends on MarkupSafe_, and it can use Unidecode_ if it's installed.
 An extensive test suite for doctest and Nose is included.
 For support/questions/patches, please use the pylons-discuss_ mailing list.
 
@@ -45,7 +42,6 @@ For support/questions/patches, please use the pylons-discuss_ mailing list.
    changelog
    third_party
    todo
-   development
 
 * :ref:`genindex`
 * :ref:`modindex`
