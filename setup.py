@@ -8,9 +8,9 @@ except ImportError:
 from webhelpers2 import __version__
 
 setup(
-    name="WebHelpers",
+    name="WebHelpers2",
     version=__version__,
-    description='Web Helpers',
+    description='WebHelpers2',
     long_description="""
 WebHelpers2 is the successor to the widely-used WebHelpers utilities.
 It contains convenience functions to make HTML tags, process text, format numbers, do basic statistics, work with collections, and more.
