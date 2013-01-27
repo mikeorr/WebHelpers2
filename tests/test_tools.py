@@ -14,9 +14,9 @@ warnings.filterwarnings("ignore",
 
 from nose.tools import eq_
 
-from webhelpers.html import HTML, literal
-import webhelpers.html.render as render
-from webhelpers.html.tools import *
+from webhelpers2.html import HTML, literal
+import webhelpers2.html.render as render
+from webhelpers2.html.tools import *
 
 class TestToolsHelper(WebHelpersTestCase):
     

@@ -4,7 +4,7 @@ import unittest
 
 from nose.tools import eq_
 
-from webhelpers.text import *
+from webhelpers2.text import *
 
 class TestTextHelper(WebHelpersTestCase):
     

@@ -8,8 +8,8 @@ import re
 import urllib
 import warnings
 
-from webhelpers.html import HTML, literal, lit_sub, escape
-import webhelpers.html.tags as tags
+from webhelpers2.html import HTML, literal, lit_sub, escape
+import webhelpers2.html.tags as tags
 
 __all__ = [
     'auto_link', 

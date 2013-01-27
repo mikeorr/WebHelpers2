@@ -1,6 +1,6 @@
 from nose.tools import eq_
 
-from webhelpers.number import *
+from webhelpers2.number import *
 
 class TestFormatNumber(object):
     def test_positive(self):

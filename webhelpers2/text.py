@@ -8,7 +8,7 @@ import re
 import textwrap
 import urllib
 
-from webhelpers.html.tools import strip_tags
+from webhelpers2.html.tools import strip_tags
 
 try:
     from unidecode import unidecode

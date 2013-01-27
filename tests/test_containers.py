@@ -4,8 +4,8 @@ from nose.tools import eq_
 
 from util import raises
 
-from webhelpers.containers import DumbObject
-from webhelpers.containers import distribute, get_many
+from webhelpers2.containers import DumbObject
+from webhelpers2.containers import distribute, get_many
 
 def test_distribute():
         food = ["apple", "banana", "carrot", "daikon", "egg", "fish", "gelato", "honey"]

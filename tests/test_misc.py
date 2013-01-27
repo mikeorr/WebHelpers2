@@ -1,6 +1,6 @@
 from nose.tools import eq_
 
-from webhelpers.misc import *
+from webhelpers2.misc import *
 
 def by_name(class_):
     return class_.__name__

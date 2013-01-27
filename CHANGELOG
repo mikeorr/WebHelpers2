@@ -1,8 +1,9 @@
-2.0b1 (xxxx-xx-xx)
+2.0b1 (2012-01-26)
 ------------------
 
 - Import code and docs from WebHelpers 1.3. Source:
   https://bitbucket.org/bbangert/webhelpers/changeset/979fc4537c87c54eed933e5a84d43df51be88ff2
+- Rename top-level package to ``webhelpers2``.
 - Delete submodules: 
 
   * feedgenerator
@@ -15,22 +16,23 @@
   * textile
   * util
 
-- webhelpers.containers:
+- webhelpers2.containers:
   
   * Delete Accumulator: use ``collections.defaultdict(list)`` in stdlib or 
     WebOb's '`MultiDict``. 
   * Delete UniqueAccumulator: use ``collections.defaultdict(set)`` in stdlib.
 
-- webhelpers.html.tags:
+- webhelpers2.html.tags:
 
   * Delete Doctype: use simply "<!DOCTYPE html>" for HTML 5.
+  * Rename sample stylesheet to 'webhelpers2/static/stylesheets/webhelpers2.css'.
 
-- webhelpers.misc:
+- webhelpers2.misc:
 
   * Rename 'subclasses_only' to 'subclasses_of'.
   * Delete DeclarativeException and OverwriteError.
 
 - Bugfix in leap year algorithm contributed by "rejoc" on GitHub.
-  (``webhelpers.date._is_leap_year()``)
+  (``webhelpers2.date._is_leap_year()``)
 - Moved 'update_params()' to the unfinished directory pending a new home; it
   was in the deleted util module.

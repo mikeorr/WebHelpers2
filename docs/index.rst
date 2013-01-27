@@ -1,6 +1,6 @@
 WebHelpers2
 %%%%%%%%%%%
-:Version: |release|, released XXXX-XX-XX
+:Version: |release|, released 2012-01-26
 :PyPI: http://pypi.python.org/pypi/WebHelpers2
 :Docs: https://webhelpers2.readthedocs.org/en/latest/
 :Source: https://github.com/mikeorr/WebHelpers2 (Git)

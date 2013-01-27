@@ -1,7 +1,7 @@
-WebHelpers
+WebHelpers2
 ++++++++++++
 
-WebHelpers provides functions useful in web applications: generating HTML tags,
+WebHelpers2 provides functions useful in web applications: generating HTML tags,
 showing results a pageful at a time, etc.  It may be used with any web
 framework or template engine.  A brief outline is below, but see the
 documentation and module docstrings for a more complete list.
@@ -14,10 +14,6 @@ documentation and module docstrings for a more complete list.
 
 ``date``
     Date/time helpers.  These currently format strings based on dates.
-
-``feedgenerator``
-    A syndication feed library, used for generating RSS, Atom, etc.
-    Ported from Django.
 
 ``html``
     A package of HTML-related helpers.
@@ -37,11 +33,6 @@ documentation and module docstrings for a more complete list.
     ``tools``
         Helpers producing chunks of HTML.
 
-``markdown``
-    A text to HTML converter.  Normally invoked via
-    ``webhelpers.tools.markdown()``.  (If you use this library directly, you
-    may have to wrap the results in ``literal()`` to prevent double escaping.)
-
 ``media``
     Helpers for images, PDFs, etc.
 
@@ -51,29 +42,9 @@ documentation and module docstrings for a more complete list.
 ``number``
     Numeric helpers and number formatters.
 
-``paginate``
-    A tool for letting you view a large sequence a screenful at a time,
-    with previous/next links.
-
-``pylonslib``
-    Helpers for the Pylons framework.  These depend on Pylons context variables
-    (request, response, session, etc) or other aspects of Pylons and its
-    dependencies.  Most can be ported to other frameworks with little effort.
-    
-``tags``
-    Helpers producing simple HTML tags.
-
 ``text``
     Helpers producing string output, suitable for both HTML and non-HTML
     applications.
-
-``textile``
-    Another text to HTML converter.  Normally invoked via
-    ``webhelpers.tools.textilize()``.  (If you use this library directly, you
-    may have to wrap the results in ``literal()`` to prevent double escaping.)
-
-``util``
-    Miscellaneous functions.
 
 WebHelpers is package aimed at providing helper functions for use within web
 applications.
@@ -89,12 +60,9 @@ For support/question/patches, please use the `Pylons mailing list
 Requirements
 ------------
 
-WebHelpers does not have any install dependencies, but some functions depend
-on third-party libraries (Routes_, Pylons_, WebOb_, unidecode_) as specified in
-their documentation.
+WebHelpers2 depends on MarkupSafe_, and it can also use unidecode_ if you have
+it installed.
 
 
-.. _Routes:  http://routes.groovie.org/
-.. _Pylons:  http://pylonshq.com/
-.. _WebOb:   http://pythonpaste.org/WebOb
+.. _MarkupSafe: http://pypi.python.org/pypi/MarkupSafe
 .. _unidecode:  http://python.org/pypi/Unidecode/

@@ -2,8 +2,8 @@
 
 from nose.tools import eq_
 
-from webhelpers.html import HTML, literal
-from webhelpers.html.tags import *
+from webhelpers2.html import HTML, literal
+from webhelpers2.html.tags import *
 
 from util import raises
 

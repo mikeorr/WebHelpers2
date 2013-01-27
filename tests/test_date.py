@@ -4,8 +4,8 @@ from datetime import datetime
 from datetime import timedelta
 import time
 
-from webhelpers.date import *
-from webhelpers.date import _is_leap_year
+from webhelpers2.date import *
+from webhelpers2.date import _is_leap_year
 
 class TestDateHelper(WebHelpersTestCase):
     

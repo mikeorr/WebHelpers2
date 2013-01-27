@@ -6,10 +6,10 @@ especially important for attributes that are identical to Python keywords;
 e.g., ``class_``.  Some helpers handle certain keywords specially; these are
 noted in the helpers' docstrings.
 
-To create your own custom tags, see ``webhelpers.html.builder``.
+To create your own custom tags, see ``webhelpers2.html.builder``.
 
 A set of CSS styles complementing these helpers is in
-``webhelpers/public/stylesheets/webhelpers.css``.
+``webhelpers2/static/stylesheets/webhelpers2.css``.
 """
 
 import datetime
@@ -19,10 +19,10 @@ import re
 import urllib
 import urlparse
 
-from webhelpers import containers
-from webhelpers.html import escape, HTML, literal, url_escape
-import webhelpers.media as media
-from webhelpers.misc import NotGiven
+from webhelpers2 import containers
+from webhelpers2.html import escape, HTML, literal, url_escape
+import webhelpers2.media as media
+from webhelpers2.misc import NotGiven
 
 __all__ = [
            # Form tags
@@ -250,7 +250,7 @@ def checkbox(name, value="1", checked=False, label=None, id=NotGiven, **attrs):
     * ``readonly`` - If true, the user will not be able to modify the checkbox.
 
     To arrange multiple checkboxes in a group, see
-    webhelpers.containers.distribute().
+    webhelpers2.containers.distribute().
 
     Example::
     
@@ -285,7 +285,7 @@ def radio(name, value, checked=False, label=None, **attrs):
     that this behavior is unique to the ``radio()`` helper.)
     
     To arrange multiple radio buttons in a group, see
-    webhelpers.containers.distribute().
+    webhelpers2.containers.distribute().
     """
     _set_input_attrs(attrs, "radio", name, value)
     if checked:
@@ -733,7 +733,7 @@ def title(title, required=False, label_for=None):
 
     This helper does not accept other keyword arguments.
 
-    See webhepers/public/stylesheets/webhelpers.css for suggested styles.
+    See webhepers2/static/stylesheets/webhelpers2.css for suggested styles.
 
     >>> title("First Name")
     literal(u'<span class="not-required">First Name</span>')
@@ -761,7 +761,7 @@ def title(title, required=False, label_for=None):
 def required_legend():
     """Return an inline HTML snippet explaining which fields are required.
     
-    See webhepers/public/stylesheets/webhelpers.css for suggested styles.
+    See webhepers/static/stylesheets/webhelpers2.css for suggested styles.
 
     >>> required_legend()
     literal(u'<span class="required required-symbol">*</span> = required')
@@ -781,7 +781,7 @@ def link_to(label, url='', **attrs):
 
     This function does not modify the URL in any way.  The label will be
     escaped if it contains HTML markup.  To prevent escaping, wrap the label
-    in a ``webhelpers.html.literal()``.
+    in a ``webhelpers2.html.literal()``.
     """
     attrs['href'] = url
     if label == '' or label is None:
@@ -851,7 +851,7 @@ def th_sortable(current_order, column_order, label, url,
     >>> th_sortable(sort, "date", "Date", None, link_attrs={"onclick": "myfunc()"})
     literal(u'<th><a onclick="myfunc()">Date</a></th>')
     """
-    from webhelpers.html import HTML
+    from webhelpers2.html import HTML
     if current_order == column_order:
         content = label
         class_ = class_if_sort_column
@@ -963,8 +963,8 @@ def image(url, alt, width=None, height=None, path=None, use_pil=False,
         Library, which must be installed. Otherwise use a pure Python
         algorithm which understands fewer image formats and may be less
         accurate. This flag controls whether
-        ``webhelpers.media.get_dimensions_pil`` or
-        ``webhelpers.media.get_dimensions`` is called. It has no effect if
+        ``webhelpers2.media.get_dimensions_pil`` or
+        ``webhelpers2.media.get_dimensions`` is called. It has no effect if
         ``path`` is not specified.
         
     Examples::

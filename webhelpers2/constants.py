@@ -89,8 +89,8 @@ def country_codes():
     
     Can be used like this::
 
-        import webhelpers.constants as constants
-        from webhelpers.html.tags import select
+        import webhelpers2.constants as constants
+        from webhelpers2.html.tags import select
         select("country", country_codes(),
             prompt="Please choose a country ...")
 

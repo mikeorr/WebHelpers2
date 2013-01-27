@@ -8,7 +8,7 @@ package.
 import collections
 import sys
 
-from webhelpers.misc import NotGiven
+from webhelpers2.misc import NotGiven
 
 class DumbObject(object):
     """A container for arbitrary attributes.

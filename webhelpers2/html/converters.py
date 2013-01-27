@@ -3,10 +3,10 @@
 """
 import re
 
-from webhelpers.html import HTML, escape, literal, lit_sub
+from webhelpers2.html import HTML, escape, literal, lit_sub
 
 # render() and sanitize() are imported from the private module 'render'.
-from webhelpers.html.render import render, sanitize
+from webhelpers2.html.render import render, sanitize
 
 __all__ = [
     "format_paragraphs",

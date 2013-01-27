@@ -1,6 +1,6 @@
 from nose.tools import eq_
 
-from webhelpers.html import literal, lit_sub, escape, HTML
+from webhelpers2.html import literal, lit_sub, escape, HTML
 
 def test_double_escape():
     quoted = escape(u'This string is "quoted"')

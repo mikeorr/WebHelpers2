@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from nose.tools import eq_
 
-from webhelpers.html import HTML, literal
-from webhelpers.html.converters import *
+from webhelpers2.html import HTML, literal
+from webhelpers2.html.converters import *
 
 def test_nl2br():
     eq_(u'A B<br />\nC D<br />\n<br />\nE F', nl2br("A B\nC D\r\n\r\nE F"))

@@ -2,8 +2,8 @@
 from util import WebHelpersTestCase
 import unittest
 
-from webhelpers.html import HTML
-from webhelpers.html.tags import *
+from webhelpers2.html import HTML
+from webhelpers2.html.tags import *
 
 class Holder(object):
     def __init__(self, settings):
