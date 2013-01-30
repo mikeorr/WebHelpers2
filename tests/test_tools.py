@@ -5,12 +5,6 @@ from util import WebHelpersTestCase
 import re
 import unittest
 from string import Template
-import warnings
-
-# Ignore deprecation warnings about legacy 'highlighter' argument
-warnings.filterwarnings("ignore", 
-    category=DeprecationWarning, module=R"webhelpers\.html\.tools")
-    # Can't find a 'message' argument that matches the warning.
 
 from nose.tools import eq_
 
@@ -251,11 +245,6 @@ class TestHighlightHelper(WebHelpersTestCase):
             highlight("The <red> cat.", "at"))
         eq_(literal(u'The <red> c<strong class="highlight">at</strong>.'),
             highlight(literal("The <red> cat."), "at"))
-
-    def test_highlight_legacy_highlighter(self):
-        eq_("This is a <b>beautiful</b> morning, but also a <b>beautiful</b> day",
-                         highlight("This is a beautiful morning, but also a beautiful day",
-                                   "beautiful", r'<b>\1</b>'))
 
 class TestStripTagsHelper(WebHelpersTestCase):
     def test_compare_strip_tags_to_sanitize(self):

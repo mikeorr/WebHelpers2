@@ -5,6 +5,9 @@
   is to support HTML5 "data-" attributes as keyword args. Trailing underscores
   are still removed ("class_" -> "class"). (Bitbucket #55)
 
+- webhelpers.html.tools: Delete 'highlighter' arg in ``highight`` helper. It
+  has been deprecated since WebHelpers 1.0b2.
+
 2.0b1 (2012-01-26)
 ------------------
 

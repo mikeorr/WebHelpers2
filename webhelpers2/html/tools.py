@@ -6,7 +6,6 @@ BeautifulSoup and HTMLTidy handle this well.
 
 import re
 import urllib
-import warnings
 
 from webhelpers2.html import HTML, literal, lit_sub, escape
 import webhelpers2.html.tags as tags
@@ -249,8 +248,7 @@ def mail_to(email_address, name=None, cc=None, bcc=None, subject=None,
 
 
 
-def highlight(text, phrase, highlighter=None, case_sensitive=False, 
-    class_="highlight", **attrs):
+def highlight(text, phrase, case_sensitive=False, class_="highlight", **attrs):
     """Highlight all occurrences of ``phrase`` in ``text``.
 
     This inserts "<strong class="highlight">...</strong>" around every
@@ -268,14 +266,6 @@ def highlight(text, phrase, highlighter=None, case_sensitive=False,
         done by regex-escaping all elements and then joining them using the
         regex "|" token.
 
-    ``highlighter``:
-        Deprecated.  A replacement expression for the regex substitution.
-        This was deprecated because it bypasses the HTML builder and creates
-        tags via string mangling.  The previous default was '<strong
-        class="highlight">\\1</strong>', which mimics the normal behavior of
-        this function.  ``phrase`` must be a string if ``highlighter`` is
-        specified.  Overrides ``class_`` and ``attrs_`` arguments.
-
     ``case_sensitive``:
         If false (default), the phrases are searched in a case-insensitive
         manner. No effect if ``phrase`` is a regex object.
@@ -285,11 +275,6 @@ def highlight(text, phrase, highlighter=None, case_sensitive=False,
 
     ``**attrs``:
         Additional HTML attributes for the <strong> tag.
-
-    Changed in WebHelpers 1.0b2: new implementation using HTML builder.
-    Allow ``phrase`` to be list or regex.  Deprecate ``highlighter`` and
-    change its default value to None. Add ``case_sensitive``, ``class_``,
-    and ``**attrs`` arguments.
     """
     if not phrase or not text:
         return text
@@ -298,8 +283,6 @@ def highlight(text, phrase, highlighter=None, case_sensitive=False,
         flags = 0   # No flags.
     else:
         flags = re.IGNORECASE
-    if highlighter:
-        return _legacy_highlight(text, phrase, highlighter, flags)
     if isinstance(phrase, basestring):
         pat = re.escape(phrase)
         rx = re.compile(pat, flags)
@@ -312,17 +295,6 @@ def highlight(text, phrase, highlighter=None, case_sensitive=False,
     def repl(m):
         return HTML.strong(m.group(), class_=class_, **attrs)
     return lit_sub(rx, repl, text)
-
-
-def _legacy_highlight(text, phrase, highlighter, flags):
-    """WebHelpers 0.6 style highlight with deprecated ``highlighter arg."""
-    warnings.warn("the ``highlighter`` argument is deprecated",
-        DeprecationWarning)
-    pat = "(%s)" % re.escape(phrase)
-    rx = re.compile(pat, flags)
-    highlighter = literal(highlighter)
-    return lit_sub(rx, highlighter, text)
-    
 
 def auto_link(text, link="all", **href_attrs):
     """

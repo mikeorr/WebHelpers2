@@ -11,6 +11,10 @@ All HTML tag helpers now convert underscores to hyphens in attribute
 names. This is to support HTML5 "data-" attributes as keyword args. Trailing
 underscores are still removed ("class_" -> "class").
 
+Beta 2:
+Delete 'highlighter' arg in 'webhelpers.html.tools.highlight()'. It has been
+deprecated since WebHelpers 1.0b2.
+
 Deleted modules
 ---------------
 
