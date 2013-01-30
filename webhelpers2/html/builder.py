@@ -83,8 +83,9 @@ The ``HTML`` object has the following methods for tag building:
 ``HTML.tag(tag, *content, **attrs)``
     Create an HTML tag ``tag`` with the keyword args converted to attributes.
     The other positional args become the content for the tag, and are escaped
-    and concatenated.  If an attribute name conflicts with a Python keyword
-    (notably "class"), append an underscore.  If an attribute value is
+    and concatenated.  If an attribute name ends in an underscore, remove it
+    (e.g., "class\_" -> "class"). All other underscores in attribute names are
+    converted to hyphens ("data_foo" -> "data-foo").  If an attribute value is
     ``None``, the attribute is not inserted.  Two special keyword args are
     recognized:
     
@@ -287,9 +288,9 @@ class HTMLBuilder(object):
 def _attr_decode(v):
     """Parse out attributes that begin with '_'."""
     if v.endswith('_'):
-        return v[:-1]
-    else:
-        return v
+        v = v[:-1]
+    v = v.replace("_", "-")
+    return v
 
 
 def make_tag(tag, *args, **kw):

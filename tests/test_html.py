@@ -1,6 +1,7 @@
 from nose.tools import eq_
 
 from webhelpers2.html import literal, lit_sub, escape, HTML
+from webhelpers2.html.builder import _attr_decode
 
 def test_double_escape():
     quoted = escape(u'This string is "quoted"')
@@ -83,3 +84,13 @@ def test_newline_arg():
     eq_(HTML.a(_closed=False, _nl=True), literal(u'<a>\n'))
     eq_(HTML.a("A", "B", href="/"),      literal(u'<a href="/">AB</a>'))
     eq_(HTML.a("A", "B", href="/", _nl=True), literal(u'<a href="/">\nA\nB\n</a>\n'))
+
+def test_attr_decode():
+    eq_(_attr_decode("foo"),   "foo")
+    eq_(_attr_decode("class_"),   "class")
+    eq_(_attr_decode("data_foo"), "data-foo")
+    eq_(_attr_decode("_data_foo_bar_"), "-data-foo-bar")
+    eq_(_attr_decode("_data_foo_bar_"), "-data-foo-bar")
+
+def test_tag_with_data_attr():
+    eq_(HTML.span(data_foo="bar"), literal(u'<span data-foo="bar"></span>'))

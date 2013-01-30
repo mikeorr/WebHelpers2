@@ -3,6 +3,14 @@
 Changes in WebHelpers2
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
+Changes since beta 1
+--------------------
+
+Beta 2: 
+All HTML tag helpers now convert underscores to hyphens in attribute
+names. This is to support HTML5 "data-" attributes as keyword args. Trailing
+underscores are still removed ("class_" -> "class").
+
 Deleted modules
 ---------------
 

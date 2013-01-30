@@ -1,3 +1,10 @@
+2.0b2 (2012-01-29)
+------------------
+
+- All HTML tag helpers now convert underscores to hyphens in attribute names. This
+  is to support HTML5 "data-" attributes as keyword args. Trailing underscores
+  are still removed ("class_" -> "class"). (Bitbucket #55)
+
 2.0b1 (2012-01-26)
 ------------------
 
