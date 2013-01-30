@@ -1,6 +1,6 @@
 WebHelpers2
 %%%%%%%%%%%
-:Version: |release|, released 2012-01-26
+:Version: |release|, released 2012-01-29
 :PyPI: http://pypi.python.org/pypi/WebHelpers2
 :Docs: https://webhelpers2.readthedocs.org/en/latest/
 :Source: https://github.com/mikeorr/WebHelpers2 (Git)
@@ -20,11 +20,9 @@ used, relevant to the new Pyramid framework, and easiest to maintain and port
 to Python 3. In particular it keeps the HTML builder and HTML tag functions,
 and most of the text-processing, number formatting, statistics, and date
 functions. It removes the large third-party subpackages and some obsolete or
-little-used helpers. See :ref:`changes-in-webhelpers2` for a list of deletions
-and incompatible changes, and the :ref:`todo` for the list of goals for 2.0 and
-which helpers are still being considered for deletion.
-
-**Version 2.0b1** works on Python 2.6 and 2.7. The final will support Python 3.
+little-used helpers. See :ref:`changes-in-webhelpers2` for a list of new
+features, deletions and incompatible changes. See the :ref:`todo` for the 
+goals for 2.0 and a list of helpers are still being considered for deletion.
 
 WebHelpers2 depends on MarkupSafe_, and it can use Unidecode_ if it's installed.
 An extensive test suite for doctest and Nose is included.
