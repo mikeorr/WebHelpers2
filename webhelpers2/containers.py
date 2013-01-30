@@ -8,6 +8,11 @@ package.
 import collections
 import sys
 
+try:
+    from collections import OrderedDict
+except ImportError:
+    from ordereddict import OrderedDict
+
 from webhelpers2.misc import NotGiven
 
 class DumbObject(object):
@@ -284,8 +289,8 @@ def correlate_dicts(dicts, key):
         >>> d1 = {"name": "Fred", "age": 41}
         >>> d2 = {"name": "Barney", "age": 31}
         >>> flintstones = correlate_dicts([d1, d2], "name")
-        >>> sorted(flintstones.keys())
-        ['Barney', 'Fred']
+        >>> flintstones.keys()
+        ['Fred', 'Barney']
         >>> flintstones["Fred"]["age"]
         41
 
@@ -293,7 +298,7 @@ def correlate_dicts(dicts, key):
     "relate" has one 'l'.  The 'r' is doubled because it occurs after a prefix.
     Thus "correlate".
     """
-    ret = {}
+    ret = OrderedDict()
     i = 0
     for d in dicts:
         try:
@@ -322,8 +327,8 @@ def correlate_objects(objects, attr):
         >>> fred = Flintstone(name="Fred", age=41)
         >>> barney = Flintstone(name="Barney", age=31)
         >>> flintstones = correlate_objects([fred, barney], "name")
-        >>> sorted(flintstones.keys())
-        ['Barney', 'Fred']
+        >>> flintstones.keys()
+        ['Fred', 'Barney']
         >>> flintstones["Barney"].age
         31
 
@@ -331,7 +336,7 @@ def correlate_objects(objects, attr):
     "relate" has one 'l'.  The 'r' is doubled because it occurs after a prefix.
     Thus "correlate".
     """
-    ret = {}
+    ret = OrderedDict()
     i = 0
     for obj in objects:
         try:

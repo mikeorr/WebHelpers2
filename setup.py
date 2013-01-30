@@ -5,7 +5,15 @@ except ImportError:
     use_setuptools()
     from setuptools import setup, find_packages
 
+import sys
 from webhelpers2 import __version__
+
+requires = [
+    'MarkupSafe>=0.9.2',
+    ]
+
+if sys.version_info < (2, 7):
+    requires.append('ordereddict')
 
 setup(
     name="WebHelpers2",
@@ -21,9 +29,7 @@ It contains convenience functions to make HTML tags, process text, format number
     packages=find_packages(exclude=['ez_setup']),
     zip_safe=False,
     include_package_data=True,
-    install_requires=[
-        'MarkupSafe>=0.9.2',
-        ],
+    install_requires=requires,
     tests_require=[ 
       'Nose',
       ], 
