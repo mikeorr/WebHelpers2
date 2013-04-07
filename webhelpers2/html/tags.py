@@ -7,9 +7,6 @@ e.g., ``class_``.  Some helpers handle certain keywords specially; these are
 noted in the helpers' docstrings.
 
 To create your own custom tags, see ``webhelpers2.html.builder``.
-
-A set of CSS styles complementing these helpers is in
-``webhelpers2/static/stylesheets/webhelpers2.css``.
 """
 
 import datetime
@@ -732,8 +729,6 @@ def title(title, required=False, label_for=None):
     the ``label`` argument to ``checkbox()`` and ``radio()``.
 
     This helper does not accept other keyword arguments.
-
-    See webhepers2/static/stylesheets/webhelpers2.css for suggested styles.
 
     >>> title("First Name")
     literal(u'<span class="not-required">First Name</span>')

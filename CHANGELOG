@@ -30,6 +30,8 @@
   * Delete 'highlighter' arg in ``highight`` helper. It has been deprecated
     since WebHelpers 1.0b2.
 
+- Delete the sample CSS stylesheet.
+
 2.0b1 (2012-01-26)
 ------------------
 
