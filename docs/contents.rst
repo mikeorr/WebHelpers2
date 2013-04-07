@@ -11,7 +11,6 @@ All helpers are organized into subpackages.
    modules/date
    modules/html/__init__
    modules/html/builder
-   modules/html/converters
    modules/html/tags
    modules/html/tools
    modules/media

@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
+
+# This module remains ``tests/test_converters.py`` even though the helpers have
+# moved to ``webhelpers.html.tools``, pending a general tests overhaul.
+
 from nose.tools import eq_
 
 from webhelpers2.html import HTML, literal
-from webhelpers2.html.converters import *
+from webhelpers2.html.tools import *
 
 def test_nl2br():
     eq_(u'A B<br />\nC D<br />\n<br />\nE F', nl2br("A B\nC D\r\n\r\nE F"))

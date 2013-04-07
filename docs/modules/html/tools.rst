@@ -9,11 +9,15 @@
 
 .. autofunction:: button_to
 
-.. autofunction:: js_obfuscate
+.. autofunction:: format_paragraphs
 
 .. autofunction:: highlight
 
+.. autofunction:: js_obfuscate
+
 .. autofunction:: mail_to
+
+.. autofunction:: nl2br
 
 .. autofunction:: strip_links
 

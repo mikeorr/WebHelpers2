@@ -1,5 +1,8 @@
 """HTML helpers that are more than just simple tags.
 
+I contain helpers to generate complex tags, to convert text to HTML, and to strip
+tags.
+
 There are no helpers to prettify HTML or canonicalize whitespace because
 BeautifulSoup and HTMLTidy handle this well.
 """
@@ -12,18 +15,25 @@ from webhelpers2.html import HTML, literal, lit_sub, escape
 import webhelpers2.html.tags as tags
 
 __all__ = [
-    'auto_link', 
-    'button_to', 
-    'js_obfuscate',
-    'highlight', 
-    'mail_to',
-    'strip_links',
-    'strip_tags',
+    "auto_link", 
+    "button_to", 
+    "format_paragraphs",
+    "js_obfuscate",
+    "highlight", 
+    "mail_to",
+    "nl2br",
+    "strip_links",
+    "strip_tags",
     ]
 
 tag_re = re.compile(r'<.*?>', re.S)
 br_re = re.compile(r'<br.*?>', re.I|re.S)
 comment_re = re.compile(r'<!--|-->')
+
+_universal_newline_rx = re.compile(R"\r\n|\n|\r")  # All types of newline.
+_paragraph_rx = re.compile(R"\n{2,}")  # Paragraph break: 2 or more newlines.
+br = HTML.br() + "\n"
+
 
 def button_to(name, url='', **html_attrs):
     """Generate a form containing a sole button that submits to
@@ -315,3 +325,36 @@ def strip_tags(text):
     text = comment_re.sub('', text)
     text = tag_re.sub('', text)
     return text
+
+
+def nl2br(text):
+    """Insert a <br /> before each newline.
+    """
+    if text is None:
+        return literal("")
+    text = lit_sub(_universal_newline_rx, "\n", text)
+    text = HTML(text).replace("\n", br)
+    return text
+
+def format_paragraphs(text, preserve_lines=False):
+    """Convert text to HTML paragraphs.
+
+    ``text``:
+        the text to convert.  Split into paragraphs at blank lines (i.e.,
+        wherever two or more consecutive newlines appear), and wrap each
+        paragraph in a <p>.
+
+    ``preserve_lines``:
+        If true, add <br />  before each single line break
+    """
+    if text is None:
+        return literal("")
+    text = lit_sub(_universal_newline_rx, "\n", text)
+    paragraphs = _paragraph_rx.split(text)
+    for i, para in enumerate(paragraphs):
+        if preserve_lines:
+            para = HTML(para)
+            para = para.replace("\n", br)
+        paragraphs[i] = HTML.p(para)
+    return "\n\n".join(paragraphs)
+
