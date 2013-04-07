@@ -20,9 +20,9 @@ Functions
 .. autofunction:: del_keys
 .. autofunction:: distribute
 .. autofunction:: except_keys
-.. autofunction:: extract_keys
 .. autofunction:: only_some_keys
 .. autofunction:: ordered_items
+.. autofunction:: split_dict
 .. autofunction:: transpose
 .. autofunction:: unique
 

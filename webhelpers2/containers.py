@@ -155,7 +155,7 @@ def except_keys(dic, keys):
             pass
     return ret
 
-def extract_keys(dic, keys):
+def split_dict(dic, keys):
     """Return two copies of the dict.  The first will contain only the specified keys.
     The second will contain all the *other* keys from the original dict.
 
@@ -163,7 +163,7 @@ def extract_keys(dic, keys):
 
         >> extract_keys({"From": "F", "To": "T", "Received", R"}, ["To", "From"]) 
         ({"From": "F", "To": "T"}, {"Received": "R"})
-        >>> regular, extra = extract_keys({"From": "F", "To": "T", "Received": "R"}, ["To", "From"]) 
+        >>> regular, extra = split_dict({"From": "F", "To": "T", "Received": "R"}, ["To", "From"]) 
         >>> sorted(regular.keys())
         ['From', 'To']
         >>> sorted(extra.keys())

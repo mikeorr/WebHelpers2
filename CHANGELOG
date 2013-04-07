@@ -1,4 +1,4 @@
-2.0b3 (2012-04-07)
+2.0b3 (XXXX-XX-XX)
 ------------------
 
 - Delete submodules:
@@ -9,6 +9,7 @@
 
   * Rename ``del_quiet`` to ``del_keys``, and change to accept keys as
     positional arguments. 
+  * Rename ``extract_keys`` to ``split_dict``.
   * Delete ``get_many``.
 
 - webhelpers2.html.misc:
@@ -39,7 +40,7 @@
 
 - All HTML tag helpers now convert underscores to hyphens in attribute names. This
   is to support HTML5 "data-" attributes as keyword args. Trailing underscores
-  are still removed ("class_" -> "class"). (Bitbucket #55)
+  are still removed ("class\_" -> "class"). (Bitbucket #55)
 
 - webhelpers2.html.tools:
 
