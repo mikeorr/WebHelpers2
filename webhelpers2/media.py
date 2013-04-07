@@ -44,7 +44,7 @@ def get_dimensions(path, default=(None, None)):
 
     ``default`` is returned if the size could not be ascertained. This
     usually means the file does not exist or is not in a recognized format.
-    PIL. Only JPG, PNG, GIF, and BMP are supported at this time.
+    PIL. Only JPG, PNG, GIF, and BMP are supported.
 
     The normal return value is a tuple: ``(width, height)``.
 
@@ -55,8 +55,8 @@ def get_dimensions(path, default=(None, None)):
     This helper recognizes fewer image formats and is potentially less
     accurate than ``get_dimensions_pil()``.
 
-    Running this module as a script tests this helper. It will print the
-    size of each image file specified on the command line.
+    Running this module as a script will print the size of each image file
+    specified on the command line.
     """
     apath = os.path.abspath(path)
     try:
