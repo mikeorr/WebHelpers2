@@ -21,12 +21,6 @@ Statistics
 .. autofunction:: median
 .. autofunction:: standard_deviation
 
-.. autoclass:: SimpleStats
-    :members: __call__, extend
-
-.. autoclass:: Stats
-    :members: __call__, extend, finish
-
 Number formatting
 -----------------
 

@@ -15,6 +15,11 @@
     ``"{:,}".format(12346)`` (always comma) or ``"{:n}".format(12345)``
     (locale-specific).
 
+- webhelpers.html.number:
+
+  * Keep the individual statistic helpers but delete the container classes
+    (``Stats`` and ``SimpleStats``).
+
 - webhelpers2.html.tools: 
 
   * Move ``format_paragraphs`` and ``nl2br`` from containers submodule.
