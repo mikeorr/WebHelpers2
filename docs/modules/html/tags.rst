@@ -41,8 +41,6 @@ Form tags
 
 .. autofunction:: title
 
-.. autofunction:: required_legend
-
 
 :class:`ModelTags` class
 --------------------------

@@ -20,6 +20,10 @@
   * Keep the individual statistic helpers but delete the container classes
     (``Stats`` and ``SimpleStats``).
 
+- webhelpers.html.tags:
+
+  * Delete ``required_legend()``.
+
 - webhelpers2.html.tools: 
 
   * Move ``format_paragraphs`` and ``nl2br`` from containers submodule.

@@ -30,7 +30,7 @@ __all__ = [
            "text", "textarea", "hidden", "file", "password", 
            "checkbox", "radio", "submit",
            "select", "Options", "Option", "OptGroup",
-           "ModelTags", "title", "required_legend",
+           "ModelTags", "title",
            # hyperlinks
            "link_to", "link_to_if", "link_to_unless",
            # Table tags
@@ -757,19 +757,6 @@ def title(title, required=False, label_for=None):
             class_="required")
     else:
         return HTML.span(title_html, class_="not-required")
-
-def required_legend():
-    """Return an inline HTML snippet explaining which fields are required.
-    
-    See webhepers/static/stylesheets/webhelpers2.css for suggested styles.
-
-    >>> required_legend()
-    literal(u'<span class="required required-symbol">*</span> = required')
-    """
-    return HTML(
-        HTML.span("*", class_="required required-symbol"), 
-        " = required",
-        )
         
 
 #### Hyperlink tags
