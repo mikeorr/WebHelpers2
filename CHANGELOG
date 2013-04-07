@@ -13,6 +13,7 @@
 
   * Rename ``del_quiet`` to ``del_keys``, and change to accept keys as
     positional arguments. 
+  * Delete ``get_many``.
 
 - webhelpers2.html.misc:
 

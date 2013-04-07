@@ -23,7 +23,6 @@ Functions
 .. autofunction:: extract_keys
 .. autofunction:: only_some_keys
 .. autofunction:: ordered_items
-.. autofunction:: get_many
 .. autofunction:: transpose
 .. autofunction:: unique
 

@@ -214,47 +214,6 @@ def ordered_items(dic, key_order, other_keys=True, default=NotGiven):
         for key, value in d.iteritems():
             yield key, value
 
-def get_many(d, required=None, optional=None, one_of=None):
-    """Extract values from a dict for unpacking into simple variables.
-
-    ``d`` is a dict.
-
-    ``required`` is a list of keys that must be in the dict. The corresponding
-    values will be the first elements in the return list. Raise KeyError if any
-    of the keys are missing.
-
-    ``optional`` is a list of optional keys. The corresponding values will be
-    appended to the return list, substituting None for missing keys.
-
-    ``one_of`` is a list of alternative keys. Take the first key that exists 
-    and append its value to the list. Raise KeyError if none of the keys exist.
-    This argument will append exactly one value if specified, or will do
-    nothing if not specified.
-
-    Example::
-
-        uid, action, limit, offset = get_many(request.params, 
-            required=['uid', 'action'], optional=['limit', 'offset'])
-
-    Contributed by Shazow.
-
-    """
-    r = []
-    if required:
-        for k in required:
-            r.append(d[k])
-    if optional:
-        for k in optional:
-            r.append(d.get(k))
-    if one_of:
-        for k in one_of:
-            if k in d:
-                r.append(d[k])
-                break
-        else:
-            raise KeyError("none of these keys found: %s" % one_of)
-    return r
-
 def del_keys(dic, *keys):
     """Delete several keys from a dict, ignoring those that don't exist.
     
