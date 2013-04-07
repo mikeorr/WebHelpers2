@@ -33,6 +33,7 @@
 - webhelpers2.html.tools: 
 
   * Move ``format_paragraphs`` and ``nl2br`` from containers submodule.
+  * Bugfix in ``format_paragraphs``, should return a literal.
   * Delete 'highlighter' arg in ``highight`` helper. It has been deprecated
     since WebHelpers 1.0b2.
 

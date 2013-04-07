@@ -356,5 +356,5 @@ def format_paragraphs(text, preserve_lines=False):
             para = HTML(para)
             para = para.replace("\n", br)
         paragraphs[i] = HTML.p(para)
-    return "\n\n".join(paragraphs)
+    return literal("\n\n").join(paragraphs)
 
