@@ -1,5 +1,5 @@
-"""WebHelpers is wide variety of functions for web applications and other
+"""WebHelpers2 is wide variety of functions for web applications and other
 applications.
 """
 
-__version__ = "2.0b2"
+__version__ = "2.0b3"
