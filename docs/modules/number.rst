@@ -20,7 +20,6 @@ Statistics
 
 .. autofunction:: median
 .. autofunction:: standard_deviation
-.. autofunction:: format_number
 
 .. autoclass:: SimpleStats
     :members: __call__, extend

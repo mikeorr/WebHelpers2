@@ -311,39 +311,6 @@ class Stats(SimpleStats):
 
 #### Number formatting ####
 
-def format_number(n, thousands=",", decimal="."):
-    """Format a number with a thousands separator and decimal delimiter.
-
-    ``n`` may be an int, long, float, or numeric string.
-    ``thousands`` is a separator to put after each thousand.
-    ``decimal`` is the delimiter to put before the fractional portion if any.
-
-    The default style has a thousands comma and decimal point per American
-    usage:
-
-    >>> format_number(1234567.89)
-    '1,234,567.89'
-    >>> format_number(123456)
-    '123,456'
-    >>> format_number(-123)
-    '-123'
-
-    Various European and international styles are also possible:
-
-    >>> format_number(1234567.89, " ")
-    '1 234 567.89'
-    >>> format_number(1234567.89, " ", ",")
-    '1 234 567,89'
-    >>> format_number(1234567.89, ".", ",")
-    '1.234.567,89'
-    """
-    parts = str(n).split(".")
-    parts[0] = re.sub(
-        R"(\d)(?=(\d\d\d)+(?!\d))", 
-        R"\1%s" % thousands, 
-        parts[0])
-    return decimal.join(parts)
-
 def format_data_size(size, unit, precision=1, binary=False, full_name=False):
     """Format a number using SI units (kilo, mega, etc.).
 
