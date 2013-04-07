@@ -255,7 +255,7 @@ def get_many(d, required=None, optional=None, one_of=None):
             raise KeyError("none of these keys found: %s" % one_of)
     return r
 
-def del_quiet(dic, keys):
+def del_keys(dic, *keys):
     """Delete several keys from a dict, ignoring those that don't exist.
     
     This modifies the dict in place.
@@ -263,7 +263,7 @@ def del_quiet(dic, keys):
     ::
 
         >>> d ={"A": 1, "B": 2, "C": 3}
-        >>> del_quiet(d, ["A", "C"])
+        >>> del_keys(d, "A", "C")
         >>> d
         {'B': 2}
     """

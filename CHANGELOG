@@ -7,7 +7,12 @@
 
 - Delete submodules:
 
-  * converters
+  * html.converters
+
+- webhelpers.containers:
+
+  * Rename ``del_quiet`` to ``del_keys``, and change to accept keys as
+    positional arguments. 
 
 - webhelpers2.html.misc:
 

@@ -17,7 +17,7 @@ Functions
 ---------
 .. autofunction:: correlate_dicts
 .. autofunction:: correlate_objects
-.. autofunction:: del_quiet
+.. autofunction:: del_keys
 .. autofunction:: distribute
 .. autofunction:: except_keys
 .. autofunction:: extract_keys
