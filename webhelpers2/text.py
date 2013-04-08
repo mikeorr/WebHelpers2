@@ -19,7 +19,6 @@ __all__ = [
     "chop_at",
     "collapse",
     "convert_accented_entities",
-    #"convert_misc_characters",   # DISABLED
     "convert_misc_entities",
     "excerpt",
     "lchop",
@@ -291,7 +290,6 @@ def remove_formatting(string):
     s = strip_tags(string)
     s = convert_accented_entities(s)
     s = convert_misc_entities(s)
-    #s = convert_misc_characters(s)
     if unidecode:
         s = unidecode(s)
     return collapse(s)
@@ -359,70 +357,6 @@ def convert_misc_entities(string):
     for textiled, normal in replace_dict.items():
         string = re.sub(r'\&%s;' % textiled, normal, string)
     return re.sub(r'\&[^;]+;', '', string)
-
-
-'''*** DISABLED convert_misc_characters: fails doc tests.
-Confirming what behavior should be.
-
-def convert_misc_characters(string):
-    """Converts various common plaintext characters to a more
-    URI-friendly representation
-    
-    Examples::
-      
-        >>> convert_misc_characters("foo & bar")
-        'foo and bar'
-        >>> convert_misc_characters("Chanel #9")
-        'Chanel number nine'
-        >>> convert_misc_characters("user@host")
-        'user at host'
-        >>> convert_misc_characters("google.com")
-        'google dot com'
-        >>> convert_misc_characters("$10")
-        '10 dollars'
-        >>> convert_misc_characters("*69")
-        'star 69'
-        >>> convert_misc_characters("100%")
-        '100 percent'
-        >>> convert_misc_characters("windows/mac/linux")
-        'windows slash mac slash linux'
-      
-    Note: Because this method will convert any '&' symbols to the string
-    "and", you should run any methods which convert HTML entities 
-    (convert_html_entities and convert_misc_entities) before running
-    this method.
-    
-    Based on Ruby's stringex package
-    (http://github.com/rsl/stringex/tree/master)
-    """
-    s = re.sub(r'\.{3,}', " dot dot dot ", string)
-    
-    # Special rules for money
-    money_replace = {
-        r'(\s|^)\$(\d+)\.(\d+)(\s|\$)?': r'\2 dollars \3 cents',
-        r'(\s|^)£(\d+)\.(\d+)(\s|\$)?': r'\2 pounds \3 pence',
-    }
-    for repl, subst in money_replace.items():
-        s = re.sub(repl, r' %s ' % subst, s)
-    
-    # Back to normal rules
-    repls =  {
-        r'\s*&\s*': "and",
-        r'\s*#': "number",
-        r'\s*@\s*': "at",
-        r'(\S|^)\.(\S)': r'\1 dot \2',
-        r'(\s|^)\$(\d*)(\s|$)': r'\2 dollars',
-        r'(\s|^)£(\d*)(\s|$)': r'\2 pounds',
-        r'(\s|^)¥(\d*)(\s|$)': r'\2 yen',
-        r'\s*\*\s*': "star",
-        r'\s*%\s*': "percent",
-        r'\s*(\\|\/)\s*': "slash",
-    }
-    for repl, subst in repls.items():
-        s = re.sub(repl, r' %s ' % subst, s)
-    s = re.sub(r"(^|\w)'(\w|$)", r'\1\2', s)
-    return re.sub(r"[\.\,\:\;\(\)\[\]\/\?\!\^'\"_]", " ", s)
-'''
 
 
 def replace_whitespace(string, replace=" "):
