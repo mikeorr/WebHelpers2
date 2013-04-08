@@ -34,6 +34,11 @@
   * Rename ``render`` to ``html_to_text`` (from converters module).
   * Bugfix in ``text_html``, should return a literal.
 
+- webhelpers.misc:
+
+  * Delete ``all``, ``any``, and ``no``.  Python >= 2.5 has builtins for the
+    first two.
+
 - Delete the sample CSS stylesheet.
 
 

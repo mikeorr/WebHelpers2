@@ -8,9 +8,6 @@
 Data processing
 ---------------
 
-.. autofunction:: all(seq[, pred])
-.. autofunction:: any(seq[, pred])
-.. autofunction:: no(seq[, pred])
 .. autofunction:: count_true(seq[, pred])
 .. autofunction:: convert_or_none
 .. autofunction:: flatten

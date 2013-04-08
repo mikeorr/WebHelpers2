@@ -17,7 +17,9 @@ Rename 'extract_keys' to 'split_dict'.
 
 Beta 3:
 Delete several helpers from various modules: 'get_many', 'format_number',
-'required_legend', 'SimpleStats', 'Stats'.  (The statistics functions remain.)
+'required_legend', 'all', 'any', 'no'.
+Delete the 'Stats' and 'SimpleStats' container classes (the underlying
+function-based helpers remain).
 Delete the sample CSS stylesheet.
 
 Beta 2: 
