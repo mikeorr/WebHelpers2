@@ -13,7 +13,7 @@ to 'text_to_html' and fix bug so it returns a literal. Rename 'render' to
 
 Beta 3:
 Rename 'del_quiet' to 'del_keys' and change to take keys as positional args.
-Rename 'extract_keys' to 'split_dict'.
+Rename 'extract_keys' to 'split_dict'.  Rename 'convert_or_none' to 'convert'.
 
 Beta 3:
 Delete several helpers from various modules: 'get_many', 'format_number',

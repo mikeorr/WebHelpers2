@@ -1,7 +1,7 @@
 TODO
 %%%%
 
-:Updated: 2013-01-24 by Mike Orr
+:Updated: 2013-04-7 by Mike Orr
 
 :New repository:  https://github.com/mikeorr/WebHelpers2
 :Old repository: https://bitbucket.org/bbangert/webhelpers
@@ -11,8 +11,11 @@ REQUIREMENTS FOR 2.0
 
 * Finish deleting and renaming helpers.
 * Port code to Python 3. Drop Python 2.4 and 2.5 compatibility, and maybe 2.6.
-* Update docs. Publish on ReadTheDocs.
+* Update docs on ReadTheDocs.
 * Review the pending issues and pull requests in the old repository.
+
+Move the version to webhelpers.version and put the release date there, if it's
+possible to put the release date into Sphinx's replacement namespace.
 
 CONSIDERING
 ===========
@@ -24,11 +27,6 @@ Enhancements: unicode_literals. Move ISO countries to separate text file.
 
 webhelpers.containers
 ---------------------
-
-Rename 'extract_keys' to 'split_dict'?
-Rename 'get_many' to 'unpack_items', 'unpack_dict', or 'get_items'?
-
-Change 'del_quiet(dic, [keys])' to 'del_items(dic, *keys)'?
 
 Pondering a helper to drill down a nested dict, fetching a specified series of
 keys, and returning the default if any key doesn't exist or has the value None.
@@ -53,19 +51,13 @@ startup.
 Can somebody volunteer to write a C speedup for ``make_tag()``. This is the
 backend for all the tag helpers.
 
-webhelpers.html.converters, render, and tools
----------------------------------------------
-
-Consolidate overlapping helpers in converters and tools. 
-
-Rename format_paragraphs to text_to_html.  Rename render to html_to_text.
+webhelpers.html.tools
+---------------------
 
 sanitize is same as tools-strip_links but implementation is much more complex.
 Worth keeping complex implementation? Note that escape
 (markupsafe.escape_silent) makes HTML strings safe by escaping markup, but
 that's different than stripping tags.
-
-Delete deprecated 'highlighter' arg in tools.highlight.
 
 
 webhelpers.media
@@ -76,30 +68,8 @@ Rename to images?
 webhelpers.misc
 ---------------
 
-Delete all, any, no, DeclarativeException, OverwriteError. The first three have
-recipes in the itertools docs. When not using a custom predicate, 'any' and
-'all' can be replaced by the stdlib builtins.
-
-Rename 'convert_or_none' to 'convert'.
-
 Check if format_exception does what it claims. Also look into a new helper for
 logging an exception with file/line info.
-
-Pondering a helper like SQL COALESCE, which would return the first acceptable
-value. This could be called 'first' or 'coalesce'. The complication is how to
-define an acceptable value. SQL COALESCE returns the first non-NULL value, but
-sometimes you want the first true value, other times you'll accept zero,
-the empty string, or an empty container. But we can't really test for empty
-container without len(), and non-sequence types are not len-safe.
-
-webhelpers.text
----------------
-
-Rename 'plural'?
-
-Maybe delete collapse, convert_accented_entities, convert_misc_entities,
-remove_formatting, replace_whitespace, strip_leading_whitespace,
-wrap_paragraphs.
 
 Tests
 -----
