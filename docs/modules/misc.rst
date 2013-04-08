@@ -9,7 +9,7 @@ Data processing
 ---------------
 
 .. autofunction:: count_true(seq[, pred])
-.. autofunction:: convert_or_none
+.. autofunction:: convert
 .. autofunction:: flatten
 
 Class-related and miscellaneous

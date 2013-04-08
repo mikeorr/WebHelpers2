@@ -25,14 +25,14 @@ def count_true(seq, pred=lambda x: x):
             ret += 1
     return ret
 
-def convert_or_none(value, type_):
+def convert(value, type_):
     """Return the value converted to the type, or None if error.
 
     ``type_`` may be a Python type or any function taking one argument.
 
-    >>> print convert_or_none("5", int)
+    >>> print convert("5", int)
     5
-    >>> print convert_or_none("A", int)
+    >>> print convert("A", int)
     None
     """
     try:

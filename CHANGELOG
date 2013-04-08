@@ -38,6 +38,7 @@
 
   * Delete ``all``, ``any``, and ``no``.  Python >= 2.5 has builtins for the
     first two.
+  * Rename ``convert_or_none`` to ``convert``.
 
 - Delete the sample CSS stylesheet.
 
