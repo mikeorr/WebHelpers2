@@ -22,16 +22,14 @@ documentation and module docstrings for a more complete list.
         A library for generating HTML tags with smart escaping.  All
         public symbols are imported into ``webhelpers.html``.
 
-    ``converters``
-        Text-to-HTML converters.
-
     ``tags``
         High-level HTML tags, including form tags, hyperlinks, and 
         Javascript/CSS links.  The ``ModelTags`` class builds input
         tags from database records (for any kind of database).
 
     ``tools``
-        Helpers producing chunks of HTML.
+        Helpers producing chunks of HTML. Also test-to-HTML and HTML-to-text
+        converters.
 
 ``media``
     Helpers for images, PDFs, etc.
@@ -45,14 +43,6 @@ documentation and module docstrings for a more complete list.
 ``text``
     Helpers producing string output, suitable for both HTML and non-HTML
     applications.
-
-WebHelpers is package aimed at providing helper functions for use within web
-applications.
-
-These functions are intended to ease web development with template languages by
-removing common view logic and encapsulating it in re-usable modules as well as
-occasionally providing objects for use within controllers to assist with common
-web development paradigms.
 
 For support/question/patches, please use the `Pylons mailing list
 <http://groups.google.com/group/pylons-discuss>`_.
