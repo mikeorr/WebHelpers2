@@ -6,13 +6,27 @@ Changes in WebHelpers2
 Changes since beta 1
 --------------------
 
+Beta 3:
+Merge 'html.converters' submodule into 'html.tools'. Rename 'format_paragraphs'
+to 'text_to_html' and fix bug so it returns a literal. Rename 'render' to
+'html_to_text'. Document 'html_to_text' and 'sanitize'.
+
+Beta 3:
+Rename 'del_quiet' to 'del_keys' and change to take keys as positional args.
+Rename 'extract_keys' to 'split_dict'.
+
+Beta 3:
+Delete several helpers from various modules: 'get_many', 'format_number',
+'required_legend', 'SimpleStats', 'Stats'.  (The statistics functions remain.)
+Delete the sample CSS stylesheet.
+
 Beta 2: 
 All HTML tag helpers now convert underscores to hyphens in attribute
 names. This is to support HTML5 "data-" attributes as keyword args. Trailing
-underscores are still removed ("class_" -> "class").
+underscores are still removed ("class\_" -> "class").
 
 Beta 2:
-Delete 'highlighter' arg in 'webhelpers.html.tools.highlight()'. It has been
+Delete 'highlighter' arg in 'webhelpers2.html.tools.highlight()'. It has been
 deprecated since WebHelpers 1.0b2.
 
 Deleted modules

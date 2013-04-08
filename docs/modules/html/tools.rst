@@ -9,9 +9,9 @@
 
 .. autofunction:: button_to
 
-.. autofunction:: format_paragraphs
-
 .. autofunction:: highlight
+
+.. autofunction:: html_to_text
 
 .. autofunction:: js_obfuscate
 
@@ -19,6 +19,11 @@
 
 .. autofunction:: nl2br
 
+.. autofunction:: sanitize
+
 .. autofunction:: strip_links
 
 .. autofunction:: strip_tags
+
+.. autofunction:: text_to_html
+

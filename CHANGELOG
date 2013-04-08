@@ -29,8 +29,10 @@
 
 - webhelpers2.html.tools: 
 
-  * Move ``format_paragraphs`` and ``nl2br`` from containers submodule.
-  * Bugfix in ``format_paragraphs``, should return a literal.
+  * Merge 'webhelpers2.html.converters' into 'webhelpers2.html.tools'.
+  * Rename ``format_paragraphs`` to ``text_to_html`` (from converters module).
+  * Rename ``render`` to ``html_to_text`` (from converters module).
+  * Bugfix in ``text_html``, should return a literal.
 
 - Delete the sample CSS stylesheet.
 

@@ -6,8 +6,9 @@
 # (Webware for Python framework)
 #
 # Changed by Mike Orr:
-# - Add ``render()`` docstring.  Export only that function by default.
+# - Rename ``render()`` to ``html_to_text()`` and add docstring.
 # - Add ``sanitize()`` and ``HTMLSanitizer.
+# - Export only those functions by default.
 # - Change code when run as a script.
 # - Don't convert Unicode to text.
 # - Drop textwrap backport.  (WebHelpers doesn't support Python < 2.3.)
@@ -44,10 +45,10 @@ import htmlentitydefs
 import re
 import textwrap
 
-__all__ = ["render", "sanitize"]
+__all__ = ["html_to_text", "sanitize"]
 
 #### Public
-def render(html, width=70):
+def html_to_text(html, width=70):
     """Render HTML as formatted text, like lynx's "print" function.
 
     Paragraphs are collected and wrapped at the specified width, default 70.
@@ -392,6 +393,6 @@ def main():
         prog = os.path.basename(sys.argv[0])
         sys.exit("usage: %s <HTML_FILE" % prog)
     html = sys.stdin.read()
-    print render(html)
+    print html_to_text(html)
 
 if __name__ == "__main__":  main()

@@ -17,23 +17,23 @@ def test_nl2br2():
 def test_nl2br3():
     eq_(u'<strike>W</strike><br />\nThe W', nl2br(literal("<strike>W</strike>\nThe W")))
 
-def test_format_paragraphs1():
-    eq_(u"<p>crazy\n cross\n platform linebreaks</p>", format_paragraphs("crazy\r\n cross\r platform linebreaks"))
+def test_text_to_html1():
+    eq_(u"<p>crazy\n cross\n platform linebreaks</p>", text_to_html("crazy\r\n cross\r platform linebreaks"))
 
-def test_format_paragraphs2():
-    eq_(u"<p>crazy<br />\n cross<br />\n platform linebreaks</p>", format_paragraphs("crazy\r\n cross\r platform linebreaks", True))
+def test_text_to_html2():
+    eq_(u"<p>crazy<br />\n cross<br />\n platform linebreaks</p>", text_to_html("crazy\r\n cross\r platform linebreaks", True))
 
-def test_format_paragraphs3():
-    eq_(u"<p>A paragraph</p>\n\n<p>and another one!</p>", format_paragraphs("A paragraph\n\nand another one!"))
+def test_text_to_html3():
+    eq_(u"<p>A paragraph</p>\n\n<p>and another one!</p>", text_to_html("A paragraph\n\nand another one!"))
 
-def test_format_paragraphs4():
-    eq_(u"<p>A paragraph<br />\n With a newline</p>", format_paragraphs("A paragraph\n With a newline", True))
+def test_text_to_html4():
+    eq_(u"<p>A paragraph<br />\n With a newline</p>", text_to_html("A paragraph\n With a newline", True))
 
-def test_format_paragraphs5():
-    eq_(u"<p>A paragraph\n With a newline</p>", format_paragraphs("A paragraph\n With a newline", False))
+def test_text_to_html5():
+    eq_(u"<p>A paragraph\n With a newline</p>", text_to_html("A paragraph\n With a newline", False))
 
-def test_format_paragraphs6():
-    eq_(u"<p>A paragraph\n With a newline</p>", format_paragraphs("A paragraph\n With a newline"))
+def test_text_to_html6():
+    eq_(u"<p>A paragraph\n With a newline</p>", text_to_html("A paragraph\n With a newline"))
 
-def test_format_paragraphs7():
-    eq_(u"", format_paragraphs(None))
+def test_text_to_html7():
+    eq_(u"", text_to_html(None))

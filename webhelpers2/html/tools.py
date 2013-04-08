@@ -11,19 +11,22 @@ import re
 import urllib
 
 from webhelpers2.html._autolink import auto_link
+from webhelpers2.html._render import html_to_text, sanitize
 from webhelpers2.html import HTML, literal, lit_sub, escape
 import webhelpers2.html.tags as tags
 
 __all__ = [
     "auto_link", 
     "button_to", 
-    "format_paragraphs",
+    "html_to_text",
     "js_obfuscate",
     "highlight", 
     "mail_to",
     "nl2br",
+    "sanitize",
     "strip_links",
     "strip_tags",
+    "text_to_html",
     ]
 
 tag_re = re.compile(r'<.*?>', re.S)
@@ -316,8 +319,8 @@ def strip_tags(text):
 
     Implementation copied from ``WebOb``.
 
-    ``webhelpers.html.converters`` contains more sophisticated versions of 
-    this.
+    ``sanitize()`` does almost the same thing, but has a different
+    implementation.
     """
     text = text.replace('\n', ' ')
     text = text.replace('\r', '')
@@ -336,7 +339,7 @@ def nl2br(text):
     text = HTML(text).replace("\n", br)
     return text
 
-def format_paragraphs(text, preserve_lines=False):
+def text_to_html(text, preserve_lines=False):
     """Convert text to HTML paragraphs.
 
     ``text``:
