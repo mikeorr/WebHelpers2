@@ -332,6 +332,16 @@ def format_attrs(**attrs):
     >>> format_attrs(p=None)
     literal(u'')
     """
+    if "class_" in attrs:
+        attrs["class"] = attrs.pop("class_")
+    compose_attrs = {"class": literal(" "), "style": literal("; ")}
+    for attr, join_str in compose_attrs.items():
+        value = attrs.get(attr)
+        if isinstance(value, (list, tuple)):
+            if value:
+                attrs[attr] = join_str.join(value)
+            else:
+                del attrs[attr]
     strings = [u' %s="%s"' % (_attr_decode(attr), escape(value))
         for attr, value in sorted(attrs.iteritems())
         if value is not None]
