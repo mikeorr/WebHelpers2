@@ -13,7 +13,6 @@ All helpers are organized into subpackages.
    modules/html/builder
    modules/html/tags
    modules/html/tools
-   modules/media
    modules/misc
    modules/number
    modules/text

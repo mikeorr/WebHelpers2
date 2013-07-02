@@ -1,9 +1,11 @@
-2.0b3 (2013-04-07)
+2.0b3 (XXXX-XX-XX)
 ------------------
 
 - Delete submodules:
 
-  * html.converters
+  * html.converters  (merged to html.tools)
+  * media ("choose_height()" moved to misc. "get_dimensions()" has equivalents on
+    PyPI; e.g., the "dimensions" and "imagefacts" distributions)
 
 - webhelpers.containers:
 

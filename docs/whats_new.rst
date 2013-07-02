@@ -7,6 +7,10 @@ Changes since beta 1
 --------------------
 
 Beta 3:
+Delete "media" submodule. Alternate implementations are on PyPI; e.g.,
+"dimensions" and "imagefacts".
+
+Beta 3:
 Merge 'html.converters' submodule into 'html.tools'. Rename 'format_paragraphs'
 to 'text_to_html' and fix bug so it returns a literal. Rename 'render' to
 'html_to_text'. Document 'html_to_text' and 'sanitize'.
