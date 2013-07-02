@@ -6,6 +6,14 @@ import traceback
 import types
 import warnings
 
+def choose_height(new_width, width, height):
+    """Calculate a proportional height for scaling an image. Given the image's
+    existing width and height and proposed new width, return the height that
+    preserves the width:height ratio of the original.
+    """
+    proportion = float(height) / float(width)
+    return int(new_width * proportion)
+
 def count_true(seq, pred=lambda x: x):
     """How many elements is ``pred(elm)`` true for?
 

@@ -19,6 +19,11 @@ Class-related and miscellaneous
 
 .. autofunction:: subclasses_of
 
+Image processing
+----------------
+
+.. autofunction:: choose_height
+
 Exceptions and deprecation
 --------------------------
 
