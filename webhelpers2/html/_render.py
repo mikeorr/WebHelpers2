@@ -40,7 +40,7 @@
 """An HTML-to-text formatter and HTML sanitizer.
 """
 
-from HTMLParser import HTMLParser
+from html.parser import HTMLParser
 import htmlentitydefs
 import re
 import textwrap
