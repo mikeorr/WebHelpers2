@@ -41,7 +41,7 @@
 """
 
 from html.parser import HTMLParser
-import htmlentitydefs
+from html import entities as htmlentitydefs
 import re
 import textwrap
 
