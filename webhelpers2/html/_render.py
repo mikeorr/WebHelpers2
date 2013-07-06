@@ -393,6 +393,6 @@ def main():
         prog = os.path.basename(sys.argv[0])
         sys.exit("usage: %s <HTML_FILE" % prog)
     html = sys.stdin.read()
-    print html_to_text(html)
+    print(html_to_text(html))
 
 if __name__ == "__main__":  main()
