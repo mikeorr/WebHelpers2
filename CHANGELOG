@@ -44,6 +44,8 @@
 
 - Delete the sample CSS stylesheet.
 
+- Change test suite to py.test, and convert doctests to unit tests.
+
 
 2.0b2 (2012-01-29)
 ------------------

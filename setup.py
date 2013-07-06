@@ -1,3 +1,5 @@
+import sys
+
 try:
     from setuptools import setup, find_packages
 except ImportError:
@@ -5,7 +7,25 @@ except ImportError:
     use_setuptools()
     from setuptools import setup, find_packages
 
+from setuptools.command.test import test as TestCommand
+
 from webhelpers2 import __version__
+
+class PyTest(TestCommand):
+    def finalize_options(self):
+        TestCommand.finalize_options(self)
+        self.test_args = []
+        self.test_suite = True
+    def run_tests(self):
+        #import here, cause outside the eggs aren't loaded
+        import pytest
+        errno = pytest.main(self.test_args)
+        sys.exit(errno)
+
+
+install_requires=[
+    'MarkupSafe>=0.9.2',
+    ],
 
 setup(
     name="WebHelpers2",
@@ -21,13 +41,11 @@ It contains convenience functions to make HTML tags, process text, format number
     packages=find_packages(exclude=['ez_setup']),
     zip_safe=False,
     include_package_data=True,
-    install_requires=[
-        'MarkupSafe>=0.9.2',
-        ],
+    install_requires=install_requires,
     tests_require=[ 
-      'Nose',
+      'pytest',
       ], 
-    test_suite='nose.collector',
+    cmdclass = {'test': PyTest},
     classifiers=["Development Status :: 4 - Beta",
                  "Intended Audience :: Developers",
                  "License :: OSI Approved :: BSD License",
