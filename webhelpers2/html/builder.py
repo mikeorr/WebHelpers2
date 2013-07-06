@@ -343,7 +343,7 @@ def format_attrs(**attrs):
             else:
                 del attrs[attr]
     strings = [u' %s="%s"' % (_attr_decode(attr), escape(value))
-        for attr, value in sorted(attrs.iteritems())
+        for attr, value in sorted(attrs.items())
         if value is not None]
     return literal("".join(strings))
 
