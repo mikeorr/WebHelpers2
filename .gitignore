@@ -8,3 +8,6 @@ docs/_build
 docs/_themes
 env*
 venv
+*.txt~
+.project
+.pydevproject
