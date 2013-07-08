@@ -73,7 +73,7 @@ class Counter(object):
 
         If ``max_items`` is provided, return no more than that many items.
         """
-        data = [(x[1], x[0]) for x in self.result.iteritems()]
+        data = [(x[1], x[0]) for x in self.result.items()]
         data.sort(key=lambda x: (sys.maxint - x[0], x[1]))
         if max_items:
             return data[:max_items]
@@ -388,10 +388,10 @@ def distribute(lis, columns, direction, fill=None):
         if remainder:
             rows += 1
         table = [[fill] * columns for x in range(rows)]
-        #print table
+        #print(table)
         for i, elm in enumerate(lis):
             col, row = divmod(i, rows)
-            #print "i=%d, row=%d, col=%d, element=%r" % (i, row, col, elm)
+            #print("i=%d, row=%d, col=%d, element=%r" % (i, row, col, elm))
             table[row][col] = elm
         return table
     else:

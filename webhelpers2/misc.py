@@ -38,9 +38,9 @@ def convert(value, type_):
 
     ``type_`` may be a Python type or any function taking one argument.
 
-    >>> print convert("5", int)
+    >>> print(convert("5", int))
     5
-    >>> print convert("A", int)
+    >>> print(convert("A", int))
     None
     """
     try:
@@ -102,7 +102,7 @@ class NotGiven(object):
     Example::
     
         >>> def foo(arg=NotGiven):
-        ...     print arg is NotGiven
+        ...     print(arg is NotGiven)
         ...
         >>> foo()
         True

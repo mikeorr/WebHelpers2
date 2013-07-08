@@ -1,6 +1,8 @@
 WebHelpers2
 ++++++++++++
 
+Pretty much the same as WebHelpers2 but with Python 3 support.
+
 WebHelpers2 provides functions useful in web applications: generating HTML tags,
 showing results a pageful at a time, etc.  It may be used with any web
 framework or template engine.  A brief outline is below, but see the
