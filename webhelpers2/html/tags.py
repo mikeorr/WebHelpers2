@@ -18,7 +18,6 @@ from urllib.parse import urlparse
 
 from webhelpers2 import containers
 from webhelpers2.html import escape, HTML, literal, url_escape
-import webhelpers2.media as media
 from webhelpers2.misc import NotGiven
 
 __all__ = [
