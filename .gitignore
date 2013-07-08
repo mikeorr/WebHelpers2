@@ -11,3 +11,5 @@ venv
 *.txt~
 .project
 .pydevproject
+.settings
+.gitignore~

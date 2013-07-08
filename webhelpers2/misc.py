@@ -102,7 +102,7 @@ class NotGiven(object):
     Example::
     
         >>> def foo(arg=NotGiven):
-        ...     print arg is NotGiven
+        ...     print(arg is NotGiven)
         ...
         >>> foo()
         True

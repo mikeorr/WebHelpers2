@@ -109,24 +109,24 @@ The ``HTML`` object has the following methods for tag building:
 
     >>> HTML.tag("a", href="http://www.yahoo.com", name=None, 
     ... c="Click Here")
-    literal(u'<a href="http://www.yahoo.com">Click Here</a>')
+    literal('<a href="http://www.yahoo.com">Click Here</a>')
 
 
 ``HTML.__getattr__``
     Same as ``HTML.tag`` but using attribute access.  Example:
 
     >>> HTML.a("Foo", href="http://example.com/", class_="important")
-    literal(u'<a class="important" href="http://example.com/">Foo</a>')
+    literal('<a class="important" href="http://example.com/">Foo</a>')
 
 ``HTML.cdata``
     Wrap the text in a "<![CDATA[ ... ]]>" section. Plain strings will not be
     escaped because CDATA itself is an escaping syntax.
 
     >>> HTML.cdata(u"Foo")
-    literal(u'<![CDATA[Foo]]>')
+    literal('<![CDATA[Foo]]>')
 
     >>> HTML.cdata(u"<p>")
-    literal(u'<![CDATA[<p>]]>')
+    literal('<![CDATA[<p>]]>')
 
 About XHTML and HTML
 --------------------
@@ -326,11 +326,11 @@ def format_attrs(**attrs):
 
     Usage:
     >>> format_attrs(p=2, q=3)
-    literal(u' p="2" q="3"')
+    literal(' p="2" q="3"')
     >>> format_attrs(p=2, q=None)
-    literal(u' p="2"')
+    literal(' p="2"')
     >>> format_attrs(p=None)
-    literal(u'')
+    literal('')
     """
     if "class_" in attrs:
         attrs["class"] = attrs.pop("class_")

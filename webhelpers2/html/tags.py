@@ -14,7 +14,7 @@ import logging
 import os
 import re
 import urllib
-import urlparse
+import urllib.parse.urlparse
 
 from webhelpers2 import containers
 from webhelpers2.html import escape, HTML, literal, url_escape
