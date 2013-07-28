@@ -26,40 +26,40 @@ class TestDateHelper(WebHelpersTestCase):
             self.assertEqual("11 months and 30 days", distance_of_time_in_words(1, 31536001))
          
         # Granularity is invalid
-        self.assertRaises(Exception, distance_of_time_in_words, 0, 1, 'blah')
+        self.assertRaises(Exception, distance_of_time_in_words, 0, 1, "blah")
         
         # February 2nd 2007 to March 1 2007 is 27 days because February is shorter month in the year
-        self.assertEqual('27 days', distance_of_time_in_words(datetime(2007,2,2), datetime(2007, 3, 1)))
+        self.assertEqual("27 days", distance_of_time_in_words(datetime(2007,2,2), datetime(2007, 3, 1)))
         
         # February 2nd 2008 to March 1 2008 is 28 days because it's a leap year 
-        self.assertEqual('28 days', distance_of_time_in_words(datetime(2008,2,2), datetime(2008, 3, 1)))
+        self.assertEqual("28 days", distance_of_time_in_words(datetime(2008,2,2), datetime(2008, 3, 1)))
 
         # Should get the same values going forward and backward
         to_time = datetime(1980, 5, 6, 12, 32, 40, 0, None) # 12:32pm, May 5, 1980
         self.assertEqual(distance_of_time_in_words(from_time, to_time), 
                          distance_of_time_in_words(to_time, from_time))
-        self.assertEqual(distance_of_time_in_words(from_time, to_time, 'month'), 
-                         distance_of_time_in_words(to_time, from_time, 'month'))
-        self.assertEqual(distance_of_time_in_words(from_time, to_time, 'year'), 
-                         distance_of_time_in_words(to_time, from_time, 'year'))
+        self.assertEqual(distance_of_time_in_words(from_time, to_time, "month"), 
+                         distance_of_time_in_words(to_time, from_time, "month"))
+        self.assertEqual(distance_of_time_in_words(from_time, to_time, "year"), 
+                         distance_of_time_in_words(to_time, from_time, "year"))
         
         # Ensure we get the correct granularity when the times are the same
-        self.assertEqual("0 seconds", distance_of_time_in_words(from_time, from_time, 'second'))
-        self.assertEqual("0 days", distance_of_time_in_words(from_time, from_time, 'day'))
-        self.assertEqual("0 centuries", distance_of_time_in_words(from_time, from_time, 'century'))
+        self.assertEqual("0 seconds", distance_of_time_in_words(from_time, from_time, "second"))
+        self.assertEqual("0 days", distance_of_time_in_words(from_time, from_time, "day"))
+        self.assertEqual("0 centuries", distance_of_time_in_words(from_time, from_time, "century"))
 
         # We are not over the finest granularity
-        self.assertEqual("less than 1 hour", distance_of_time_in_words(1, granularity='hour'))
-        self.assertEqual("less than 1 day", distance_of_time_in_words(86399, granularity='day'))
+        self.assertEqual("less than 1 hour", distance_of_time_in_words(1, granularity="hour"))
+        self.assertEqual("less than 1 day", distance_of_time_in_words(86399, granularity="day"))
         
         # Round up if the granularity after the supplied granularity is high enough
-        self.assertEqual("1 day", distance_of_time_in_words(86399, round=True, granularity='day'))
-        self.assertEqual("5 minutes", distance_of_time_in_words(290, round=True, granularity='minute'))
-        self.assertEqual("1 day and 5 minutes", distance_of_time_in_words(86689, round=True, granularity='minute'))
+        self.assertEqual("1 day", distance_of_time_in_words(86399, round=True, granularity="day"))
+        self.assertEqual("5 minutes", distance_of_time_in_words(290, round=True, granularity="minute"))
+        self.assertEqual("1 day and 5 minutes", distance_of_time_in_words(86689, round=True, granularity="minute"))
         
         # Rounding at the second value makes no difference
-        self.assertEqual(distance_of_time_in_words(to_time, from_time, granularity='second'),
-                         distance_of_time_in_words(to_time, from_time, granularity='second', round=True))
+        self.assertEqual(distance_of_time_in_words(to_time, from_time, granularity="second"),
+                         distance_of_time_in_words(to_time, from_time, granularity="second", round=True))
         
         # Pluralization
         self.assertEquals(distance_of_time_in_words(datetime(200, 1,1), datetime(300, 1, 1)), "1 century")
@@ -73,13 +73,13 @@ class TestDateHelper(WebHelpersTestCase):
         to_time = datetime(1981, 3, 31, 7, 31, 0, 0, None) # 7:31 am, March 31, 1981
         self.assertEqual(distance_of_time_in_words(from_time, to_time), 
              "17 centuries, 8 decades, 1 year, 1 month, 29 days, 7 hours, 18 minutes and 48 seconds")
-        self.assertEqual(distance_of_time_in_words(from_time, to_time, granularity = 'hour'), 
+        self.assertEqual(distance_of_time_in_words(from_time, to_time, granularity = "hour"), 
              "17 centuries, 8 decades, 1 year, 1 month, 29 days and 7 hours")
-        self.assertEqual(distance_of_time_in_words(from_time, to_time, granularity = 'hour', round=True), 
+        self.assertEqual(distance_of_time_in_words(from_time, to_time, granularity = "hour", round=True), 
              "17 centuries, 8 decades, 1 year, 1 month, 29 days and 7 hours")
-        self.assertEqual(distance_of_time_in_words(from_time, to_time, granularity = 'month'), 
+        self.assertEqual(distance_of_time_in_words(from_time, to_time, granularity = "month"), 
              "17 centuries, 8 decades, 1 year and 1 month")
-        self.assertEqual(distance_of_time_in_words(from_time, to_time, granularity = 'month', round=True), 
+        self.assertEqual(distance_of_time_in_words(from_time, to_time, granularity = "month", round=True), 
              "17 centuries, 8 decades, 1 year and 2 months")
         
         from_time = datetime(200, 2, 2, 12, 30, 30, 0, None) # 12:30:30, Feb 2, 200AD
@@ -104,7 +104,7 @@ class TestLeapYears(WebHelpersTestCase):
     def test_is_leap_year_2100(self):
         self.assertFalse(_is_leap_year(2100))
         
-if __name__ == '__main__':
+if __name__ == "__main__":
     suite = [
         unittest.makeSuite(TestDateHelper),
         unittest.makeSuite(TestLeapYears),

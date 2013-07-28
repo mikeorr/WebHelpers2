@@ -13,7 +13,7 @@ class Holder(object):
 class TestModelTagsHelperWithObject(WebHelpersTestCase):
     def setUp(self):
         super(TestModelTagsHelperWithObject, self).setUp()
-        obj = Holder({'name':'Jim', 'phone':'123-456-7890', 'fulltime':True, 'fired':False, 'password':'bacon', 'longtext':"lorem ipsum lorem ipsum\n"*10, 'favcolor':'blue', 'lang':'en'})
+        obj = Holder({"name":"Jim", "phone":"123-456-7890", "fulltime":True, "fired":False, "password":"bacon", "longtext":"lorem ipsum lorem ipsum\n"*10, "favcolor":"blue", "lang":"en"})
         self.m = ModelTags(obj)
         
     def test_check_box(self):
@@ -30,12 +30,12 @@ class TestModelTagsHelperWithObject(WebHelpersTestCase):
 
     def test_password_field(self):
         self.assertEqual(
-            self.m.password('name'), 
+            self.m.password("name"), 
             u'<input id="name" name="name" type="password" value="Jim" />'
         )
     def test_file_field(self):
         self.assertEqual(
-            self.m.file('name'), 
+            self.m.file("name"), 
             u'<input id="name" name="name" type="file" value="Jim" />'
         )
 
@@ -71,7 +71,7 @@ class TestModelTagsHelperWithObject(WebHelpersTestCase):
 class TestModelTagsHelperWithDict(TestModelTagsHelperWithObject):
     def setUp(self):
         super(TestModelTagsHelperWithObject, self).setUp()
-        obj = {'name':'Jim', 'phone':'123-456-7890', 'fulltime':True, 'fired':False, 'password':'bacon', 'longtext':"lorem ipsum lorem ipsum\n"*10, 'favcolor':'blue', 'lang':'en'}
+        obj = {"name":"Jim", "phone":"123-456-7890", "fulltime":True, "fired":False, "password":"bacon", "longtext":"lorem ipsum lorem ipsum\n"*10, "favcolor":"blue", "lang":"en"}
         self.m = ModelTags(obj, use_keys=True)
 
     def test_check_box(self):
@@ -88,12 +88,12 @@ class TestModelTagsHelperWithDict(TestModelTagsHelperWithObject):
 
     def test_password_field(self):
         self.assertEqual(
-            self.m.password('name'), 
+            self.m.password("name"), 
             u'<input id="name" name="name" type="password" value="Jim" />'
         )
     def test_file_field(self):
         self.assertEqual(
-            self.m.file('name'), 
+            self.m.file("name"), 
             u'<input id="name" name="name" type="file" value="Jim" />'
         )
 
@@ -129,8 +129,8 @@ class TestModelTagsHelperWithDict(TestModelTagsHelperWithObject):
 class TestModelTagsHelperWithIdGeneration(TestModelTagsHelperWithObject):
     def setUp(self):
         super(TestModelTagsHelperWithObject, self).setUp()
-        obj = Holder({'name':'Jim', 'phone':'123-456-7890', 'fulltime':True, 'fired':False, 'password':'bacon', 'longtext':"lorem ipsum lorem ipsum\n"*10, 'favcolor':'blue', 'lang':'en'})
-        self.m = ModelTags(obj, id_format='person:%s')
+        obj = Holder({"name":"Jim", "phone":"123-456-7890", "fulltime":True, "fired":False, "password":"bacon", "longtext":"lorem ipsum lorem ipsum\n"*10, "favcolor":"blue", "lang":"en"})
+        self.m = ModelTags(obj, id_format="person:%s")
 
     def test_check_box(self):
         self.assertEqual(
@@ -146,12 +146,12 @@ class TestModelTagsHelperWithIdGeneration(TestModelTagsHelperWithObject):
 
     def test_password_field(self):
         self.assertEqual(
-            self.m.password('name'), 
+            self.m.password("name"), 
             u'<input id="person:name" name="name" type="password" value="Jim" />'
         )
     def test_file_field(self):
         self.assertEqual(
-            self.m.file('name'), 
+            self.m.file("name"), 
             u'<input id="person:name" name="name" type="file" value="Jim" />'
         )
 
@@ -187,7 +187,7 @@ class TestModelTagsHelperWithIdGeneration(TestModelTagsHelperWithObject):
 class TestModelTagsHelperWithoutObject(WebHelpersTestCase):
     def setUp(self):
         super(TestModelTagsHelperWithoutObject, self).setUp()
-        obj = ''
+        obj = ""
         self.m = ModelTags(obj)
         
     def test_check_box(self):
@@ -204,12 +204,12 @@ class TestModelTagsHelperWithoutObject(WebHelpersTestCase):
 
     def test_password_field(self):
         self.assertEqual(
-            self.m.password('name'), 
+            self.m.password("name"), 
             u'<input id="name" name="name" type="password" value="" />'
         )
     def test_file_field(self):
         self.assertEqual(
-            self.m.file('name'), 
+            self.m.file("name"), 
             u'<input id="name" name="name" type="file" value="" />'
         )
 
@@ -241,7 +241,7 @@ class TestModelTagsHelperWithoutObject(WebHelpersTestCase):
             self.m.select("lang", [("en", "English"), ("de", "German"), ("jp", "Japanese")]),
             u'<select id="lang" name="lang">\n<option value="en">English</option>\n<option value="de">German</option>\n<option value="jp">Japanese</option>\n</select>'
         )        
-if __name__ == '__main__':
+if __name__ == "__main__":
     suite = map(unittest.makeSuite, [
         TestModelTagsHelperWithObject,
         TestModelTagsHelperWithDict,

@@ -9,13 +9,13 @@ from webhelpers2.html import HTML, literal
 from webhelpers2.html.tools import *
 
 def test_nl2br():
-    eq_(u'A B<br />\nC D<br />\n<br />\nE F', nl2br("A B\nC D\r\n\r\nE F"))
+    eq_(u"A B<br />\nC D<br />\n<br />\nE F", nl2br("A B\nC D\r\n\r\nE F"))
 
 def test_nl2br2():
-    eq_(u'&lt;strike&gt;W&lt;/strike&gt;<br />\nThe W', nl2br("<strike>W</strike>\nThe W"))
+    eq_(u"&lt;strike&gt;W&lt;/strike&gt;<br />\nThe W", nl2br("<strike>W</strike>\nThe W"))
 
 def test_nl2br3():
-    eq_(u'<strike>W</strike><br />\nThe W', nl2br(literal("<strike>W</strike>\nThe W")))
+    eq_(u"<strike>W</strike><br />\nThe W", nl2br(literal("<strike>W</strike>\nThe W")))
 
 def test_text_to_html1():
     eq_(u"<p>crazy\n cross\n platform linebreaks</p>", text_to_html("crazy\r\n cross\r platform linebreaks"))
