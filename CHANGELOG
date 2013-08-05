@@ -9,9 +9,10 @@
 
 - webhelpers.containers:
 
-  * Rename ``del_quiet`` to ``del_keys``, and change to accept keys as
-    positional arguments. 
-  * Rename ``extract_keys`` to ``split_dict``.
+  * Rename ``del_quiet`` to ``del_keys``, ``only_some_keys`` to ``copy_keys``,
+    ``except_keys`` to ``copy_keys_except``, and ``extract_keys`` to
+    ``split_dict``. In all these functions change the ``keys`` argument to
+    ``\*keys``.
   * Delete ``get_many``.
 
 - webhelpers2.html.misc:

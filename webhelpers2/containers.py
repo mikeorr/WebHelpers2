@@ -123,15 +123,15 @@ def unique(it):
             seen.add(elm)
     return ret
 
-def only_some_keys(dic, keys):
+def copy_keys(dic, *keys):
     """Return a copy of the dict with only the specified keys present.  
     
     ``dic`` may be any mapping. The return value is always a Python dict.
 
     ::
 
-        >> only_some_keys({"A": 1, "B": 2, "C": 3}, ["A", "C"])
-        >>> sorted(only_some_keys({"A": 1, "B": 2, "C": 3}, ["A", "C"]).items())
+        >> only_some_keys({"A": 1, "B": 2, "C": 3}, "A", "C")
+        >>> sorted(only_some_keys({"A": 1, "B": 2, "C": 3}, "A", "C").items())
         [('A', 1), ('C', 3)]
     """
     ret = {}
@@ -139,7 +139,7 @@ def only_some_keys(dic, keys):
         ret[key] = dic[key]   # Raises KeyError.
     return ret
 
-def except_keys(dic, keys):
+def copy_keys_except(dic, *keys):
     """Return a copy of the dict without the specified keys.
 
     ::
@@ -155,15 +155,15 @@ def except_keys(dic, keys):
             pass
     return ret
 
-def split_dict(dic, keys):
+def split_dict(dic, *keys):
     """Return two copies of the dict.  The first will contain only the specified keys.
     The second will contain all the *other* keys from the original dict.
 
     ::
 
-        >> extract_keys({"From": "F", "To": "T", "Received", R"}, ["To", "From"]) 
+        >> extract_keys({"From": "F", "To": "T", "Received", R"}, "To", "From") 
         ({"From": "F", "To": "T"}, {"Received": "R"})
-        >>> regular, extra = split_dict({"From": "F", "To": "T", "Received": "R"}, ["To", "From"]) 
+        >>> regular, extra = split_dict({"From": "F", "To": "T", "Received": "R"}, "To", "From") 
         >>> sorted(regular.keys())
         ['From', 'To']
         >>> sorted(extra.keys())
