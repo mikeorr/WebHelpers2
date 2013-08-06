@@ -36,4 +36,5 @@ class TestTextHelper(object):
 
     def test_urlify(self):
         s = "What is this? It is a car."
-        control = "What%20is%20this%3f%20It%20is%20a%20car."
+        control = "what-is-this%3F-it-is-a-car."
+        assert urlify(s) == control
