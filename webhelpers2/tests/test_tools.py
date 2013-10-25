@@ -248,3 +248,45 @@ class TestStripTagsHelper(object):
     def test_compare_strip_tags_to_sanitize(self):
         text = 'I <i>really</i> like <script language="javascript">NEFARIOUS CODE</script> steak!'
         assert strip_tags(text) == render.sanitize(text)
+
+
+class TestNL2BR(object):
+    def test_nl2br(self):
+        assert "A B<br />\nC D<br />\n<br />\nE F" == nl2br("A B\nC D\r\n\r\nE F")
+
+    def test_nl2br2(self):
+        assert "&lt;strike&gt;W&lt;/strike&gt;<br />\nThe W" == \
+            nl2br("<strike>W</strike>\nThe W")
+
+    def test_nl2br3(self):
+        assert "<strike>W</strike><br />\nThe W" == \
+            nl2br(literal("<strike>W</strike>\nThe W"))
+
+
+class TestTextToHTML(object):
+    def test_text_to_html1(self):
+        assert "<p>crazy\n cross\n platform linebreaks</p>" == \
+            text_to_html("crazy\r\n cross\r platform linebreaks")
+
+    def test_text_to_html2(self):
+        assert "<p>crazy<br />\n cross<br />\n platform linebreaks</p>" == \
+            text_to_html("crazy\r\n cross\r platform linebreaks", True)
+
+    def test_text_to_html3(self):
+        assert "<p>A paragraph</p>\n\n<p>and another one!</p>" == \
+            text_to_html("A paragraph\n\nand another one!")
+
+    def test_text_to_html4(self):
+        assert "<p>A paragraph<br />\n With a newline</p>" == \
+            text_to_html("A paragraph\n With a newline", True)
+
+    def test_text_to_html5(self):
+        assert "<p>A paragraph\n With a newline</p>" == \
+            text_to_html("A paragraph\n With a newline", False)
+
+    def test_text_to_html6(self):
+        assert "<p>A paragraph\n With a newline</p>" == \
+            text_to_html("A paragraph\n With a newline")
+
+    def test_text_to_html7(self):
+        assert "" == text_to_html(None)
