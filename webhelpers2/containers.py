@@ -91,14 +91,6 @@ class Counter(object):
         """Build a Counter from an iterable in one step.
 
         This is the same as adding each item individually.
-
-        ::
-
-            >>> counter = Counter.correlate(["A", "B", "A"])
-            >>> counter.result["A"]
-            2
-            >>> counter.result["B"]
-            1
         """
         counter = class_()
         for elm in iterable:
@@ -124,15 +116,9 @@ def unique(it):
     return ret
 
 def copy_keys(dic, *keys):
-    """Return a copy of the dict with only the specified keys present.  
+    """Return a copy of the dict with only the specified items present.  
     
     ``dic`` may be any mapping. The return value is always a Python dict.
-
-    ::
-
-        >> only_some_keys({"A": 1, "B": 2, "C": 3}, "A", "C")
-        >>> sorted(only_some_keys({"A": 1, "B": 2, "C": 3}, "A", "C").items())
-        [('A', 1), ('C', 3)]
     """
     ret = {}
     for key in keys:
@@ -140,12 +126,7 @@ def copy_keys(dic, *keys):
     return ret
 
 def copy_keys_except(dic, *keys):
-    """Return a copy of the dict without the specified keys.
-
-    ::
-
-        >>> except_keys({"A": 1, "B": 2, "C": 3}, ["A", "C"])
-        {'B': 2}
+    """Return a copy of the dict without the specified items.
     """
     ret = dic.copy()
     for key in keys:
@@ -156,22 +137,18 @@ def copy_keys_except(dic, *keys):
     return ret
 
 def split_dict(dic, *keys):
-    """Return two copies of the dict.  The first will contain only the specified keys.
-    The second will contain all the *other* keys from the original dict.
+    """Return two copies of the dict.  The first will contain only the
+    specified items.  The second will contain all the *other* items from the
+    original dict.
 
-    ::
+    Example::
 
-        >> extract_keys({"From": "F", "To": "T", "Received", R"}, "To", "From") 
+        >>> split_dict({"From": "F", "To": "T", "Received", R"}, "To", "From") 
         ({"From": "F", "To": "T"}, {"Received": "R"})
-        >>> regular, extra = split_dict({"From": "F", "To": "T", "Received": "R"}, "To", "From") 
-        >>> sorted(regular.keys())
-        ['From', 'To']
-        >>> sorted(extra.keys())
-        ['Received']
     """
     for k in keys:
         if k not in dic:
-            raise KeyError("key %r is not in original mapping" % k)
+            raise KeyError("key {!r} is not in original mapping".format(k))
     r1 = {}
     r2 = {}
     for k, v in dic.items():
@@ -238,7 +215,7 @@ def correlate_dicts(dicts, key):
     If you have several dicts each with a 'name' key, this 
     puts them in a container dict keyed by name.
 
-    ::
+    Example::
 
         >>> d1 = {"name": "Fred", "age": 41}
         >>> d2 = {"name": "Barney", "age": 31}
@@ -273,7 +250,7 @@ def correlate_objects(objects, attr):
     If you have several objects each with a 'name' attribute, this
     puts them in a dict keyed by name.
 
-    ::
+    Example::
 
         >>> class Flintstone(DumbObject):
         ...    pass
@@ -437,9 +414,3 @@ def transpose(array):
         col = [row[c] for row in array]
         ret.append(col)
     return ret
-        
-
-
-if __name__ == "__main__":
-    import doctest
-    doctest.testmod()
