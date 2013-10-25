@@ -19,11 +19,6 @@ def count_true(seq, pred=lambda x: x):
 
     With the default predicate, this counts the number of true elements.
 
-    >>> count_true([1, 2, 0, "A", ""])
-    3
-    >>> count_true([1, "A", 2], lambda x: isinstance(x, int))
-    2
-
     This is equivalent to the ``itertools.quantify`` recipe, which I couldn't
     get to work.
     """
@@ -37,11 +32,6 @@ def convert(value, type_):
     """Return the value converted to the type, or None if error.
 
     ``type_`` may be a Python type or any function taking one argument.
-
-    >>> print convert("5", int)
-    5
-    >>> print convert("A", int)
-    None
     """
     try:
         return type_(value)
@@ -145,8 +135,3 @@ def deprecate(message, pending=False, stacklevel=2):
     """
     category = pending and PendingDeprecationWarning or DeprecationWarning
     warnings.warn(message, category, stacklevel)
-
-
-if __name__ == "__main__":
-    import doctest
-    doctest.testmod()

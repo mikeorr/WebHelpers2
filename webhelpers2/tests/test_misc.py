@@ -3,6 +3,33 @@ from webhelpers2.misc import *
 def by_name(class_):
     return class_.__name__
 
+def is_int(x):
+    return isinstance(x, int)
+
+class TestCountTrue(object):
+    def test_count_true(self):
+        assert count_true([1, 2, 0, "A", ""]) == 3
+
+    def test_count_true2(self):
+        assert count_true([1, "A", 2], is_int) == 2
+
+
+class TestConvert(object):
+    def test1(self):
+        assert convert("5", int) == 5
+
+    def test2(self):
+        assert convert("A", int) == None
+
+
+class TestFlatten(object):
+    def test1(self):
+        assert list(flatten([1, [2, 3], 4])) == [1, 2, 3, 4]
+
+    def test2(self):
+        assert list(flatten([1, (2, 3, [4]), 5])) == [1, 2, 3, 4, 5]
+        
+
 #### Simple test
 
 class DummyBase(object):  pass
