@@ -98,6 +98,32 @@ class TestSpotChecks(object):
         assert dtw(from_time, to_time) == "2 decades, 1 month and 1 second"
 
 
+class TestFormerDocTests(object):
+    start = DT(2008,3,21, 16,34)
+    end = DT(2008,2,6, 9,45)
+
+    def test1(self):
+        assert dtw(86399, round=True, granularity="day") == "1 day"
+
+    def test2(self):
+        assert dtw(86399, granularity='day') == "less than 1 day"
+
+    def test3(self):
+        assert dtw(86399) == "23 hours, 59 minutes and 59 seconds"
+
+    def test4(self):
+        b = "1 month, 15 days, 6 hours and 49 minutes"
+        assert dtw(self.start, self.end) == b
+
+    def test5(self):
+        b = "less than 1 decade"
+        assert dtw(self.start, self.end, granularity="decade") == b
+
+    def test6(self):
+        b = "1 month, 15 days, 6 hours and 49 minutes"
+        assert dtw(self.start, self.end, granularity="second") == b
+
+
 class TestLeapYears(object):
     def test_is_leap_year_1900(self):
         assert not _is_leap_year(1900)

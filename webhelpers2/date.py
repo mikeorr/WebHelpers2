@@ -51,25 +51,8 @@ def distance_of_time_in_words(from_time, to_time=0, granularity="second",
     
     Setting ``round`` to true will increase the result by 1 if the fractional
     value is greater than 50% of the granularity unit.
-    
-    Examples:
-
-    >>> distance_of_time_in_words(86399, round=True, granularity='day')
-    '1 day'
-    >>> distance_of_time_in_words(86399, granularity='day')
-    'less than 1 day'
-    >>> distance_of_time_in_words(86399)
-    '23 hours, 59 minutes and 59 seconds'
-    >>> distance_of_time_in_words(datetime(2008,3,21, 16,34),
-    ... datetime(2008,2,6,9,45))
-    '1 month, 15 days, 6 hours and 49 minutes'
-    >>> distance_of_time_in_words(datetime(2008,3,21, 16,34), 
-    ... datetime(2008,2,6,9,45), granularity='decade')
-    'less than 1 decade'
-    >>> distance_of_time_in_words(datetime(2008,3,21, 16,34), 
-    ... datetime(2008,2,6,9,45), granularity='second')
-    '1 month, 15 days, 6 hours and 49 minutes'
     """
+
     granularities = ['century', 'decade', 'year', 'month', 'day', 'hour',
                      'minute', 'second']
     
