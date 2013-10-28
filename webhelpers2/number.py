@@ -7,11 +7,6 @@ import re
 
 def percent_of(part, whole):
     """What percent of ``whole`` is ``part``?
-
-    >>> percent_of(5, 100)
-    5.0
-    >>> percent_of(13, 26)
-    50.0
     """
     # Use float to force true division.
     return float(part * 100) / whole
@@ -20,9 +15,6 @@ def percent_of(part, whole):
 
 def mean(r):
     """Return the mean (i.e., average) of a sequence of numbers.
-
-    >>> mean([5, 10])
-    7.5
     """
     try:
         return float(sum(r)) / len(r)
@@ -107,9 +99,9 @@ def standard_deviation(r, sample=True):
     The following examples are taken from Wikipedia.
     http://en.wikipedia.org/wiki/Standard_deviation
 
-        >>> standard_deviation([0, 0, 14, 14]) # doctest: +ELLIPSIS
+        >>> standard_deviation([0, 0, 14, 14])
         8.082903768654761...
-        >>> standard_deviation([0, 6, 8, 14]) # doctest: +ELLIPSIS
+        >>> standard_deviation([0, 6, 8, 14])
         5.773502691896258...
         >>> standard_deviation([6, 6, 8, 8])
         1.1547005383792515
@@ -128,14 +120,14 @@ def standard_deviation(r, sample=True):
     
         # Fictitious average monthly temperatures in Southern California.
         #                       Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
-        >>> standard_deviation([70, 70, 70, 75, 80, 85, 90, 95, 90, 80, 75, 70]) # doctest: +ELLIPSIS
+        >>> standard_deviation([70, 70, 70, 75, 80, 85, 90, 95, 90, 80, 75, 70])
         9.003366373785...
-        >>> standard_deviation([70, 70, 70, 75, 80, 85, 90, 95, 90, 80, 75, 70], sample=False) # doctest: +ELLIPSIS
+        >>> standard_deviation([70, 70, 70, 75, 80, 85, 90, 95, 90, 80, 75, 70], sample=False)
         8.620067027323...
 
         # Fictitious average monthly temperatures in Montana.
         #                       Jan  Feb  Mar Apr May Jun Jul  Aug Sep Oct Nov Dec
-        >>> standard_deviation([-32, -10, 20, 30, 60, 90, 100, 80, 60, 30, 10, -32]) # doctest: +ELLIPSIS
+        >>> standard_deviation([-32, -10, 20, 30, 60, 90, 100, 80, 60, 30, 10, -32])
         45.1378360405574...
         >>> standard_deviation([-32, -10, 20, 30, 60, 90, 100, 80, 60, 30, 10, -32], sample=False) # doctest: +ELLIPSIS
         43.2161878106906...
@@ -245,7 +237,3 @@ def format_bit_size(size, precision=1, binary=False, full_name=False):
         return format_data_size(size, "bits", precision, binary, True)
     else:
         return format_data_size(size, "b", precision, binary, False)
-
-if __name__ == "__main__":
-    import doctest
-    doctest.testmod()
