@@ -29,6 +29,10 @@
 - webhelpers.html.tags:
 
   * Delete ``required_legend()``.
+  * The ``image()`` helper no longer accepts args 'path' or 'use_pil'. In
+    WebHelpers these invoked the 'media' package to parse the width and
+    height from the image file, but the 'media' package was not ported to
+    WebHelpers2. It raises TypeError if these args are specified.
 
 - webhelpers2.html.tools: 
 
