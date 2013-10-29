@@ -49,7 +49,9 @@
 
 - Delete the sample CSS stylesheet.
 
-- Change test suite to py.test, and convert doctests to unit tests.
+- Change test suite to py.test, and convert doctests to unit tests. Some Python
+  examples were left in the docs for documentation. Did not port the doctests
+  in the 'html' subpackage because of the potential overhaul of that package.
 
 
 2.0b2 (2012-01-29)
