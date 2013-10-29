@@ -47,6 +47,11 @@
     first two.
   * Rename ``convert_or_none`` to ``convert``.
 
+- webhelpers.text:
+  
+  * Change the argument signature of ``series()``. The items are now positional
+  * args, and the keyword args are renamed to ``conj`` and ``strict``.
+
 - Delete the sample CSS stylesheet.
 
 - Change test suite to py.test, and convert doctests to unit tests. Some Python

@@ -208,9 +208,28 @@ def wrap_paragraphs(text, width=72):
         end = None
     return "".join(result)
 
-def series(items, conjunction="and", strict_commas=True):
+def series(*items, **kw):
     """Join strings using commas and a conjunction such as "and" or "or".
+
+    The conjunction defaults to "and". Pass 'conj' as a keyword arg to change
+    it. Pass 'strict=False' to omit the comma before the conjunction. 
+
+    Examples:
+
+    >>> series("A", "B")
+    'A and B'
+    >>> series("A", "B", conj="or")
+    'A or B'
+    >>> series("A", "B", "C")
+    'A, B, and C'
+    >>> series "A", "B", "C", strict=False)
+    'A, B and C'
     """
+    conjunction = kw.pop("conj", "and")
+    strict = kw.pop("strict", True)
+    if kw:
+        keys = sorted(kw)
+        raise TypeError("unrecognized keyword args: {}".format(keys))
     items = list(items)
     length = len(items)
     if length == 0:
@@ -218,10 +237,10 @@ def series(items, conjunction="and", strict_commas=True):
     if length == 1:
         return items[0]
     if length == 2:
-        strict_commas = False
+        strict = False
     nonlast = ", ".join(items[:-1])
     last = items[-1]
-    comma = strict_commas and "," or ""
+    comma = strict and "," or ""
     return "%s%s %s %s" % (nonlast, comma, conjunction, last)
 
 def urlify(string):

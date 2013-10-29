@@ -51,22 +51,25 @@ class TestChopHelper(object):
 
 class TestSeriesHelper(object):
     def test1(self):
-        assert series(["A", "B", "C"]) == "A, B, and C"
+        assert series("A", "B", "C") == "A, B, and C"
 
     def test2(self):
-        assert series(["A", "B", "C"], "or") == "A, B, or C"
+        assert series("A", "B", "C", conj="or") == "A, B, or C"
 
     def test3(self):
-        assert series(["A", "B", "C"], strict_commas=False) == "A, B and C"
+        assert series("A", "B", "C", strict=False) == "A, B and C"
 
     def test4(self):
-        assert series(["A", "B"]) == "A and B"
+        assert series("A", "B") == "A and B"
 
     def test5(self):
-        assert series(["A"]) == "A"
+        assert series("A") == "A"
 
     def test6(self):
-        assert series([]) == ""
+        assert series() == ""
+
+    def test7(self):
+        assert series("A", "B", "C", conj="or", strict=False) == "A, B or C"
 
 
 class TestTruncateHelper(object):
