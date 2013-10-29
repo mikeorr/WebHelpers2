@@ -27,6 +27,48 @@ class TestExcerptHelper(object):
              excerpt("This is a beautiful? morning", "beautiful", 5)
 
 
+class TestPluralHelper(object):
+    def test1(self):
+        assert plural(2, "ox", "oxen") == "2 oxen"
+
+    def test2(self):
+        assert plural(2, "ox", "oxen", False) == "oxen"
+
+
+class TestChopHelper(object):
+    def test_chop_at(self):
+        assert chop_at("plutocratic brats", "rat") == "plutoc"
+
+    def test_chop_at2(self):
+        assert chop_at("plutocratic brats", "rat", True) == "plutocrat"
+
+    def test_lchop(self):
+        assert lchop("##This is a comment.##", "##") == "This is a comment.##"
+
+    def test_rchop(self):
+        assert rchop("##This is a comment.##", "##") == "##This is a comment."
+
+
+class TestSeriesHelper(object):
+    def test1(self):
+        assert series(["A", "B", "C"]) == "A, B, and C"
+
+    def test2(self):
+        assert series(["A", "B", "C"], "or") == "A, B, or C"
+
+    def test3(self):
+        assert series(["A", "B", "C"], strict_commas=False) == "A, B and C"
+
+    def test4(self):
+        assert series(["A", "B"]) == "A and B"
+
+    def test5(self):
+        assert series(["A"]) == "A"
+
+    def test6(self):
+        assert series([]) == ""
+
+
 class TestTruncateHelper(object):
     def test_truncate(self):
         assert "Hello World!" == truncate("Hello World!", 12)

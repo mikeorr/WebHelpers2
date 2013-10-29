@@ -115,13 +115,6 @@ def plural(n, singular, plural, with_number=True):
 
     If ``with_number`` is true (default), the return value will be the number
     followed by the word. Otherwise the word alone will be returned.
-
-    Usage:
-
-    >>> plural(2, "ox", "oxen")
-    '2 oxen'
-    >>> plural(2, "ox", "oxen", False)
-    'oxen'
     """
     if n == 1:
         form = singular
@@ -136,11 +129,6 @@ def chop_at(s, sub, inclusive=False):
     """Truncate string ``s`` at the first occurrence of ``sub``.
 
     If ``inclusive`` is true, truncate just after ``sub`` rather than at it.
-
-    >>> chop_at("plutocratic brats", "rat")
-    'plutoc'
-    >>> chop_at("plutocratic brats", "rat", True)
-    'plutocrat'
     """
     pos = s.find(sub)
     if pos == -1:
@@ -222,21 +210,6 @@ def wrap_paragraphs(text, width=72):
 
 def series(items, conjunction="and", strict_commas=True):
     """Join strings using commas and a conjunction such as "and" or "or".
-
-    Examples:
-
-    >>> series(["A", "B", "C"])
-    'A, B, and C'
-    >>> series(["A", "B", "C"], "or")
-    'A, B, or C'
-    >>> series(["A", "B", "C"], strict_commas=False)
-    'A, B and C'
-    >>> series(["A", "B"])
-    'A and B'
-    >>> series(["A"])
-    'A'
-    >>> series([])
-    ''
     """
     items = list(items)
     length = len(items)
