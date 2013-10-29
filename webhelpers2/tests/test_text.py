@@ -26,10 +26,6 @@ class TestExcerptHelper(object):
         assert "...is a beautiful? mor..." == \
              excerpt("This is a beautiful? morning", "beautiful", 5)
 
-    def test_excerpt_with_utf8(self):
-        assert u"...ﬃciency could not be ..." == \
-             excerpt(u"That's why eﬃciency could not be helped", "could", 8)
-
 
 class TestTruncateHelper(object):
     def test_truncate(self):
