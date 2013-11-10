@@ -1,18 +1,15 @@
-2.0b3 (XXXX-XX-XX)
+2.0b3 (2013-04-07)
 ------------------
 
 - Delete submodules:
 
-  * html.converters  (merged to html.tools)
-  * media ("choose_height()" moved to misc. "get_dimensions()" has equivalents on
-    PyPI; e.g., the "dimensions" and "imagefacts" distributions)
+  * html.converters (merged to html.tools)
 
 - webhelpers.containers:
 
-  * Rename ``del_quiet`` to ``del_keys``, ``only_some_keys`` to ``copy_keys``,
-    ``except_keys`` to ``copy_keys_except``, and ``extract_keys`` to
-    ``split_dict``. In all these functions change the ``keys`` argument to
-    ``\*keys``.
+  * Rename ``del_quiet`` to ``del_keys``, and change to accept keys as
+    positional arguments. 
+  * Rename ``extract_keys`` to ``split_dict``.
   * Delete ``get_many``.
 
 - webhelpers2.html.misc:
@@ -29,10 +26,6 @@
 - webhelpers.html.tags:
 
   * Delete ``required_legend()``.
-  * The ``image()`` helper no longer accepts args 'path' or 'use_pil'. In
-    WebHelpers these invoked the 'media' package to parse the width and
-    height from the image file, but the 'media' package was not ported to
-    WebHelpers2. It raises TypeError if these args are specified.
 
 - webhelpers2.html.tools: 
 
@@ -47,16 +40,7 @@
     first two.
   * Rename ``convert_or_none`` to ``convert``.
 
-- webhelpers.text:
-  
-  * Change the argument signature of ``series()``. The items are now positional
-  * args, and the keyword args are renamed to ``conj`` and ``strict``.
-
 - Delete the sample CSS stylesheet.
-
-- Change test suite to py.test, and convert doctests to unit tests. Some Python
-  examples were left in the docs for documentation. Did not port the doctests
-  in the 'html' subpackage because of the potential overhaul of that package.
 
 
 2.0b2 (2012-01-29)
