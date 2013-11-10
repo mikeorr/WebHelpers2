@@ -1,3 +1,35 @@
+2.0b4 (XXXX-XX-XX)
+------------------
+
+- Change test suite to py.test, and convert doctests to unit tests. Some Python
+  examples were left in the docs for documentation. Did not port the doctests
+  in the 'html' subpackage because of the potential overhaul of that package.
+
+- delete submodules:
+
+  * media (moved ``choose_height()`` to misc. ``get_dimensions()`` has equivalents on
+    PyPI; e.g., the ``dimensions`` and ``imagefacts`` distributions)
+
+- webhelpers.containers:
+
+  * Rename ``only_some_keys()`` to ``copy_keys()``, and ``except_keys()`` to 
+    ``copy_keys_except()``, and ``extract_keys()`` to ``split_dict()``. In all
+    these functions change the ``keys`` argument to ``\*keys``. This parallels
+    a previous change to ``del_keys()`` in 2.0b3.
+
+- webhelpers.html.tags:
+
+  * The ``image()`` helper no longer accepts args 'path' or 'use_pil'. In
+    WebHelpers these invoked the 'media' package to parse the width and
+    height from the image file, but the 'media' package was not ported to
+    WebHelpers2. It raises TypeError if these args are specified.
+
+- webhelpers.text:
+
+  * Change the argument signature of ``series()``. The items are now positional
+    args, and the keyword args are renamed to ``conj`` and ``strict``.
+
+
 2.0b3 (2013-04-07)
 ------------------
 
