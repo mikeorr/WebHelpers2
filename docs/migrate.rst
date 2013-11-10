@@ -1,7 +1,11 @@
-.. _changes-in-webhelpers2:
+.. _migrate:
 
-Changes in WebHelpers2
+Migrating from WebHelpers
 %%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+Beta 3's "What's New?"
+======================
 
 Changes since beta 1
 --------------------

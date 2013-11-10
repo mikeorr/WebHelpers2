@@ -20,7 +20,7 @@ used, relevant to the new Pyramid framework, and easiest to maintain and port
 to Python 3. In particular it keeps the HTML builder and HTML tag functions,
 and most of the text-processing, number formatting, statistics, and date
 functions. It removes the large third-party subpackages and some obsolete or
-little-used helpers. See :ref:`changes-in-webhelpers2` for a list of new
+little-used helpers. See :ref:`migrate` for a list of new
 features, deletions and incompatible changes. See the :ref:`todo` for the 
 goals for 2.0 and a list of helpers are still being considered for deletion.
 
@@ -36,7 +36,7 @@ For support/questions/patches, please use the pylons-discuss_ mailing list.
 .. toctree::
    :maxdepth: 1
 
-   whats_new
+   migrate
    changelog
    third_party
    todo
@@ -45,7 +45,6 @@ For support/questions/patches, please use the pylons-discuss_ mailing list.
 * :ref:`modindex`
 * :ref:`search`
 
-.. _What's New: whats_new.html
 .. _MarkupSafe: http://pypi.python.org/pypi/MarkupSafe
 .. _Routes: http://routes.groovie.org/
 .. _Unidecode: http://pypi.python.org/pypi/Unidecode/
