@@ -2,7 +2,7 @@ import re
 from string import Template
 
 from webhelpers2.html import HTML, literal
-import webhelpers2.html.render as render
+import webhelpers2.html._render as render
 from webhelpers2.html.tools import *
 
 # I give up trying to convert all these eq_'s to plain asserts; there's too
