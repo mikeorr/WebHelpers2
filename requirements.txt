@@ -2,12 +2,11 @@
 
 MarkupSafe>=0.9.2
 
+# Test runner
+pytest
+
 # Required for generating HTML documentation
 Sphinx
 
 # Optional enhancement for certain helpers
 Unidecode
-
-# Required by webhelpers.media.get_dimensions_pil()
-# (To avoid installing this, use webhelpers.media.get_dimensions() instead.)
-#Imaging
