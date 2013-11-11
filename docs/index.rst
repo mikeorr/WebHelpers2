@@ -1,6 +1,6 @@
 WebHelpers2
 %%%%%%%%%%%
-:Version: |release|, released 2013-04-07
+:Version: |release|, released 2013-11-11
 :PyPI: http://pypi.python.org/pypi/WebHelpers2
 :Docs: https://webhelpers2.readthedocs.org/en/latest/
 :Source: https://github.com/mikeorr/WebHelpers2 (Git)
@@ -12,20 +12,21 @@ WebHelpers2
    :align: right
 
 **WebHelpers2** is the successor to the widely-used WebHelpers_ utility functions.
-The name was changed to avoid breaking applications that depend on
-the 1.x API but are not formally pinned to it.
+It narrows the focus to a core set of utilities that are most widely
+used, relevant to Pyramid and other current frameworks, and easiest to maintain
+and port to Python 3. In particular it keeps the HTML builder and HTML tag functions, and
+most of the text-processing, number formatting, statistics, and date functions,
+See :ref:`migrate` if you're currently using WebHelpers or an early WebHelpers2
+beta.
 
-**WebHelpers2** narrows the focus to a core set of utilities that are most widely
-used, relevant to the new Pyramid framework, and easiest to maintain and port
-to Python 3. In particular it keeps the HTML builder and HTML tag functions,
-and most of the text-processing, number formatting, statistics, and date
-functions. It removes the large third-party subpackages and some obsolete or
-little-used helpers. See :ref:`migrate` for a list of new
-features, deletions and incompatible changes. See the :ref:`todo` for the 
-goals for 2.0 and a list of helpers are still being considered for deletion.
+**Version 2.0b4** finishes the API reorganization (except the 'html'
+subpackage), adds a migration chapter to the documentation, and switches to
+PyTest for unit testing.  The remaining work is to port the code to Python 3
+(using 'six' if necessary), and refactor the 'html' submodule. This version is
+tested on Python 2.7.4 and should work on 2.6. 
 
-WebHelpers2 depends on MarkupSafe_, and it can use Unidecode_ if it's installed.
-An extensive test suite for doctest and Nose is included.
+WebHelpers2 depends on MarkupSafe_, and can use Unidecode_ if it's installed.
+An extensive test suite for PyTest is included.
 For support/questions/patches, please use the pylons-discuss_ mailing list.
 
 .. toctree::
@@ -46,9 +47,6 @@ For support/questions/patches, please use the pylons-discuss_ mailing list.
 * :ref:`search`
 
 .. _MarkupSafe: http://pypi.python.org/pypi/MarkupSafe
-.. _Routes: http://routes.groovie.org/
 .. _Unidecode: http://pypi.python.org/pypi/Unidecode/
-.. _WebOb: http://pythonpaste.org/webob/
-.. _Pylons: http://pylonshq.com/
 .. _pylons-discuss: http://groups.google.com/group/pylons-discuss
 .. _WebHelpers: http://pypi.python.org/pypi/WebHelpers
