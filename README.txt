@@ -50,9 +50,10 @@ For support/question/patches, please use the `Pylons mailing list
 Requirements
 ------------
 
-WebHelpers2 depends on MarkupSafe_, and it can also use unidecode_ if you have
-it installed.
+WebHelpers2 depends on MarkupSafe_ and six_, and it can also use unidecode_ if
+you have it installed.
 
 
 .. _MarkupSafe: http://pypi.python.org/pypi/MarkupSafe
+.. _six: http://pypi.python.org/pypi/six
 .. _unidecode:  http://python.org/pypi/Unidecode/

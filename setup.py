@@ -24,7 +24,8 @@ class PyTest(TestCommand):
 
 
 install_requires=[
-    'MarkupSafe>=0.9.2',
+    "MarkupSafe>=0.9.2",
+    "six>=1.4.0",
     ],
 
 setup(
