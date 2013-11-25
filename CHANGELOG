@@ -1,4 +1,13 @@
-2.0b4 (XXXX-XX-XX)
+2.0b5 (2013-11-24)
+------------------
+
+- Port to Python 3.  Tested on Python 3.3.2 and 2.7.4.
+- Depend on the 'six' distribution for Python 2/3 unification.
+- Removed all "u" string prefixes so it should work on Python 3.2. (Prefixes in
+  former doctests remain; these have not been supported as doctests since
+  2.0b4.)
+
+2.0b4 (2013-11-11)
 ------------------
 
 - Change test suite to py.test, and convert doctests to unit tests. Some Python
