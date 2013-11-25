@@ -65,7 +65,7 @@ class TestToolsHelper(object):
             }
 
         result_values = {}
-        for k, v in result_values_templates.iteritems():
+        for k, v in result_values_templates.items():
             result_values[k] = Template(v).substitute(raw_values)
 
         eq_(result_values["email_result"], auto_link(raw_values["email_raw"], "email_addresses"))

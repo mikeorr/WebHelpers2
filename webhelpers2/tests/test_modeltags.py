@@ -3,7 +3,7 @@ from webhelpers2.html.tags import *
 
 class Holder(object):
     def __init__(self, settings):
-        for k,v in settings.iteritems():
+        for k,v in settings.items():
             setattr(self, k, v)
             
 class TestModelTagsHelperWithObject(object):

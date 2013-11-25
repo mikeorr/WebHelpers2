@@ -73,8 +73,8 @@ class Counter(object):
 
         If ``max_items`` is provided, return no more than that many items.
         """
-        data = [(x[1], x[0]) for x in self.result.iteritems()]
-        data.sort(key=lambda x: (sys.maxint - x[0], x[1]))
+        data = [(x[1], x[0]) for x in self.result.items()]
+        data.sort(key=lambda x: (-x[0], x[1]))
         if max_items:
             return data[:max_items]
         else:
@@ -83,9 +83,7 @@ class Counter(object):
     def get_sorted_items(self):
         """Return the result as a list of ``(item, count)`` pairs sorted by item.
         """
-        data = self.result.items()
-        data.sort()
-        return data
+        return sorted(self.result.items())
 
     def correlate(class_, iterable):
         """Build a Counter from an iterable in one step.

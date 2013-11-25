@@ -3,6 +3,8 @@
 """Place names and other constants often used in web forms.
 """
 
+from __future__ import unicode_literals
+
 def uk_counties():
     """\
     Return a list of UK county names.
@@ -107,7 +109,7 @@ def country_codes():
         return _country_codes
     else:
         
-        text_directly_from_iso_website = u"""
+        text_directly_from_iso_website = """
 A   	  
 AFGHANISTAN 	AF
 ÅLAND ISLANDS 	AX

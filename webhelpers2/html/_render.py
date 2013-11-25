@@ -40,10 +40,12 @@
 """An HTML-to-text formatter and HTML sanitizer.
 """
 
-from HTMLParser import HTMLParser
-import htmlentitydefs
+from __future__ import print_function
 import re
 import textwrap
+
+from six.moves import html_parser
+from six.moves import html_entities
 
 __all__ = ["html_to_text", "sanitize"]
 
@@ -93,12 +95,12 @@ def sanitize(html):
     return "".join(p.output_chunks)
 
 #### Private (though safe to use)
-class HTMLRenderer(HTMLParser):
+class HTMLRenderer(html_parser.HTMLParser):
 
     block_tags = 'p div blockquote h1 h2 h3 h4 h5 h6 ul ol'.split()
 
     def reset(self):
-        HTMLParser.reset(self)
+        html_parser.HTMLParser.reset(self)
         self.paragraphs = []
         self.in_paragraph = None
         self.last_href = None
@@ -190,12 +192,12 @@ class HTMLRenderer(HTMLParser):
 
     def handle_entityref(self, name):
         name = name.lower()
-        if name not in htmlentitydefs.entitydefs:
+        if name not in html_entities.entitydefs:
             # bad entity, just let it through
             # (like a &var=value in a URL)
             self.handle_data('&'+name)
             return
-        result = htmlentitydefs.entitydefs[name]
+        result = html_entities.entitydefs[name]
         if result.startswith('&'):
             self.handle_charref(result[2:-1])
         else:
@@ -226,7 +228,7 @@ class HTMLRenderer(HTMLParser):
         self.in_paragraph.add_tag('<br>')
 
     def close(self):
-        HTMLParser.close(self)
+        html_parser.HTMLParser.close(self)
         self.end_para(None)
 
     def get_attr(self, attrs, name, default=None):
@@ -368,10 +370,10 @@ class Indenter:
 class Context:
     pass
 
-class HTMLSanitizer(HTMLParser):
+class HTMLSanitizer(html_parser.HTMLParser):
 
     def reset(self):
-        HTMLParser.reset(self)
+        html_parser.HTMLParser.reset(self)
         self.output_chunks = []
 
     def handle_data(self, data):
@@ -393,6 +395,6 @@ def main():
         prog = os.path.basename(sys.argv[0])
         sys.exit("usage: %s <HTML_FILE" % prog)
     html = sys.stdin.read()
-    print html_to_text(html)
+    print(html_to_text(html))
 
 if __name__ == "__main__":  main()

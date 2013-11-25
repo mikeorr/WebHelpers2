@@ -1,4 +1,7 @@
+from __future__ import print_function
 from __future__ import unicode_literals
+
+import six
 
 from webhelpers2.html import literal, lit_sub, escape, HTML
 from webhelpers2.html.builder import _attr_decode
@@ -31,9 +34,15 @@ def test_literal_dict():
     assert "This string <> and This has &lt;crap&gt;", sub % (lit == unq)
     
     sub = literal("%(lit)s and %(lit)r")
-    assert "This string <> and literal(u&#39;This string &lt;&gt;&#39;)" == sub % dict(lit=lit)
+    b = "This string <> and literal(u&#39;This string &lt;&gt;&#39;)"
+    if six.PY3:
+        b = b.replace( "(u", "(" )   # Delete 'u' string prefix.
+    assert sub % dict(lit=lit) == b
     sub = literal("%(unq)r and %(unq)s")
-    assert "u&#39;This has &lt;crap&gt;&#39; and This has &lt;crap&gt;" == sub % dict(unq=unq)
+    b = "u&#39;This has &lt;crap&gt;&#39; and This has &lt;crap&gt;"
+    if six.PY3:
+        b = b[1:]   # Delete 'u' string prefix.
+    assert sub % dict(unq=unq) == b
 
 def test_literal_mul():
     lit = literal("<>")
@@ -71,7 +80,7 @@ def test_lit_re():
 
 def test_unclosed_tag():
     result = HTML.form(_closed=False)
-    print result
+    print(result)
     assert "<form>" == result
     
     result = HTML.form(_closed=False, action="hello")

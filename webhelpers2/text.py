@@ -6,7 +6,8 @@ Helpers for filtering, formatting, and transforming strings.
 
 import re
 import textwrap
-import urllib
+
+from six.moves.urllib.parse import quote as url_escape
 
 from webhelpers2.html.tools import strip_tags
 
@@ -266,7 +267,7 @@ def urlify(string):
     s = remove_formatting(string).lower()
     s = replace_whitespace(s, '-')
     s = collapse(s, '-')
-    return urllib.quote(s)
+    return url_escape(s)
 
 
 def remove_formatting(string):

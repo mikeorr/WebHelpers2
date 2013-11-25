@@ -8,7 +8,9 @@ BeautifulSoup and HTMLTidy handle this well.
 """
 
 import re
-import urllib
+
+import six
+from six.moves.urllib.parse import urlencode
 
 from webhelpers2.html._autolink import auto_link
 from webhelpers2.html._render import html_to_text, sanitize
@@ -197,7 +199,7 @@ def mail_to(email_address, name=None, cc=None, bcc=None, subject=None,
             if not isinstance(option, literal):
                 item = (item[0], escape(option))
             extras.append(item)
-    options_query = urllib.urlencode(extras).replace("+", "%20")
+    options_query = urlencode(extras).replace("+", "%20")
     protocol = 'mailto:'
 
     email_address_obfuscated = email_address
@@ -275,7 +277,7 @@ def highlight(text, phrase, case_sensitive=False, class_="highlight", **attrs):
         flags = 0   # No flags.
     else:
         flags = re.IGNORECASE
-    if isinstance(phrase, basestring):
+    if isinstance(phrase, six.string_types):
         pat = re.escape(phrase)
         rx = re.compile(pat, flags)
     elif isinstance(phrase, (list, tuple)):

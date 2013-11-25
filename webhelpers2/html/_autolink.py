@@ -1,6 +1,7 @@
 """Implementation of ``auto_link()`` helper.
 """
 
+from __future__ import unicode_literals
 import re
 
 from webhelpers2.html import HTML, literal, lit_sub, escape
@@ -47,7 +48,7 @@ def auto_link(text, link="all", **href_attrs):
         
     """
     if not text:
-        return literal(u"")
+        return literal("")
     text = escape(text)
     if link == "all":
         return _auto_link_urls(_auto_link_email_addresses(text), **href_attrs)

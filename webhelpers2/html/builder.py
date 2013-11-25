@@ -156,9 +156,11 @@ If you _really_ want tags without training slashes (e.g., ``<br>`)`, you can
 abuse ``_closed=False`` to produce them.
 
 """
+
+from __future__ import unicode_literals
 import re
-from urllib import quote as url_escape
-from UserDict import DictMixin
+
+from six.moves.urllib.parse import quote as url_escape
 
 import markupsafe
 try:
@@ -294,7 +296,7 @@ def _attr_decode(v):
 
 
 def make_tag(tag, *args, **kw):
-    if kw.has_key("c"):
+    if "c" in kw:
         assert not args, "The special 'c' keyword argument cannot be used "\
 "in conjunction with non-keyword arguments"
         args = kw.pop("c")
@@ -342,8 +344,8 @@ def format_attrs(**attrs):
                 attrs[attr] = join_str.join(value)
             else:
                 del attrs[attr]
-    strings = [u' %s="%s"' % (_attr_decode(attr), escape(value))
-        for attr, value in sorted(attrs.iteritems())
+    strings = [' %s="%s"' % (_attr_decode(attr), escape(value))
+        for attr, value in sorted(attrs.items())
         if value is not None]
     return literal("".join(strings))
 
@@ -368,8 +370,8 @@ empty_tags = set(["area", "base", "basefont", "br", "col", "frame", "hr",
 HTML = HTMLBuilder()
 
 # Constants depending on ``literal()`` and/or ``HTML``.
-NL = literal(u"\n")
-EMPTY = literal(u"")
+NL = literal("\n")
+EMPTY = literal("")
 BR = HTML.br(_nl=True)
-_CDATA_START = literal(u"<![CDATA[") 
-_CDATA_END = literal(u"]]>")
+_CDATA_START = literal("<![CDATA[") 
+_CDATA_END = literal("]]>")

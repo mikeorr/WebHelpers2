@@ -6,6 +6,8 @@ import traceback
 import types
 import warnings
 
+import six
+
 def choose_height(new_width, width, height):
     """Calculate a proportional height for scaling an image. Given the image's
     existing width and height and proposed new width, return the height that
@@ -75,11 +77,12 @@ def subclasses_of(class_, it, exclude=None):
     This is mainly used to exclude abstract subclasses.
     """
     if isinstance(it, dict):
-        it = it.itervalues()
-    class_types = (type, types.ClassType)
+        it = six.itervalues(it)
     ignore = [class_]
     if exclude:
         ignore.extend(exclude)
+    class_types = six.class_types
+    ret = []
     return [x for x in it if isinstance(x, class_types) and 
         issubclass(x, class_) and x not in ignore]
 
