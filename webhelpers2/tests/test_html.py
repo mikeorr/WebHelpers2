@@ -111,15 +111,23 @@ class TestFormerDocTests(object):
             c="Click Here")
         b = literal('<a href="http://www.yahoo.com">Click Here</a>')
         assert a == b
+        assert isinstance(a, literal)
     
     def test_getattr(self):
         a =  HTML.a("Foo", href="http://example.com/", class_="important")
         b = literal('<a class="important" href="http://example.com/">Foo</a>')
         assert a == b
+        assert isinstance(a, literal)
     
 
     def test_cdata(self):
-        assert HTML.cdata("Foo") == literal("<![CDATA[Foo]]>")
+        a = HTML.cdata("Foo")
+        b = literal("<![CDATA[Foo]]>")
+        assert a == b
+        assert isinstance(a, literal)
 
     def test_cdata2(self):
-        HTML.cdata(u"<p>") ==  literal("<![CDATA[<p>]]>")
+        a = HTML.cdata(u"<p>")
+        b = literal("<![CDATA[<p>]]>")
+        assert a == b
+        assert isinstance(a, literal)
