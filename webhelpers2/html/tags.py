@@ -626,11 +626,18 @@ class Option(object):
     __slots__ = ("value", "label")
 
 
-    def __repr__(self):
-        return str((self.value, self.label))
     def __init__(self, value, label):
         self.value = value
         self.label = label
+
+    def __repr__(self):
+        return str((self.value, self.label))
+
+    def __eq__(self, other):
+        return ( isinstance(other, self.__class__) and
+            self.value == other.value and
+            self.label == other.label )
+            
 
 class OptGroup(object):
     """A container for Options"""
@@ -696,7 +703,7 @@ class Options(tuple):
         classname = self.__class__.__name__
         data = [x for x in self]
         return "%s(%s)" % (classname, data)
-        
+
     def values(self):
         """Iterate the value element of each pair."""
         return (x.value for x in self)
@@ -1173,8 +1180,3 @@ def _make_safe_id_component(idstring):
     # Remove everything that is not a hyphen or a member of \w
     idstring = re.sub(r'(?!-)\W', "", idstring).lower()
     return idstring
-
-
-if __name__ == "__main__":
-    import doctest
-    doctest.testmod()
