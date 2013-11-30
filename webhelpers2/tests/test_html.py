@@ -103,3 +103,23 @@ def test_attr_decode():
 
 def test_tag_with_data_attr():
     assert HTML.span(data_foo="bar") == literal('<span data-foo="bar"></span>')
+
+
+class TestFormerDocTests(object):
+    def test_tag(self):
+        a = HTML.tag("a", href="http://www.yahoo.com", name=None, 
+            c="Click Here")
+        b = literal('<a href="http://www.yahoo.com">Click Here</a>')
+        assert a == b
+    
+    def test_getattr(self):
+        a =  HTML.a("Foo", href="http://example.com/", class_="important")
+        b = literal('<a class="important" href="http://example.com/">Foo</a>')
+        assert a == b
+    
+
+    def test_cdata(self):
+        assert HTML.cdata("Foo") == literal("<![CDATA[Foo]]>")
+
+    def test_cdata2(self):
+        HTML.cdata(u"<p>") ==  literal("<![CDATA[<p>]]>")
