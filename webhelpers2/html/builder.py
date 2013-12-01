@@ -175,33 +175,6 @@ __all__ = ["HTML", "escape", "literal", "url_escape", "lit_sub"]
 # Not included in __all__ because for specialized purposes only: 
 # "format_attrs".
 
-class UnfinishedComment(object):
-    
-    """Represents an unfinished or empty comment."""
-    
-    def __call__(self, *args):
-        """Create the HTML comment."""
-        return literal('<!--%s-->' % ''.join([str(x) for x in args]))
-        
-    def __html__(self):
-        """Return the HTML escaped tag."""
-        raise NotImplementedError(
-            "You must call html.comment with some text")
-
-
-class UnfinishedLiteral(object):
-    
-    """Represent an unfinished literal value."""
-    
-    def __call__(self, *args):
-        """Return the literal HTML."""
-        return literal(*args)
-
-    def __html__(self):
-        """Return the HTML escaped text."""
-        raise NotImplementedError(
-            "You must call html.literal with some text")
-
 
 class HTMLBuilder(object):
     
