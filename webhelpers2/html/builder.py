@@ -169,8 +169,6 @@ from ._literal import literal, EMPTY
 escape = literal.escape
 NL = literal("\n")
 BR = literal("<br />")
-_CDATA_START = literal("<![CDATA[") 
-_CDATA_END = literal("]]>")
 
 __all__ = ["HTML", "escape", "literal", "url_escape", "lit_sub"]
 
@@ -211,7 +209,10 @@ class HTMLBuilder(object):
     
     comment = UnfinishedComment()
     literal = UnfinishedLiteral()
-    
+
+    # Opening and closing syntax for special HTML constructs.
+    _cdata_tag = literal("<![CDATA["), literal("]]>")
+
     def __call__(self, *args):
         """Join raw HTML and HTML escape it."""
         return literal(''.join([escape(x) for x in args]))
@@ -234,10 +235,9 @@ class HTMLBuilder(object):
         escaping syntax.
         """
         # _CDATA_START and _CDATA_END are defined at end of module.
-        parts = []
-        parts.append(_CDATA_START)
+        parts = [self._cdata_tag[0]]
         parts.extend(content)
-        parts.append(_CDATA_END)
+        parts.append(self._cdata_tag[1])
         s = "".join(parts)
         return literal(s)
 
