@@ -159,6 +159,7 @@ abuse ``_closed=False`` to produce them.
 
 from __future__ import unicode_literals
 import collections
+import functools
 import re
 
 from six.moves.urllib.parse import quote as url_escape
@@ -203,27 +204,6 @@ __all__ = ["HTML", "escape", "literal", "url_escape", "lit_sub"]
 # Not included in __all__ because for specialized purposes only: 
 # "format_attrs".
 
-class UnfinishedTag(object):
-    
-    """Represents an unfinished or empty tag."""
-    
-    def __init__(self, tag):
-        """Initialize with the tag name."""
-        self._tag = tag
-
-    def __call__(self, *args, **kw):
-        """Create the tag with the arguments passed in."""
-        return make_tag(self._tag, *args, **kw)
-
-    def __str__(self):
-        """Return a literal representation."""
-        return literal('<%s />' % self._tag)
-
-    def __html__(self):
-        """Return the HTML escaped tag."""
-        return str(self)
-
-
 class UnfinishedComment(object):
     
     """Represents an unfinished or empty comment."""
@@ -263,8 +243,9 @@ class HTMLBuilder(object):
         """Generate the tag for the given attribute name."""
         if attr.startswith('_'):
             raise AttributeError(attr)
-        result = self.__dict__[attr] = UnfinishedTag(attr.lower())
-        return result
+        tag = functools.partial(self.tag, attr.lower())
+        self.__dict__[attr] = tag
+        return tag
 
     def __call__(self, *args):
         """Join raw HTML and HTML escape it."""

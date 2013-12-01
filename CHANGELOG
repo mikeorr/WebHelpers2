@@ -3,6 +3,8 @@
 
 - webhelpers.html.builder:
 
+  * Replace UnfinishedTag with functools.partial.
+
   * Bugfixes:
   
     - Convert None to "" when passed to constructor.
