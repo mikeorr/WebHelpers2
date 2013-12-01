@@ -163,13 +163,7 @@ import re
 from six.moves.urllib.parse import quote as url_escape
 
 import markupsafe
-try:
-    from markupsafe import escape_silent as escape
-except ImportError:
-    def escape(s):
-        if s is None:
-            return EMPTY
-        return markupsafe.escape(s)
+from markupsafe import escape_silent as escape
 
 class literal(markupsafe.Markup):
     """Represents an HTML literal.
