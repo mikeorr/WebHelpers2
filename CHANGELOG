@@ -4,6 +4,7 @@
 - webhelpers.html.builder:
 
   * Replace UnfinishedTag with functools.partial.
+  * Move implementation of 'literal' to webhelpers.html._literal.
 
   * Bugfixes:
   
