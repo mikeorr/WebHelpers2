@@ -239,6 +239,13 @@ class HTMLBuilder(object):
     comment = UnfinishedComment()
     literal = UnfinishedLiteral()
     
+    def __call__(self, *args):
+        """Join raw HTML and HTML escape it."""
+        return literal(''.join([escape(x) for x in args]))
+
+    def tag(self, tag, *args, **kw):
+        return make_tag(tag, *args, **kw)
+
     def __getattr__(self, attr):
         """Generate the tag for the given attribute name."""
         if attr.startswith('_'):
@@ -246,13 +253,6 @@ class HTMLBuilder(object):
         tag = functools.partial(self.tag, attr.lower())
         self.__dict__[attr] = tag
         return tag
-
-    def __call__(self, *args):
-        """Join raw HTML and HTML escape it."""
-        return literal(''.join([escape(x) for x in args]))
-
-    def tag(self, tag, *args, **kw):
-        return make_tag(tag, *args, **kw)
 
     def cdata(self, *content): 
         """Wrap the content in a "<![CDATA[ ... ]]>" section.
