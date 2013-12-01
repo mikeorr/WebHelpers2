@@ -34,5 +34,10 @@ class literal(markupsafe.Markup):
             return EMPTY
         return super(literal, cls).escape(s)
 
+    def lit_join(self, iterable):
+        """Like self.join but don't escape elements in the iterator."""
+        s = super(markupsafe.Markup, self).join(iterable)
+        return self.__class__(s)
+
 
 EMPTY = literal("")

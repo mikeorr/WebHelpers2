@@ -105,7 +105,23 @@ def test_tag_with_data_attr():
     assert HTML.span(data_foo="bar") == literal('<span data-foo="bar"></span>')
 
 
-class TestFormerDocTests(object):
+class TestLitJoin(object):
+    parts = ["<", "foo", ">"]
+
+    def test_join(self):
+        a = literal(" ").join(self.parts)
+        b = "&lt; foo &gt;"
+        assert a == b
+        assert isinstance(a, literal)
+        
+    def test_lit_join(self):
+        a = literal(" ").lit_join(self.parts)
+        b = "< foo >"
+        assert a == b
+        assert isinstance(a, literal)
+
+
+class TestHTMLBuilder(object):
     def test_tag(self):
         a = HTML.tag("a", href="http://www.yahoo.com", name=None, 
             c="Click Here")

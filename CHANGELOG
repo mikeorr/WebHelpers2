@@ -1,10 +1,14 @@
 2.0b6 (XXXX-XX-XX)
 ------------------
 
+- webhelpers.html._literal
+
+  * Implementation of 'literal' moved to this private module.
+  * New method .lit_join() works like .join() but does not escape the parts.
+
 - webhelpers.html.builder:
 
   * Replace UnfinishedTag with functools.partial.
-  * Move implementation of 'literal' to webhelpers.html._literal.
 
   * Bugfixes:
   
