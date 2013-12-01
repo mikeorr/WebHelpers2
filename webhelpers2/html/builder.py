@@ -164,9 +164,13 @@ import re
 
 from six.moves.urllib.parse import quote as url_escape
 
-from ._literal import literal
-
+# Literal imports and constants
+from ._literal import literal, EMPTY
 escape = literal.escape
+NL = literal("\n")
+BR = literal("<br />")
+_CDATA_START = literal("<![CDATA[") 
+_CDATA_END = literal("]]>")
 
 __all__ = ["HTML", "escape", "literal", "url_escape", "lit_sub"]
 
@@ -318,10 +322,3 @@ empty_tags = set(["area", "base", "basefont", "br", "col", "frame", "hr",
     "img", "input", "isindex", "link", "meta", "param"])
 
 HTML = HTMLBuilder()
-
-# Constants depending on ``literal()`` and/or ``HTML``.
-NL = literal("\n")
-EMPTY = literal("")
-BR = HTML.br(_nl=True)
-_CDATA_START = literal("<![CDATA[") 
-_CDATA_END = literal("]]>")
