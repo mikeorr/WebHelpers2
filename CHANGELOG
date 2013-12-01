@@ -8,15 +8,19 @@
 
 - webhelpers.html.builder:
 
-  * '.literal' shadows the global object rather than using UnfinishedLiteral.
-  * '.comment()' is now a regular method, and adds a space before and after
-    the content.
-  * Replace UnfinishedTag with functools.partial.
+  * '.comment()' adds a space before and after the content.
 
   * Bugfixes:
   
-    - Convert None to "" when passed to constructor.
-    - Pass attribute when raising AttributeError.
+    + Convert None to "" when passed to constructor.
+    + Pass attribute when raising AttributeError.
+
+  * Implementation changes:
+
+    + '.literal' shadows the global object rather than using UnfinishedLiteral.
+    + '.comment()' is now a regular method.
+    + Replace UnfinishedTag with functools.partial.
+    + Delete UnfinishedComment, UnfinishedLiteral, UnfinishedTag.
 
 
 - Port doctests in 'html' subpackage to unit tests.
