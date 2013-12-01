@@ -1,3 +1,12 @@
+2.0b6 (XXXX-XX-XX)
+------------------
+
+- webhelpers.html.builder:
+
+  * HTMLBuilder should convert None to "" when passing None to the constructor.
+
+- Port doctests in 'html' subpackage to unit tests.
+
 2.0b5 (2013-11-24)
 ------------------
 

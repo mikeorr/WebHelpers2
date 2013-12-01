@@ -191,6 +191,11 @@ class literal(markupsafe.Markup):
     """
     __slots__ = ()
 
+    def __new__(cls, base="", encoding=None, errors="strict"):
+        if base is None:
+            return EMPTY
+        return super(literal, cls).__new__(cls, base, encoding, errors)
+
     @classmethod
     def escape(cls, s):
         if s is None:
