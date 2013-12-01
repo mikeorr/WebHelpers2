@@ -3,7 +3,11 @@
 
 - webhelpers.html.builder:
 
-  * HTMLBuilder should convert None to "" when passing None to the constructor.
+  * Bugfixes:
+  
+    - Convert None to "" when passed to constructor.
+    - Pass attribute when raising AttributeError.
+
 
 - Port doctests in 'html' subpackage to unit tests.
 

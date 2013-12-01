@@ -158,6 +158,7 @@ abuse ``_closed=False`` to produce them.
 """
 
 from __future__ import unicode_literals
+import collections
 import re
 
 from six.moves.urllib.parse import quote as url_escape
@@ -261,7 +262,7 @@ class HTMLBuilder(object):
     def __getattr__(self, attr):
         """Generate the tag for the given attribute name."""
         if attr.startswith('_'):
-            raise AttributeError
+            raise AttributeError(attr)
         result = self.__dict__[attr] = UnfinishedTag(attr.lower())
         return result
 
