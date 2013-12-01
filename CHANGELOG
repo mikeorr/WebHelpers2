@@ -8,6 +8,7 @@
 
 - webhelpers.html.builder:
 
+  * '.literal' shadows the global object rather than using UnfinishedLiteral.
   * Replace UnfinishedTag with functools.partial.
 
   * Bugfixes:

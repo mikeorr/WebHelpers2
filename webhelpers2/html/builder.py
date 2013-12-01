@@ -208,7 +208,7 @@ class HTMLBuilder(object):
     """Base HTML object."""
     
     comment = UnfinishedComment()
-    literal = UnfinishedLiteral()
+    literal = literal
 
     # Opening and closing syntax for special HTML constructs.
     _cdata_tag = literal("<![CDATA["), literal("]]>")
