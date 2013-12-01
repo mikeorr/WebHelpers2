@@ -147,3 +147,9 @@ class TestHTMLBuilder(object):
         b = literal("<![CDATA[<p>]]>")
         assert a == b
         assert isinstance(a, literal)
+
+    def test_comment(self):
+        a = HTML.comment("foo", "bar")
+        b = "<!-- foobar -->"
+        assert a == b
+        assert isinstance(a, literal)

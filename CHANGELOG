@@ -9,6 +9,8 @@
 - webhelpers.html.builder:
 
   * '.literal' shadows the global object rather than using UnfinishedLiteral.
+  * '.comment()' is now a regular method, and adds a space before and after
+    the content.
   * Replace UnfinishedTag with functools.partial.
 
   * Bugfixes:

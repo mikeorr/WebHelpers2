@@ -207,11 +207,11 @@ class HTMLBuilder(object):
     
     """Base HTML object."""
     
-    comment = UnfinishedComment()
     literal = literal
 
     # Opening and closing syntax for special HTML constructs.
     _cdata_tag = literal("<![CDATA["), literal("]]>")
+    _comment_tag = literal("<!-- "), literal(" -->")
 
     def __call__(self, *args):
         """Join raw HTML and HTML escape it."""
@@ -227,6 +227,9 @@ class HTMLBuilder(object):
         tag = functools.partial(self.tag, attr.lower())
         self.__dict__[attr] = tag
         return tag
+
+    def comment(self, *content):
+        return literal('<!-- %s -->' % ''.join([str(x) for x in content]))
 
     def cdata(self, *content): 
         """Wrap the content in a "<![CDATA[ ... ]]>" section.
