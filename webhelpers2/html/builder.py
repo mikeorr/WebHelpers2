@@ -234,7 +234,10 @@ class HTMLBuilder(object):
         The content will not be escaped because CDATA itself is an 
         escaping syntax.
         """
-        # _CDATA_START and _CDATA_END are defined at end of module.
+        # Do not call self because it would do escaping!  Instead join
+        # the parts using a plain string (which bypasses escaping and
+        # returns a plain string), then wrap the entire result in a 
+        # literal.
         parts = [self._cdata_tag[0]]
         parts.extend(content)
         parts.append(self._cdata_tag[1])
