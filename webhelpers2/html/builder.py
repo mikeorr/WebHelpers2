@@ -214,21 +214,16 @@ class HTMLBuilder(object):
     def comment(self, *content):
         return literal('<!-- %s -->' % ''.join([str(x) for x in content]))
 
-    def cdata(self, *content): 
+    def cdata(self, *args): 
         """Wrap the content in a "<![CDATA[ ... ]]>" section.
 
         The content will not be escaped because CDATA itself is an 
         escaping syntax.
         """
-        # Do not call self because it would do escaping!  Instead join
-        # the parts using a plain string (which bypasses escaping and
-        # returns a plain string), then wrap the entire result in a 
-        # literal.
         parts = [self._cdata_tag[0]]
-        parts.extend(content)
+        parts.extend(args)
         parts.append(self._cdata_tag[1])
-        s = "".join(parts)
-        return literal(s)
+        return self(*parts, lit=True)
 
 def _attr_decode(v):
     """Parse out attributes that begin with '_'."""
