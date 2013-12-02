@@ -1,10 +1,12 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 
+from pytest import raises
 import six
 
 from webhelpers2.html import literal, lit_sub, escape, HTML
 from webhelpers2.html.builder import _attr_decode
+from . import HTMLTestCase
 
 def test_double_escape():
     quoted = escape('This string is "quoted"')
@@ -105,51 +107,60 @@ def test_tag_with_data_attr():
     assert HTML.span(data_foo="bar") == literal('<span data-foo="bar"></span>')
 
 
-class TestLitJoin(object):
+class TestHTMLTestCase(HTMLTestCase):
+    def test1(self):
+        a = literal("Foo")
+        b = "Foo"
+        self.check(a, b)
+
+    def test2(self):
+        a = literal("Foo")
+        b = "Bar"
+        self.check_fail(a, b)
+
+    def test3(self):
+        a = "Foo"
+        b = a
+        self.check_fail(a, b)
+
+
+class TestLitJoin(HTMLTestCase):
     parts = ["<", "foo", ">"]
 
     def test_join(self):
         a = literal(" ").join(self.parts)
         b = "&lt; foo &gt;"
-        assert a == b
-        assert isinstance(a, literal)
+        self.check(a, b)
         
     def test_lit_join(self):
         a = literal(" ").lit_join(self.parts)
         b = "< foo >"
-        assert a == b
-        assert isinstance(a, literal)
+        self.check(a, b)
 
 
-class TestHTMLBuilder(object):
+class TestHTMLBuilder(HTMLTestCase):
     def test_tag(self):
         a = HTML.tag("a", href="http://www.yahoo.com", name=None, 
             c="Click Here")
         b = literal('<a href="http://www.yahoo.com">Click Here</a>')
-        assert a == b
-        assert isinstance(a, literal)
+        self.check(a, b)
     
     def test_getattr(self):
         a =  HTML.a("Foo", href="http://example.com/", class_="important")
         b = literal('<a class="important" href="http://example.com/">Foo</a>')
-        assert a == b
-        assert isinstance(a, literal)
+        self.check(a, b)
     
-
     def test_cdata(self):
         a = HTML.cdata("Foo")
         b = literal("<![CDATA[Foo]]>")
-        assert a == b
-        assert isinstance(a, literal)
+        self.check(a, b)
 
     def test_cdata2(self):
         a = HTML.cdata(u"<p>")
         b = literal("<![CDATA[<p>]]>")
-        assert a == b
-        assert isinstance(a, literal)
+        self.check(a, b)
 
     def test_comment(self):
         a = HTML.comment("foo", "bar")
         b = "<!-- foobar -->"
-        assert a == b
-        assert isinstance(a, literal)
+        self.check(a, b)
