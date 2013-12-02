@@ -2,4 +2,4 @@
 applications.
 """
 
-__version__ = "2.0b5"
+__version__ = "2.0b6"
