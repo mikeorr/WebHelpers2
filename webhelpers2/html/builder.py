@@ -197,6 +197,16 @@ class HTMLBuilder(object):
         "meta",
         "param",
         }
+    boolean_attrs = {
+        "defer",
+        "disabled",
+        "multiple",
+        "readonly",
+        }
+    compose_attrs = {
+        "class": literal(" "),
+        "style": literal("; "),
+        }
 
     # Opening and closing syntax for special HTML constructs.
     _cdata_tag = literal("<![CDATA["), literal("]]>")
