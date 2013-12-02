@@ -233,7 +233,9 @@ class HTMLBuilder(object):
             args = kw.pop("c")
         closed = kw.pop("_closed", True)
         nl = kw.pop("_nl", False)
-        attrs_str = format_attrs(**kw)
+        attrs = kw
+        self.optimize_attrs(attrs)
+        attrs_str = format_attrs(**attrs)
         if not args and tag in self.void_tags and closed:
             substr = '<%s%s />'
             html = literal(substr % (tag, attrs_str))
@@ -275,6 +277,23 @@ class HTMLBuilder(object):
         parts.append(self._cdata_tag[1])
         return self(*parts, lit=True)
 
+    # Private methods
+    def optimize_attrs(self, attrs):
+        """Perform various transformations on an HTML attributes dict.
+
+        Modifies 'attrs' in place.
+        """
+        if "class_" in attrs:
+            attrs["class"] = attrs.pop("class_")
+        for at in self.compose_attrs:
+            value = attrs.get(at)
+            if isinstance(value, (list, tuple)):
+                if value:
+                    sep = self.compose_attrs[at]
+                    attrs[at] = sep.join(value)
+                else:
+                    del attrs[at]
+
 def _attr_decode(v):
     """Parse out attributes that begin with '_'."""
     if v.endswith('_'):
@@ -298,16 +317,6 @@ def format_attrs(**attrs):
     >>> format_attrs(p=None)
     literal(u'')
     """
-    if "class_" in attrs:
-        attrs["class"] = attrs.pop("class_")
-    compose_attrs = {"class": literal(" "), "style": literal("; ")}
-    for attr, join_str in compose_attrs.items():
-        value = attrs.get(attr)
-        if isinstance(value, (list, tuple)):
-            if value:
-                attrs[attr] = join_str.join(value)
-            else:
-                del attrs[attr]
     strings = [' %s="%s"' % (_attr_decode(attr), escape(value))
         for attr, value in sorted(attrs.items())
         if value is not None]

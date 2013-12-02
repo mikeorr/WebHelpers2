@@ -5,23 +5,26 @@ from webhelpers2.html.builder import _attr_decode
 from webhelpers2.html.builder import format_attrs
 
 def test_style_arg1():
-    style = ["margin:0", "padding: 0"]
-    control = literal(' style="margin:0; padding: 0"')
-    assert format_attrs(style=style) == control
+    a = {"style": ["margin:0", "padding: 0"]}
+    b = {"style": "margin:0; padding: 0"}
+    HTML.optimize_attrs(a)
+    assert a == b
 
 def test_style_arg2():
-    style = ["margin:0", "padding: 0"]
-    control = literal(' maxwidth="10" style="margin:0; padding: 0"')
-    assert format_attrs(style=style, maxwidth=10) == control
+    a = {"style": ["margin:0", "padding: 0"], "maxwidth": 10}
+    b = {"style": "margin:0; padding: 0", "maxwidth": 10}
+    HTML.optimize_attrs(a)
+    assert a == b
     
 def test_class_arg1():
-    class_ = ["foo", "bar"]
-    control = literal(' class="foo bar"')
-    assert format_attrs(class_=class_) == control
+    a = {"class_": ["foo", "bar"]}
+    b = {"class": "foo bar"}
+    HTML.optimize_attrs(a)
+    assert a == b
 
 def test_class_arg2():
-    class_ = ["foo", "bar"]
-    args = {"class_": class_, "class": "baz"}
-    control = literal(' class="foo bar"')
-    assert format_attrs(**args) == control
+    a = {"class_": ["foo", "bar"], "class": "baz"}
+    b = {"class": "foo bar"}
+    HTML.optimize_attrs(a)
+    assert a == b
     
