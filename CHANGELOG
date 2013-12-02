@@ -24,6 +24,7 @@
     + '.comment()' is now a regular method.
     + Replace UnfinishedTag with functools.partial.
     + Delete UnfinishedComment, UnfinishedLiteral, UnfinishedTag.
+    + Refactor methods to call self instead of doing ad hoc joins.
 
 
 - Port doctests in 'html' subpackage to unit tests.

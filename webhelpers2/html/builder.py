@@ -211,8 +211,11 @@ class HTMLBuilder(object):
         self.__dict__[attr] = tag
         return tag
 
-    def comment(self, *content):
-        return literal('<!-- %s -->' % ''.join([str(x) for x in content]))
+    def comment(self, *args):
+        parts = [self._comment_tag[0]]
+        parts.extend(args)
+        parts.append(self._comment_tag[1])
+        return self(*parts)
 
     def cdata(self, *args): 
         """Wrap the content in a "<![CDATA[ ... ]]>" section.
