@@ -201,7 +201,28 @@ class HTMLBuilder(object):
         return ret
 
     def tag(self, tag, *args, **kw):
-        return make_tag(tag, *args, **kw)
+        if "c" in kw:
+            assert not args, "The special 'c' keyword argument cannot be used "\
+    "in conjunction with non-keyword arguments"
+            args = kw.pop("c")
+        closed = kw.pop("_closed", True)
+        nl = kw.pop("_nl", False)
+        attrs_str = format_attrs(**kw)
+        if not args and tag in empty_tags and closed:
+            substr = '<%s%s />'
+            html = literal(substr % (tag, attrs_str))
+        else:
+            chunks = ["<%s%s>" % (tag, attrs_str)]
+            chunks.extend(escape(x) for x in args)
+            if closed:
+                chunks.append("</%s>" % tag)
+            if nl:
+                html = "\n".join(chunks)
+            else:
+                html = "".join(chunks)
+        if nl:
+            html += "\n"
+        return literal(html)
 
     def __getattr__(self, attr):
         """Generate the tag for the given attribute name."""
@@ -235,30 +256,6 @@ def _attr_decode(v):
     v = v.replace("_", "-")
     return v
 
-
-def make_tag(tag, *args, **kw):
-    if "c" in kw:
-        assert not args, "The special 'c' keyword argument cannot be used "\
-"in conjunction with non-keyword arguments"
-        args = kw.pop("c")
-    closed = kw.pop("_closed", True)
-    nl = kw.pop("_nl", False)
-    attrs_str = format_attrs(**kw)
-    if not args and tag in empty_tags and closed:
-        substr = '<%s%s />'
-        html = literal(substr % (tag, attrs_str))
-    else:
-        chunks = ["<%s%s>" % (tag, attrs_str)]
-        chunks.extend(escape(x) for x in args)
-        if closed:
-            chunks.append("</%s>" % tag)
-        if nl:
-            html = "\n".join(chunks)
-        else:
-            html = "".join(chunks)
-    if nl:
-        html += "\n"
-    return literal(html)
 
 def format_attrs(**attrs):
     """Format HTML attributes into a string of ' key="value"' pairs which
