@@ -182,6 +182,22 @@ class HTMLBuilder(object):
     
     literal = literal
 
+    void_tags = {
+        "area",
+        "base",
+        "basefont",
+        "br",
+        "col",
+        "frame",
+        "hr",
+        "img",
+        "input",
+        "isindex",
+        "link",
+        "meta",
+        "param",
+        }
+
     # Opening and closing syntax for special HTML constructs.
     _cdata_tag = literal("<![CDATA["), literal("]]>")
     _comment_tag = literal("<!-- "), literal(" -->")
@@ -208,7 +224,7 @@ class HTMLBuilder(object):
         closed = kw.pop("_closed", True)
         nl = kw.pop("_nl", False)
         attrs_str = format_attrs(**kw)
-        if not args and tag in empty_tags and closed:
+        if not args and tag in self.void_tags and closed:
             substr = '<%s%s />'
             html = literal(substr % (tag, attrs_str))
         else:
@@ -301,8 +317,5 @@ def lit_sub(*args, **kw):
     else:
         return result
 
-
-empty_tags = set(["area", "base", "basefont", "br", "col", "frame", "hr",
-    "img", "input", "isindex", "link", "meta", "param"])
 
 HTML = HTMLBuilder()
