@@ -138,6 +138,48 @@ class TestLitJoin(HTMLTestCase):
         self.check(a, b)
 
 
+class TestHTMLBuilderConstructor(HTMLTestCase):
+    def test_one_arg(self):
+        a = HTML("A&B")
+        b = "A&amp;B"
+        self.check(a, b)
+
+    def test_multi_args(self):
+        a = HTML("A&B", "&C")
+        b = "A&amp;B&amp;C"
+        self.check(a, b)
+
+    def test_one_arg_with_nl(self):
+        a = HTML("A&B", nl=True)
+        b = "A&amp;B\n"
+        self.check(a, b)
+
+    def test_multi_args_with_nl(self):
+        a = HTML("A&B", "&C", nl=True)
+        b = "A&amp;B\n&amp;C\n"
+        self.check(a, b)
+
+    def test_one_arg_with_lit(self):
+        a = HTML("A&B", lit=True)
+        b = "A&B"
+        self.check(a, b)
+
+    def test_multi_args_with_lit(self):
+        a = HTML("A&B", "&C", lit=True)
+        b = "A&B&C"
+        self.check(a, b)
+
+    def test_one_arg_with_nl_and_lit(self):
+        a = HTML("A&B", nl=True, lit=True)
+        b = "A&B\n"
+        self.check(a, b)
+
+    def test_multi_args_with_nl_and_lit(self):
+        a = HTML("A&B", "&C", nl=True, lit=True)
+        b = "A&B\n&C\n"
+        self.check(a, b)
+
+        
 class TestHTMLBuilder(HTMLTestCase):
     def test_tag(self):
         a = HTML.tag("a", href="http://www.yahoo.com", name=None, 

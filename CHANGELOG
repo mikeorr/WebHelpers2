@@ -8,6 +8,9 @@
 
 - webhelpers.html.builder:
 
+  * Constructor accepts keyword args 'nl' and 'lit'. If 'nl' is true, add a
+    newline after each element. If 'lit' is true, don't escape the elements
+    when joining them.
   * '.comment()' adds a space before and after the content.
 
   * Bugfixes:

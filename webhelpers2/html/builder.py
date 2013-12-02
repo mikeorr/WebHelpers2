@@ -186,9 +186,19 @@ class HTMLBuilder(object):
     _cdata_tag = literal("<![CDATA["), literal("]]>")
     _comment_tag = literal("<!-- "), literal(" -->")
 
-    def __call__(self, *args):
+    def __call__(self, *args, **kw):
         """Join raw HTML and HTML escape it."""
-        return literal(''.join([escape(x) for x in args]))
+        nl = kw.pop("nl", False)
+        lit = kw.pop("lit", False)
+        if kw:
+            raise TypeError("unknown keyword args: {}".format(sort(kw)))
+        if not lit:
+            args = map(escape, args)
+        if nl:
+            ret = NL.lit_join(args) + NL
+        else:
+            ret = EMPTY.lit_join(args)
+        return ret
 
     def tag(self, tag, *args, **kw):
         return make_tag(tag, *args, **kw)
