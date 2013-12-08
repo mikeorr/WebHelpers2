@@ -8,9 +8,9 @@
 
 - webhelpers.html.builder:
 
-  * Constructor accepts keyword args 'nl' and 'lit'. If 'nl' is true, add a
-    newline after each element. If 'lit' is true, don't escape the elements
-    when joining them.
+  * 'HTMLBuilder.\_\_call\_\_()' accepts keyword args 'nl' and 'lit'. If 'nl'
+    is true, add a newline after each element. If 'lit' is true, don't escape
+    the elements when joining them.
   * '.comment()' adds a space before and after the content.
   * 'HTMLBuilder.void_tags' is a set of tag names to render in the self-closing
     style because they can never have content. It replaces the 'empty_tags'
@@ -23,7 +23,7 @@
     converted to HTML boolean syntax if passed to the tag method. The current
     set is a conservative few commonly used in tags: "defer", "disabled", 
     "multiple", "readonly". You can pass additional ones for a specific tag
-    as the "_bool" argument to ``HTML.tag()``.
+    as the "\_bool" argument to ``HTML.tag()``.
   * There doesn't seem to be an authoritative list of all boolean attributes;
     here are some lists on the web:
     http://stackoverflow.com/questions/706384/boolean-html-attributes
@@ -34,6 +34,9 @@
     any attribute that's boolean in one case is boolean everywhere; we haven't
     seen any attribute that's boolean in one tag but non-boolean in another
     tag.
+  * 'HTMLBuilder' has several literal constants as class attributes: EMPTY,
+    SPACE, TAB2, TAB4, NL, BR, NL2, BR2.
+    
 
   * Bugfixes:
   
@@ -50,8 +53,12 @@
     + Merge 'make_tag()' into 'HTMLBuilder.tag()'.
     + Move 'empty_tags' to 'HTMLBuilder.void_tags'.
     + Move part of 'format_attrs()' to 'HTMLBuilder.optimize_attrs()', and
-      move the compose dict local variable to 'HTMLBuilder.compose_attrs'.
-
+      merge '_attr_decode()' into it, and also None value handling. Move the
+      compose dict local variable to a class attribute 'compose_attrs'.
+    + Implement boolean attribute conversion in 'HTMLBuilder.optimize_attrs()'.
+    + Refactor 'format_attrs()' to 'HTMLBuilder.render_attrs()'. Change the
+      argument to a dict instead of keyword args. Delete the None handling
+      because 'HTMLBuilder.optimize_attrs()' now does it.
 
 - Port doctests in 'html' subpackage to unit tests.
 
