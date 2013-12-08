@@ -334,10 +334,6 @@ class HTMLBuilder(object):
                     del attrs[key]
 
     def _attr_decode(self, v):
-        """Parse out attributes that begin with '_'."""
-        if v.endswith('_'):
-            v = v[:-1]
-        v = v.replace("_", "-")
         return v
 
 
