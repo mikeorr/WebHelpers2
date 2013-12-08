@@ -243,8 +243,9 @@ class HTMLBuilder(object):
             args = kw.pop("c")
         closed = kw.pop("_closed", True)
         nl = kw.pop("_nl", False)
+        boolean_attrs = kw.pop("_bool", None)
         attrs = kw
-        self.optimize_attrs(attrs)
+        self.optimize_attrs(attrs, boolean_attrs)
         attrs_str = self.render_attrs(attrs)
         if not args and tag in self.void_tags and closed:
             substr = '<%s%s />'
@@ -288,7 +289,7 @@ class HTMLBuilder(object):
         return self(*parts, lit=True)
 
     # Private methods
-    def optimize_attrs(self, attrs, boolean_attrs=frozenset()):
+    def optimize_attrs(self, attrs, boolean_attrs=None):
         """Perform various transformations on an HTML attributes dict.
 
         Arguments:
