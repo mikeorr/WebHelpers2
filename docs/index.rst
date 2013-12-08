@@ -39,7 +39,6 @@ support/questions/patches, please use the pylons-discuss_ mailing list.
    python32
    changelog
    third_party
-   todo
 
 * :ref:`genindex`
 * :ref:`modindex`
