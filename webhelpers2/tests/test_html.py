@@ -5,7 +5,6 @@ from pytest import raises
 import six
 
 from webhelpers2.html import literal, lit_sub, escape, HTML
-from webhelpers2.html.builder import _attr_decode
 from . import HTMLTestCase
 
 def test_double_escape():
@@ -97,11 +96,11 @@ def test_newline_arg():
     assert HTML.a("A", "B", href="/", _nl=True) == literal('<a href="/">\nA\nB\n</a>\n')
 
 def test_attr_decode():
-    assert _attr_decode("foo") ==   "foo"
-    assert _attr_decode("class_") ==   "class"
-    assert _attr_decode("data_foo") == "data-foo"
-    assert _attr_decode("_data_foo_bar_") == "-data-foo-bar"
-    assert _attr_decode("_data_foo_bar_") == "-data-foo-bar"
+    assert HTML._attr_decode("foo") ==   "foo"
+    assert HTML._attr_decode("class_") ==   "class"
+    assert HTML._attr_decode("data_foo") == "data-foo"
+    assert HTML._attr_decode("_data_foo_bar_") == "-data-foo-bar"
+    assert HTML._attr_decode("_data_foo_bar_") == "-data-foo-bar"
 
 def test_tag_with_data_attr():
     assert HTML.span(data_foo="bar") == literal('<span data-foo="bar"></span>')

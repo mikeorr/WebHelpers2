@@ -235,7 +235,7 @@ class HTMLBuilder(object):
         nl = kw.pop("_nl", False)
         attrs = kw
         self.optimize_attrs(attrs)
-        attrs_str = format_attrs(**attrs)
+        attrs_str = self.format_attrs(**attrs)
         if not args and tag in self.void_tags and closed:
             substr = '<%s%s />'
             html = literal(substr % (tag, attrs_str))
@@ -294,33 +294,33 @@ class HTMLBuilder(object):
                 else:
                     del attrs[at]
 
-def _attr_decode(v):
-    """Parse out attributes that begin with '_'."""
-    if v.endswith('_'):
-        v = v[:-1]
-    v = v.replace("_", "-")
-    return v
+    def _attr_decode(self, v):
+        """Parse out attributes that begin with '_'."""
+        if v.endswith('_'):
+            v = v[:-1]
+        v = v.replace("_", "-")
+        return v
 
 
-def format_attrs(**attrs):
-    """Format HTML attributes into a string of ' key="value"' pairs which
-    can be inserted into an HTML tag.
+    def format_attrs(self, **attrs):
+        """Format HTML attributes into a string of ' key="value"' pairs which
+        can be inserted into an HTML tag.
 
-    The attributes are sorted alphabetically.  If any value is None, the entire
-    attribute is suppressed.
+        The attributes are sorted alphabetically.  If any value is None, the entire
+        attribute is suppressed.
 
-    Usage:
-    >>> format_attrs(p=2, q=3)
-    literal(u' p="2" q="3"')
-    >>> format_attrs(p=2, q=None)
-    literal(u' p="2"')
-    >>> format_attrs(p=None)
-    literal(u'')
-    """
-    strings = [' %s="%s"' % (_attr_decode(attr), escape(value))
-        for attr, value in sorted(attrs.items())
-        if value is not None]
-    return literal("".join(strings))
+        Usage:
+        >>> format_attrs(p=2, q=3)
+        literal(u' p="2" q="3"')
+        >>> format_attrs(p=2, q=None)
+        literal(u' p="2"')
+        >>> format_attrs(p=None)
+        literal(u'')
+        """
+        strings = [' %s="%s"' % (self._attr_decode(attr), escape(value))
+            for attr, value in sorted(attrs.items())
+            if value is not None]
+        return literal("".join(strings))
 
 
 def lit_sub(*args, **kw):
