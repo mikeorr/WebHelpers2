@@ -42,8 +42,8 @@ __all__ = [
 
 log = logging.getLogger(__name__)
 
-NL = literal("\n")
-BR = literal("<br />\n")
+NL = HTML.NL
+BR = HTML.BR
 
 def form(url, method="post", multipart=False, hidden_fields=None, **attrs):
     """An open tag for a form that will submit to ``url``.

@@ -198,3 +198,13 @@ class TestHTMLBuilder(HTMLTestCase):
         a = HTML.comment("foo", "bar")
         b = "<!-- foobar -->"
         self.check(a, b)
+
+
+class TestConstants(HTMLTestCase):
+    def test_empty(self): self.check(HTML.EMPTY, "")
+    def test_space(self): self.check(HTML.SPACE, " ")
+    def test_br(self): self.check(HTML.BR, "<br />\n")
+    def test_br2(self): self.check(HTML.BR2, "<br />\n<br />\n")
+    def test_nl2(self): self.check(HTML.NL2, "\n\n")
+
+

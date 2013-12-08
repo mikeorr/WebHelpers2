@@ -183,6 +183,15 @@ class HTMLBuilder(object):
     
     literal = literal
 
+    EMPTY = EMPTY
+    SPACE = literal(" ")
+    TAB2 = literal("  ")
+    TAB4 = literal("    ")
+    NL = literal("\n")
+    BR = literal("<br />\n")
+    NL2 = NL * 2
+    BR2 = BR * 2
+
     void_tags = {
         "area",
         "base",
