@@ -15,18 +15,25 @@
   * 'HTMLBuilder.void_tags' is a set of tag names to render in the self-closing
     style because they can never have content. It replaces the 'empty_tags'
     global. Add HTML 5 tags to list: "command", "keygen", "source".
-  * 'HTMLBuilder.boolean_attrs' is a set of attribute names which are
-    converted to HTML boolean syntax if passed to the tag method.
-    (TAG METHOD CODE NOT IMPLEMENTED YET.)
   * 'HTMLBuilder.compose_attrs' is a dict of attribute names to string
     separators. If the tag method is called with any of these attributes and
     their value is a list or tuple, join the elements into a string using this
     separator.  The separators should be literals.
+  * 'HTMLBuilder.boolean_attrs' is a set of attribute names which are
+    converted to HTML boolean syntax if passed to the tag method. The current
+    set is a conservative few commonly used in tags: "defer", "disabled", 
+    "multiple", "readonly". You can pass additional ones for a specific tag
+    as the "_bool" argument to ``HTML.tag()``.
   * There doesn't seem to be an authoritative list of all boolean attributes;
     here are some lists on the web:
     http://stackoverflow.com/questions/706384/boolean-html-attributes
     https://github.com/kangax/html-minifier/issues/63
-    Evaluating whether to add these.
+    We're evaluating whether to include all these. We're also evaluating
+    whether it's better to convert them globally in any tag they appear in,
+    or to convert some of them on a tag-by-tag basis. As far as we can tell,
+    any attribute that's boolean in one case is boolean everywhere; we haven't
+    seen any attribute that's boolean in one tag but non-boolean in another
+    tag.
 
   * Bugfixes:
   

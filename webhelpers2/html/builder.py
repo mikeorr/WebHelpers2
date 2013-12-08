@@ -162,6 +162,7 @@ import collections
 import functools
 import re
 
+import six
 from six.moves.urllib.parse import quote as url_escape
 
 # Literal imports and constants
@@ -278,21 +279,59 @@ class HTMLBuilder(object):
         return self(*parts, lit=True)
 
     # Private methods
-    def optimize_attrs(self, attrs):
+    def optimize_attrs(self, attrs, boolean_attrs=frozenset()):
         """Perform various transformations on an HTML attributes dict.
 
-        Modifies 'attrs' in place.
+        Arguments:
+
+        * **attrs**: the attribute dict. Modified in place!
+        * **boolean_attrs**: set of attribute names to consider
+          boolean in addition to ``self.boolean_attrs``.
+
+        Modifies 'attrs' in place. Actions:
+
+        1. Delete keys whose value is None.
+        2. Delete trailing underscores in keys.
+        3. Replace non-trailing underscores with hyphens.
+        4. If a key is listed in 'self.compose_attrs' and the value is
+           a list or tuple, join the elements into a string using the separator
+           specified. But if the value is empty, delete the key entirely.
+        5. If a key is listed in 'self.boolean_attrs' or the 'boolean_attrs'
+           argument, convert the value to an HTML boolean. If the value is
+           true, set the value to match the key. If the value is false, 
+           delete the key.
         """
-        if "class_" in attrs:
-            attrs["class"] = attrs.pop("class_")
-        for at in self.compose_attrs:
-            value = attrs.get(at)
-            if isinstance(value, (list, tuple)):
+        if boolean_attrs:
+            boolean_keys = self.boolean_attrs.union(boolean_attrs)
+        else:
+            boolean_keys = self.boolean_attrs
+        keys = list(attrs.keys()) if six.PY3 else attrs.keys()
+        for key in keys:
+            value = attrs[key]
+            is_seq = isinstance(value, (list, tuple))
+            # Delete key if None value.
+            if value is None:
+                del attrs[key]
+                continue
+            # Rename key if contains internal or trailing underscores.
+            key_orig = key
+            while key.endswith("_"):
+                key = key[:-1]
+            key = key.replace("_", "-")
+            if key != key_orig:
+                attrs[key] = attrs.pop(key_orig)
+            # Convert "composeable attributes" from list to delimited string.
+            if key in self.compose_attrs and isinstance(value, (list, tuple)):
                 if value:
-                    sep = self.compose_attrs[at]
-                    attrs[at] = sep.join(value)
+                    sep = self.compose_attrs[key]
+                    attrs[key] = sep.join(value)
                 else:
-                    del attrs[at]
+                    del attrs[key]
+            if key in boolean_keys:
+                if value:
+                    attrs[key] = key   # Set the value to match the key.
+                else:
+                    del attrs[key]
 
     def _attr_decode(self, v):
         """Parse out attributes that begin with '_'."""
