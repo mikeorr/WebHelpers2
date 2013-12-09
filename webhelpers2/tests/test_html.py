@@ -208,3 +208,99 @@ class TestConstants(HTMLTestCase):
     def test_nl2(self): self.check(HTML.NL2, "\n\n")
 
 
+class TestStyleAttribute(object):
+    def test_style_attr_list(self):
+        a = {"style": ["margin:0", "padding: 0"]}
+        b = {"style": "margin:0; padding: 0"}
+        HTML.optimize_attrs(a)
+        assert a == b
+
+    def test_style_attr_list2(self):
+        a = {"style": ["margin:0", "padding: 0"], "href": ""}
+        b = {"style": "margin:0; padding: 0", "href": ""}
+        HTML.optimize_attrs(a)
+        assert a == b
+
+    def test_style_attr_list_empty(self):
+        a = {"style": []}
+        b = {}
+        HTML.optimize_attrs(a)
+        assert a == b
+
+
+class TestClassAttribute(object):    
+    def test_class_attr_list(self):
+        a = {"class_": ["foo", "bar"]}
+        b = {"class": "foo bar"}
+        HTML.optimize_attrs(a)
+        assert a == b
+
+    def test_class_attr_list2(self):
+        a = {"class_": ["foo", "bar"], "class": "baz"}
+        b = {"class": "foo bar"}
+        HTML.optimize_attrs(a)
+        assert a == b
+
+    def test_class_attr_list_empty(self):
+        a = {"class": []}
+        b = {}
+        HTML.optimize_attrs(a)
+        assert a == b
+        
+    def test_class_attr_tuple(self):
+        a = {"class": ("aa", "bb")}
+        b = {"class": "aa bb"}
+        HTML.optimize_attrs(a)
+        assert a == b
+    
+
+class TestDataAttributes(object):
+    def test1(self):
+        a = {"data_foo": "bar"}
+        b = {"data-foo": "bar"}
+        HTML.optimize_attrs(a)
+        assert a == b
+
+
+class TestAttributes(object):
+    """Miscellaneous attribute tests."""
+
+    def test_shouldnt_change_attrs(self):
+        a = {"style": "aa", "class": "bb", "data-foo": "bar"}
+        b = a
+        HTML.optimize_attrs(a)
+        assert a == b
+
+    def test_multiple_optimizations(self):
+        a = {"class_": ["A", "B"], "style": ["C", "D"], "bad": None}
+        b = {"class": "A B", "style": "C; D", }
+        HTML.optimize_attrs(a)
+        assert a == b
+
+    def test_delete_none(self):
+        a = {"title": "Foo", "wicked": None}
+        b = {"title": "Foo"}
+        HTML.optimize_attrs(a)
+        assert a == b
+
+
+class TestBooleanAttributes(object):
+    def test_boolean_true(self):
+        a = {"defer": True, "disabled": "1", "multiple": 1, 
+            "readonly": "readonly"}
+        b = {"defer": "defer", "disabled": "disabled", "multiple": "multiple",
+            "readonly": "readonly"}
+        HTML.optimize_attrs(a)
+        assert a == b
+
+    def test_boolean_false(self):
+        a = {"defer": False, "multiple": 0, "readonly": ""}
+        b = {}
+        HTML.optimize_attrs(a)
+        assert a == b
+
+    def test_boolean_true_with_additional_boolean_attr(self):
+        a = {"defer": True, "data-foo": True}
+        b = {"defer": "defer", "data-foo": "data-foo"}
+        HTML.optimize_attrs(a, {"data-foo"})
+        assert a == b
