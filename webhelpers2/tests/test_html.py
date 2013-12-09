@@ -196,19 +196,19 @@ class TestConstants(HTMLTestCase):
 
 
 class TestStyleAttribute(object):
-    def test_style_attr_list(self):
+    def test_list(self):
         a = {"style": ["margin:0", "padding: 0"]}
         b = {"style": "margin:0; padding: 0"}
         HTML.optimize_attrs(a)
         assert a == b
 
-    def test_style_attr_list2(self):
+    def test_list2(self):
         a = {"style": ["margin:0", "padding: 0"], "href": ""}
         b = {"style": "margin:0; padding: 0", "href": ""}
         HTML.optimize_attrs(a)
         assert a == b
 
-    def test_style_attr_list_empty(self):
+    def test_list_empty(self):
         a = {"style": []}
         b = {}
         HTML.optimize_attrs(a)
@@ -216,35 +216,46 @@ class TestStyleAttribute(object):
 
 
 class TestClassAttribute(object):    
-    def test_class_attr_list(self):
+    def test_list(self):
         a = {"class_": ["foo", "bar"]}
         b = {"class": "foo bar"}
         HTML.optimize_attrs(a)
         assert a == b
 
-    def test_class_attr_list2(self):
+    def test_list2(self):
         a = {"class_": ["foo", "bar"], "class": "baz"}
         b = {"class": "foo bar"}
         HTML.optimize_attrs(a)
         assert a == b
 
-    def test_class_attr_list_empty(self):
+    def test_list_empty(self):
         a = {"class": []}
         b = {}
         HTML.optimize_attrs(a)
         assert a == b
         
-    def test_class_attr_tuple(self):
+    def test_tuple(self):
         a = {"class": ("aa", "bb")}
         b = {"class": "aa bb"}
         HTML.optimize_attrs(a)
         assert a == b
     
 
-class TestDataAttributes(object):
-    def test1(self):
-        a = {"data_foo": "bar"}
-        b = {"data-foo": "bar"}
+    def test_conditional_list(self):
+        a = {"class": [("first", False), ("even", True)] }
+        b = {"class": "even"}
+        HTML.optimize_attrs(a)
+        assert a == b
+
+    def test_conditional_list2(self):
+        a = {"class": [("first", True), ("even", True)] }
+        b = {"class": "first even"}
+        HTML.optimize_attrs(a)
+        assert a == b
+
+    def test_conditional_list3(self):
+        a = {"class": [("first", False), ("even", False)] }
+        b = {}
         HTML.optimize_attrs(a)
         assert a == b
 
@@ -270,6 +281,11 @@ class TestAttributes(object):
         HTML.optimize_attrs(a)
         assert a == b
 
+    def test_data(self):
+        a = {"data_foo": "bar"}
+        b = {"data-foo": "bar"}
+        HTML.optimize_attrs(a)
+        assert a == b
 
 class TestBooleanAttributes(object):
     def test_boolean_true(self):

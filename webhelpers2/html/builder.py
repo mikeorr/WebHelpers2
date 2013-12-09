@@ -341,16 +341,19 @@ class HTMLBuilder(object):
                 attrs[key] = attrs.pop(key_orig)
             # Convert "composeable attributes" from list to delimited string.
             if key in self.compose_attrs and isinstance(value, (list, tuple)):
+                # Convert 2-tuples to regular elements.
+                value_orig = value
+                value = []
+                for elm in value_orig:
+                    if isinstance(elm, (list, tuple)) and len(elm) == 2:
+                        if elm[1]:
+                            value.append(elm[0])
+                        # Else ignore the element.
+                    else:
+                        value.append(elm)
+                # If value is non-empty, join the elements. If empty, delete
+                # the key.
                 if value:
-                    value_orig = value
-                    value = []
-                    for elm in value_orig:
-                        if isinstance(elm, (list, tuple)) and len(elm) == 2:
-                            if elm[1]:
-                                value.append(elm[0])
-                            # Else ignore the element.
-                        else:
-                            value.append(elm)
                     sep = self.compose_attrs[key]
                     attrs[key] = sep.join(value)
                 else:

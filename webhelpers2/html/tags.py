@@ -35,8 +35,6 @@ __all__ = [
            "ol", "ul", "image", "BR",
            # Head tags and document type
            "stylesheet_link", "javascript_link", "auto_discovery_link",
-           # Utility functions
-           "css_classes",
            ]
 
 log = logging.getLogger(__name__)
@@ -967,43 +965,6 @@ def image(url, alt, width=None, height=None, **attrs):
         attrs['width'] = width
         attrs['height'] = height
     return HTML.img(src=url, alt=alt, **attrs)
-
-#### Non-tag utilities
-
-def css_classes(value_condition_pairs):
-    """Add CSS classes to a tag programmatically.
-
-    This helper is meant to be used as the ``class_`` argument to a tag helper.
-
-    The argument is an iterable of ``(class, condition)`` pairs, where each
-    ``class`` is a string and ``condition`` is a boolean.  The function 
-    returns a space-separated list of classes whose conditions were true.
-
-    If all conditions are false, return ``None``.  This tells the caller to
-    suppress the "class" attribute entirely.
-
-    Examples::
-
-        >>> arg = [("first", False), ("even", True)]
-        >>> HTML.td("My content.", class_=css_classes(arg))
-        literal(u'<td class="even">My content.</td>')
-        >>> arg = [("first", True), ("even", True)]
-        >>> HTML.td("My content.", class_=css_classes(arg))
-        literal(u'<td class="first even">My content.</td>')
-        >>> arg = [("first", False), ("even", False)]
-        >>> HTML.td("My content.", class_=css_classes(arg))
-        literal(u'<td>My content.</td>')
-
- 
-    """
-    classes = []
-    for value, condition in value_condition_pairs:
-        if condition:    # Or ``if condition and value``
-            classes.append(value)
-    if not classes:
-        return None
-    return " ".join(classes)
-
 
 #### Tags for the HTML head
 

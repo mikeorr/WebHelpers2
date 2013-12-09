@@ -271,29 +271,6 @@ class TestImage(object):
         assert isinstance(a, literal)
 
  
-class TestCSSClasses(object):
-    def test1(self):
-        arg = [("first", False), ("even", True)]
-        a = HTML.td("My content.", class_=css_classes(arg))
-        b = literal('<td class="even">My content.</td>')
-        assert a == b
-        assert isinstance(a, literal)
-
-    def test2(self):
-        arg = [("first", True), ("even", True)]
-        a = HTML.td("My content.", class_=css_classes(arg))
-        b = literal('<td class="first even">My content.</td>')
-        assert a == b
-        assert isinstance(a, literal)
-
-    def test3(self):
-        arg = [("first", False), ("even", False)]
-        a = HTML.td("My content.", class_=css_classes(arg))
-        b = '<td>My content.</td>'
-        assert a == b
-        assert isinstance(a, literal)
-
-
 class TestJavascriptLink(object):
     def test1(self):
         a = javascript_link('/javascripts/prototype.js', '/other-javascripts/util.js')
