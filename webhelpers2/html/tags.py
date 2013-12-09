@@ -28,7 +28,7 @@ __all__ = [
            "select", "Options", "Option", "OptGroup",
            "ModelTags", "title",
            # hyperlinks
-           "link_to", "link_to_if", "link_to_unless",
+           "link", "link_if", "link_unless",
            # Table tags
            "th_sortable",
            # Other non-form tags
@@ -760,7 +760,7 @@ def title(title, required=False, label_for=None):
 
 #### Hyperlink tags
 
-def link_to(label, url='', **attrs):
+def link(label, url='', **attrs):
     """Create a hyperlink with the given text pointing to the URL.
     
     If the label is ``None`` or empty, the URL will be used as the label.
@@ -775,7 +775,7 @@ def link_to(label, url='', **attrs):
     return HTML.a(label, **attrs)
 
 
-def link_to_if(condition, label, url='', **attrs):
+def link_if(condition, label, url='', **attrs):
     """Same as ``link_to`` but return just the label if the condition is false.
     
     This is useful in a menu when you don't want the current option to be a
@@ -787,7 +787,7 @@ def link_to_if(condition, label, url='', **attrs):
     else:
         return label
 
-def link_to_unless(condition, label, url='', **attrs):
+def link_unless(condition, label, url='', **attrs):
     """The opposite of ``link_to``. Return just the label if the condition is 
     true.
     """

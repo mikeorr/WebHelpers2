@@ -64,6 +64,8 @@
 - webhelpers.html.tags:
 
     * Delete 'convert_boolean_attrs()'. The HTML builder now does this itself.
+    * Rename 'link_to()' to 'link()', 'link_to_if()' to 'link_if()', and
+      'link_to_unless()' to 'link_unless()'.
 
 - Port doctests in 'html' subpackage to unit tests.
 

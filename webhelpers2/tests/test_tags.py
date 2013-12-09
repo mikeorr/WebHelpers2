@@ -151,15 +151,15 @@ class TestAttributes(object):
 class TestLinkHelper(object):
     def test_link_tag_with_query(self):
         b = "<a href=\"http://www.example.com?q1=v1&amp;q2=v2\">Hello</a>" 
-        assert link_to("Hello", "http://www.example.com?q1=v1&q2=v2") == b
+        assert link("Hello", "http://www.example.com?q1=v1&q2=v2") == b
     
     def test_link_tag_with_query_and_no_name(self):
-        a = link_to(None, HTML.literal("http://www.example.com?q1=v1&amp;q2=v2"))
+        a = link(None, HTML.literal("http://www.example.com?q1=v1&amp;q2=v2"))
         b = "<a href=\"http://www.example.com?q1=v1&amp;q2=v2\">http://www.example.com?q1=v1&amp;q2=v2</a>" 
         assert a == b
     
     def test_link_tag_with_custom_onclick(self):
-        a = link_to("Hello", "http://www.example.com", onclick="alert('yay!')")
+        a = link("Hello", "http://www.example.com", onclick="alert('yay!')")
         b = '<a href="http://www.example.com" onclick="alert(&#39;yay!&#39;)">Hello</a>'
         assert a == b
     
