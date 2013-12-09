@@ -169,7 +169,7 @@ from six.moves.urllib.parse import quote as url_escape
 from ._literal import literal, EMPTY
 escape = literal.escape
 NL = literal("\n")
-BR = literal("<br />")
+BR = literal("<br />\n")
 
 __all__ = ["HTML", "escape", "literal", "url_escape", "lit_sub"]
 
@@ -187,8 +187,8 @@ class HTMLBuilder(object):
     SPACE = literal(" ")
     TAB2 = literal("  ")
     TAB4 = literal("    ")
-    NL = literal("\n")
-    BR = literal("<br />\n")
+    NL = NL
+    BR = BR
     NL2 = NL * 2
     BR2 = BR * 2
 
