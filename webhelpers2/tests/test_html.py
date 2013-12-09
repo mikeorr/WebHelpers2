@@ -1,4 +1,3 @@
-from __future__ import print_function
 from __future__ import unicode_literals
 
 from pytest import raises
@@ -87,7 +86,6 @@ class TestHTMLBuilder(object):
 
     def test_unclosed_tag(self):
         result = HTML.form(_closed=False)
-        print(result)
         assert "<form>" == result
         
         result = HTML.form(_closed=False, action="hello")
