@@ -105,23 +105,6 @@ class TestHTMLBuilder(object):
         assert HTML.span(data_foo="bar") == literal('<span data-foo="bar"></span>')
 
 
-class TestHTMLTestCase(HTMLTestCase):
-    def test1(self):
-        a = literal("Foo")
-        b = "Foo"
-        self.check(a, b)
-
-    def test2(self):
-        a = literal("Foo")
-        b = "Bar"
-        self.check_fail(a, b)
-
-    def test3(self):
-        a = "Foo"
-        b = a
-        self.check_fail(a, b)
-
-
 class TestLitJoin(HTMLTestCase):
     parts = ["<", "foo", ">"]
 
