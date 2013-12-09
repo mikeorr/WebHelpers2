@@ -56,11 +56,11 @@ class TestForm(object):
 
 
 class TestInputHidden(object):
-    def test_hidden_field(self):
+    def test_hidden_field_int(self):
         b = '<input id="id" name="id" type="hidden" value="3" />'
         assert hidden("id", 3) == b
 
-    def test_hidden_field_alt(self):
+    def test_hidden_field(self):
         b = '<input id="id" name="id" type="hidden" value="3" />'
         assert hidden("id", "3") == b
 
@@ -191,10 +191,6 @@ class TestAttributes(object):
         b = '<select id="eggs" name="spam">\n<option selected="selected" value="2">2</option>\n</select>'
         assert select("spam", [1,2], [2], id="eggs") == b
 
-    def test4(self):
-        b = '<select id="eggs" name="spam">\n<option selected="selected" value="2">2</option>\n</select>'
-        assert select("spam", [1,2], [2], id_="eggs") == b
-
     def test_id_and_id_(self):
         raises(TypeError, text, "spam", "pizza", id="fubar", id_="eggs")
         
@@ -239,11 +235,6 @@ class TestAssetTagHelper(object):
     def test5(self):
         a = auto_discovery_link("/app.rss", feed_type="text/html")
         b = '<link href="/app.rss" rel="alternate" title="" type="text/html" />'
-        assert a == b
-
-    def test6(self):
-        a = auto_discovery_link("/app.html", title="My RSS", feed_type="text/html")
-        b = '<link href="/app.html" rel="alternate" title="My RSS" type="text/html" />'
         assert a == b
         
 
@@ -292,36 +283,6 @@ class TestImage(object):
         a = image("/icons/icon.gif", "Icon", width=16)
         b = '<img alt="Icon" src="/icons/icon.gif" width="16" />'
         assert a == b
-
-    def test10(self):
-        a = image('/images/rss.png', 'rss syndication')
-        b = literal('<img alt="rss syndication" src="/images/rss.png" />')
-        assert a == b
-        assert isinstance(a, literal)
-
-    def test11(self):
-        a = image('/images/xml.png', "")
-        b = literal('<img alt="" src="/images/xml.png" />')
-        assert a == b
-        assert isinstance(a, literal)
-
-    def test12(self):
-        a = image("/images/icon.png", height=16, width=10, alt="Edit Entry")
-        b = literal('<img alt="Edit Entry" height="16" src="/images/icon.png" width="10" />')
-        assert a == b
-        assert isinstance(a, literal)
-
-    def test13(self):
-        a = image("/icons/icon.gif", alt="Icon", width=16, height=16)
-        b = literal('<img alt="Icon" height="16" src="/icons/icon.gif" width="16" />')
-        assert a == b
-        assert isinstance(a, literal)
-
-    def test14(self):
-        a = image("/icons/icon.gif", None, width=16)
-        b = literal('<img alt="" src="/icons/icon.gif" width="16" />')
-        assert a == b
-        assert isinstance(a, literal)
 
 
 @pytest.mark.xfail(reason="Selected options not being set properly.")
@@ -493,26 +454,16 @@ class TestOl(object):
 
 class TestJavascriptLink(object):
     def test_javascript_include_tag(self):
-        a = javascript_link("/javascripts/prototype.js", "/other-javascripts/util.js")
-        b = """<script src="/javascripts/prototype.js" type="text/javascript"></script>\n<script src="/other-javascripts/util.js" type="text/javascript"></script>"""
-        assert a == b
-
-    def test2(self):
-        a = javascript_link("/js/pngfix.js", defer=True)
-        b = """<script defer="defer" src="/js/pngfix.js" type="text/javascript"></script>"""
-        assert a == b
-
-    def test3(self):
         a = javascript_link('/javascripts/prototype.js', '/other-javascripts/util.js')
         b = '<script src="/javascripts/prototype.js" type="text/javascript"></script>\n<script src="/other-javascripts/util.js" type="text/javascript"></script>'
         assert a == b
         assert isinstance(a, literal)
 
-    def test4(self):
-        a = javascript_link('/app.js', '/test/test.1.js')
-        b = '<script src="/app.js" type="text/javascript"></script>\n<script src="/test/test.1.js" type="text/javascript"></script>'
+    def test_with_defer(self):
+        a = javascript_link("/js/pngfix.js", defer=True)
+        b = """<script defer="defer" src="/js/pngfix.js" type="text/javascript"></script>"""
         assert a == b
-        assert isinstance(a, literal)
+
 
 class TestStylesheetLink(object):
     def test_stylesheet_link_tag(self):
