@@ -111,9 +111,6 @@ def button_to(name, url='', **html_attrs):
     "put" causes *method="post"*.
     
     """
-    if html_attrs:
-        tags.convert_boolean_attrs(html_attrs, ['disabled'])
-    
     method_tag = ''
     method = html_attrs.pop('method', '')
     if method.upper() in ['PUT', 'DELETE']:

@@ -61,6 +61,10 @@
       argument to a dict instead of keyword args. Delete the None handling
       because 'HTMLBuilder.optimize_attrs()' now does it.
 
+- webhelpers.html.tags:
+
+    * Delete 'convert_boolean_attrs()'. The HTML builder now does this itself.
+
 - Port doctests in 'html' subpackage to unit tests.
 
 2.0b5 (2013-11-24)

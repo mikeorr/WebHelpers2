@@ -37,7 +37,7 @@ __all__ = [
            "stylesheet_link", "javascript_link", "auto_discovery_link",
            "xml_declaration",
            # Utility functions
-           "css_classes", "convert_boolean_attrs",
+           "css_classes",
            ]
 
 log = logging.getLogger(__name__)
@@ -168,7 +168,6 @@ def text(name, value=None, id=NotGiven, type="text", **attrs):
     """
     _set_input_attrs(attrs, type, name, value)
     _set_id_attr(attrs, id, name)
-    convert_boolean_attrs(attrs, ["disabled"])
     return HTML.input(**attrs)
 
 
@@ -257,7 +256,6 @@ def checkbox(name, value="1", checked=False, label=None, id=NotGiven, **attrs):
     _set_id_attr(attrs, id, name)
     if checked:
         attrs["checked"] = "checked"
-    convert_boolean_attrs(attrs, ["disabled", "readonly"])
     widget = HTML.input(**attrs)
     if label:
         widget = HTML.label(widget, label)
@@ -359,7 +357,6 @@ def select(name, selected_values, options, id=NotGiven, **attrs):
     """
     _set_id_attr(attrs, id, name)
     attrs["name"] = name
-    convert_boolean_attrs(attrs, ["multiple"])
     # Accept None as selected_values meaning that no option is selected
     if selected_values is None:
         selected_values = ('',)
@@ -1031,7 +1028,6 @@ def javascript_link(*urls, **attrs):
         <script src="/test/test.1.js" type="text/javascript"></script>
         
     """
-    convert_boolean_attrs(attrs, ["defer"])
     tags = []
     for url in urls:
         tag = HTML.script("", type="text/javascript", src=url, **attrs)
@@ -1122,27 +1118,6 @@ def xml_declaration(version="1.0", encoding="utf-8"):
 
 
 ########## INTERNAL FUNCTIONS ##########
-
-def convert_boolean_attrs(attrs, bool_attrs):
-    """Convert boolean values into proper HTML attributes.
-
-    ``attrs`` is a dict of HTML attributes, which will be modified in
-    place.
-
-    ``bool_attrs`` is a list of attribute names.
-
-    For every element in ``bool_attrs``, I look for a corresponding key in
-    ``attrs``.  If its value is true, I change the value to match the key.
-    For example, I convert ``selected=True`` into ``selected="selected"``.  If
-    the value is false, I delete the key.
-    
-    """
-    for a in bool_attrs:
-        if a in attrs:
-            if attrs[a]:
-                attrs[a] = a
-            else:
-                del attrs[a]
 
 def _set_input_attrs(attrs, type, name, value):
     attrs["type"] = type
