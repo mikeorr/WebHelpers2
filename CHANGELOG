@@ -68,6 +68,11 @@
     * Rename 'link_to()' to 'link()', 'link_to_if()' to 'link_if()', and
       'link_to_unless()' to 'link_unless()'.
 
+    * Implementation changes:
+
+      + Call 'HTML.tag()' rather than attribute access for a slight performance
+        improvement.
+
 - Port doctests in 'html' subpackage to unit tests.
 
 2.0b5 (2013-11-24)

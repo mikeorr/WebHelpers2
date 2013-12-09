@@ -37,7 +37,7 @@ comment_re = re.compile(r'<!--|-->')
 
 _universal_newline_rx = re.compile(R"\r\n|\n|\r")  # All types of newline.
 _paragraph_rx = re.compile(R"\n{2,}")  # Paragraph break: 2 or more newlines.
-br = HTML.br() + "\n"
+br = HTML.BR
 
 
 def button_to(name, url='', **html_attrs):
@@ -114,7 +114,7 @@ def button_to(name, url='', **html_attrs):
     method_tag = ''
     method = html_attrs.pop('method', '')
     if method.upper() in ['PUT', 'DELETE']:
-        method_tag = HTML.input(
+        method_tag = HTML.tag("input",
             type='hidden', id='_method', name_='_method', value=method)
   
     if method.upper() in ('GET', 'POST'):
@@ -136,8 +136,8 @@ def button_to(name, url='', **html_attrs):
         html_attrs["type"] = "submit"
         html_attrs["value"] = name
     
-    return HTML.form(method=form_method, action=url, class_="button-to",
-                     c=[HTML.div(method_tag, HTML.input(**html_attrs))])
+    return HTML.tag("form", method=form_method, action=url, class_="button-to",
+        c=[HTML.tag("div", method_tag, HTML.tag("input", **html_attrs))])
 
 def js_obfuscate(content):
     """Obfuscate data in a Javascript tag.
@@ -152,7 +152,7 @@ def js_obfuscate(content):
     obfuscated = ''.join(['%%%x' % ord(x) for x in doc_write])
     complete = "eval(unescape('%s'))" % obfuscated
     cdata = HTML.cdata("\n", complete, "\n//")
-    return HTML.script("\n//", cdata, "\n", type="text/javascript")
+    return HTML.tag("script", "\n//", cdata, "\n", type="text/javascript")
 
 
 def mail_to(email_address, name=None, cc=None, bcc=None, subject=None, 
@@ -226,12 +226,12 @@ def mail_to(email_address, name=None, cc=None, bcc=None, subject=None,
         url += HTML.literal('?') + options_query
     html_attrs['href'] = url
 
-    tag = HTML.a(name or email_address_obfuscated, **html_attrs)
+    tag = HTML.tag("a", name or email_address_obfuscated, **html_attrs)
 
     if encode == 'javascript':
         tmp = "document.write('%s');" % tag
         string = ''.join(['%%%x' % ord(x) for x in tmp])
-        return HTML.script(
+        return HTML.tag("script",
             HTML.literal("\n//<![CDATA[\neval(unescape('%s'))\n//]]>\n" % string),
                          type="text/javascript")
     else:
@@ -284,7 +284,7 @@ def highlight(text, phrase, case_sensitive=False, class_="highlight", **attrs):
     else:
         rx = phrase
     def repl(m):
-        return HTML.strong(m.group(), class_=class_, **attrs)
+        return HTML.tag("strong", m.group(), class_=class_, **attrs)
     return lit_sub(rx, repl, text)
 
 def strip_links(text):
@@ -357,6 +357,6 @@ def text_to_html(text, preserve_lines=False):
         if preserve_lines:
             para = HTML(para)
             para = para.replace("\n", br)
-        paragraphs[i] = HTML.p(para)
+        paragraphs[i] = HTML.tag("p", para)
     return literal("\n\n").join(paragraphs)
 

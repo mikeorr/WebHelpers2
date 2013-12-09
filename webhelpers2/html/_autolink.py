@@ -68,7 +68,7 @@ def _auto_link_urls(text, **href_attrs):
             prefix = "http://www."
         a_options = dict(href_attrs)
         a_options['href'] = literal(prefix + link)
-        return literal(before) + HTML.a(text, **a_options) + literal(after)
+        return literal(before) + HTML.tag("a", text, **a_options) + literal(after)
     return literal(re.sub(AUTO_LINK_RE, handle_match, text))
 
 def _auto_link_email_addresses(text):

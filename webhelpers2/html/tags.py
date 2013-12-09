@@ -109,10 +109,10 @@ def form(url, method="post", multipart=False, hidden_fields=None, **attrs):
             field = hidden(name, value, id=None)
             fields.append(field)
     if fields:
-        div = HTML.div(style="display:none", _nl=True, *fields)
+        div = HTML.tag("div", style="display:none", _nl=True, *fields)
     else:
         div = None
-    return HTML.form(div, _closed=False, **attrs)
+    return HTML.tag("form", div, _closed=False, **attrs)
 
 
 def end_form():
@@ -165,7 +165,7 @@ def text(name, value=None, id=NotGiven, type="text", **attrs):
     """
     _set_input_attrs(attrs, type, name, value)
     _set_id_attr(attrs, id, name)
-    return HTML.input(**attrs)
+    return HTML.tag("input", **attrs)
 
 
 def hidden(name, value=None, id=NotGiven, **attrs):
@@ -173,7 +173,7 @@ def hidden(name, value=None, id=NotGiven, **attrs):
     """
     _set_input_attrs(attrs, "hidden", name, value)
     _set_id_attr(attrs, id, name)
-    return HTML.input(**attrs)
+    return HTML.tag("input", **attrs)
 
 
 def file(name, value=None, id=NotGiven, **attrs):
@@ -190,7 +190,7 @@ def file(name, value=None, id=NotGiven, **attrs):
     """
     _set_input_attrs(attrs, "file", name, value)
     _set_id_attr(attrs, id, name)
-    return HTML.input(**attrs)
+    return HTML.tag("input", **attrs)
 
 
 def password(name, value=None, id=NotGiven, **attrs):
@@ -201,7 +201,7 @@ def password(name, value=None, id=NotGiven, **attrs):
     """
     _set_input_attrs(attrs, "password", name, value)
     _set_id_attr(attrs, id, name)
-    return HTML.input(**attrs)
+    return HTML.tag("input", **attrs)
 
 
 def textarea(name, content="", id=NotGiven, **attrs):
@@ -215,7 +215,7 @@ def textarea(name, content="", id=NotGiven, **attrs):
     """
     attrs["name"] = name
     _set_id_attr(attrs, id, name)
-    return HTML.textarea(content, **attrs)
+    return HTML.tag("textarea", content, **attrs)
 
 
 def checkbox(name, value="1", checked=False, label=None, id=NotGiven, **attrs):
@@ -253,9 +253,9 @@ def checkbox(name, value="1", checked=False, label=None, id=NotGiven, **attrs):
     _set_id_attr(attrs, id, name)
     if checked:
         attrs["checked"] = "checked"
-    widget = HTML.input(**attrs)
+    widget = HTML.tag("input", **attrs)
     if label:
-        widget = HTML.label(widget, label)
+        widget = HTML.tag("label", widget, label)
     return widget
 
 def radio(name, value, checked=False, label=None, **attrs):
@@ -283,9 +283,9 @@ def radio(name, value, checked=False, label=None, **attrs):
         attrs["checked"] = "checked"
     if not "id" in attrs:
         attrs["id"] = '%s_%s' % (name, _make_safe_id_component(value))
-    widget = HTML.input(**attrs)
+    widget = HTML.tag("input", **attrs)
     if label:
-        widget = HTML.label(widget, label)
+        widget = HTML.tag("label", widget, label)
     return widget
 
 
@@ -293,7 +293,7 @@ def submit(name, value, id=NotGiven, **attrs):
     """Create a submit button with the text ``value`` as the caption."""
     _set_input_attrs(attrs, "submit", name, value)
     _set_id_attr(attrs, id, name)
-    return HTML.input(**attrs)
+    return HTML.tag("input", **attrs)
 
 
 def select(name, selected_values, options, id=NotGiven, **attrs):
@@ -373,20 +373,20 @@ def select(name, selected_values, options, id=NotGiven, **attrs):
     # Create the options structure
     def gen_opt(val, label):
         if val in selected_values:
-            return HTML.option(label, value=val, selected="selected")
+            return HTML.tag("option", label, value=val, selected="selected")
         else:
-            return HTML.option(label, value=val)
+            return HTML.tag("option", label, value=val)
     # Loop options and create tree (if optgroups presents)
     for opt in options:
         if isinstance(opt, OptGroup):
             optgroup_options = []
             for subopt in opt.options:
                 optgroup_options.append(gen_opt(subopt.value, subopt.label))
-            optgroup = HTML.optgroup(NL, NL.join(optgroup_options), NL, label=opt.label)
+            optgroup = HTML.tag("optgroup", NL, NL.join(optgroup_options), NL, label=opt.label)
             html_options.append(optgroup)
         else:
             html_options.append(gen_opt(opt.value, opt.label))
-    return HTML.select(NL, NL.join(html_options), NL, **attrs)
+    return HTML.tag("select", NL, NL.join(html_options), NL, **attrs)
 
 
 class ModelTags(object):
@@ -743,16 +743,16 @@ def title(title, required=False, label_for=None):
     title_html = title
     required_html = literal("")
     if label_for:
-        title_html = HTML.label(title_html, for_=label_for)
+        title_html = HTML.tag("label", title_html, for_=label_for)
     if required:
-        required_symbol = HTML.span("*", class_="required-symbol")
-        return HTML.span(
+        required_symbol = HTML.tag("span", "*", class_="required-symbol")
+        return HTML.tag("span",
             title_html, 
             " ",
             required_symbol,
             class_="required")
     else:
-        return HTML.span(title_html, class_="not-required")
+        return HTML.tag("span", title_html, class_="not-required")
         
 
 #### Hyperlink tags
@@ -769,7 +769,7 @@ def link(label, url='', **attrs):
     attrs['href'] = url
     if label == '' or label is None:
         label = url
-    return HTML.a(label, **attrs)
+    return HTML.tag("a", label, **attrs)
 
 
 def link_if(condition, label, url='', **attrs):
@@ -840,9 +840,9 @@ def th_sortable(current_order, column_order, label, url,
         class_ = class_if_sort_column
     else:
         link_attrs = link_attrs or {}
-        content = HTML.a(label, href=url, **link_attrs)
+        content = HTML.tag("a", label, href=url, **link_attrs)
         class_ = class_if_not_sort_column
-    return HTML.th(content, class_=class_, **attrs)
+    return HTML.tag("th", content, class_=class_, **attrs)
 
 
 
@@ -905,13 +905,13 @@ def ol(items, default=literal(""), li_attrs=None, **attrs):
     return _list("ol", items, default, attrs, li_attrs)
 
 def _list(tag, items, default, attrs, li_attrs):
-    content = [HTML.li(x, **li_attrs) for x in items]
+    content = [HTML.tag("li", x, **li_attrs) for x in items]
     if content:
         content = [""] + content + [""]
     elif default is not None:
         return default
     content = literal("\n").join(content)
-    return getattr(HTML, tag)(content, **attrs)
+    return HTML.tag(tag, content, **attrs)
     
 
 def image(url, alt, width=None, height=None, **attrs):
@@ -964,7 +964,7 @@ def image(url, alt, width=None, height=None, **attrs):
     if width is not None or height is not None:
         attrs['width'] = width
         attrs['height'] = height
-    return HTML.img(src=url, alt=alt, **attrs)
+    return HTML.tag("img", src=url, alt=alt, **attrs)
 
 #### Tags for the HTML head
 
@@ -990,7 +990,7 @@ def javascript_link(*urls, **attrs):
     """
     tags = []
     for url in urls:
-        tag = HTML.script("", type="text/javascript", src=url, **attrs)
+        tag = HTML.tag("script", "", type="text/javascript", src=url, **attrs)
         tags.append(tag)
     return literal("\n").join(tags)
 
@@ -1017,7 +1017,7 @@ def stylesheet_link(*urls, **attrs):
     attrs.setdefault("media", "screen")
     tags = []
     for url in urls:
-        tag = HTML.link(href=url, **attrs)
+        tag = HTML.tag("link", href=url, **attrs)
         tags.append(tag)
     return literal('\n').join(tags)
 
@@ -1063,7 +1063,7 @@ def auto_discovery_link(url, feed_type="rss", **attrs):
         title = feed_type.upper()
         feed_type = 'application/%s+xml' % feed_type.lower()
     attrs.setdefault("title", title)
-    return HTML.link(rel="alternate", type=feed_type, href=url, **attrs)
+    return HTML.tag("link", rel="alternate", type=feed_type, href=url, **attrs)
 
 
 ########## INTERNAL FUNCTIONS ##########
