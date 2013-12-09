@@ -304,8 +304,16 @@ class HTMLBuilder(object):
         3. Replace non-trailing underscores with hyphens.
         4. If a key is listed in 'self.compose_attrs' and the value is
            a list or tuple, join the elements into a string using the separator
-           specified. But if the value is empty, delete the key entirely.
-        5. If a key is listed in 'self.boolean_attrs' or the 'boolean_attrs'
+           specified. If the value is an empty list/tuple, delete the key
+           entirely. If any element is itself a 2-tuple, the first subelement is
+           the string item, and the second is treated as a boolean flag.  If
+           the flag is true, keep the item, otherwise delete it from the list.
+           This allows users to programatically set the parts of a composeable
+           attribute in a template without extra loops and logic code.
+        5. For the 'class' attribute (or 'class_'), if the value is a
+           list/tuple and any elements are 2-tuples, treat the second
+           subelement
+        6. If a key is listed in 'self.boolean_attrs' or the 'boolean_attrs'
            argument, convert the value to an HTML boolean. If the value is
            true, set the value to match the key. If the value is false, 
            delete the key.
@@ -314,6 +322,8 @@ class HTMLBuilder(object):
             boolean_keys = self.boolean_attrs.union(boolean_attrs)
         else:
             boolean_keys = self.boolean_attrs
+        # Make a copy of the keys because we'll be adding/deleting in the
+        # original dict.
         keys = list(attrs.keys()) if six.PY3 else attrs.keys()
         for key in keys:
             value = attrs[key]
@@ -332,15 +342,26 @@ class HTMLBuilder(object):
             # Convert "composeable attributes" from list to delimited string.
             if key in self.compose_attrs and isinstance(value, (list, tuple)):
                 if value:
+                    value_orig = value
+                    value = []
+                    for elm in value_orig:
+                        if isinstance(elm, (list, tuple)) and len(elm) == 2:
+                            if elm[1]:
+                                value.append(elm[0])
+                            # Else ignore the element.
+                        else:
+                            value.append(elm)
                     sep = self.compose_attrs[key]
                     attrs[key] = sep.join(value)
                 else:
                     del attrs[key]
+            # Convert boolean attributes.
             if key in boolean_keys:
                 if value:
                     attrs[key] = key   # Set the value to match the key.
                 else:
                     del attrs[key]
+            key_orig = value_orig = None  # To guard against bugs.
 
     def render_attrs(self, attrs):
         """Format HTML attributes into a string of ' key="value"' pairs which
