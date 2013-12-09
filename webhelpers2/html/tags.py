@@ -35,7 +35,6 @@ __all__ = [
            "ol", "ul", "image", "BR",
            # Head tags and document type
            "stylesheet_link", "javascript_link", "auto_discovery_link",
-           "xml_declaration",
            # Utility functions
            "css_classes",
            ]
@@ -1104,17 +1103,6 @@ def auto_discovery_link(url, feed_type="rss", **attrs):
         feed_type = 'application/%s+xml' % feed_type.lower()
     attrs.setdefault("title", title)
     return HTML.link(rel="alternate", type=feed_type, href=url, **attrs)
-
-def xml_declaration(version="1.0", encoding="utf-8"):
-    """Create an XML declaration.
-
-       Usage::
-
-           >>> xml_declaration()
-           literal(u'<?xml version="1.0" encoding="utf-8" ?>')
-    """
-    return literal('<?xml version="%s" encoding="%s" ?>') % (version, encoding)
-
 
 
 ########## INTERNAL FUNCTIONS ##########
