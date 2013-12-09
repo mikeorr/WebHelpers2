@@ -50,7 +50,8 @@
     + Replace UnfinishedTag with functools.partial.
     + Delete UnfinishedComment, UnfinishedLiteral, UnfinishedTag.
     + Refactor methods to call self instead of doing ad hoc joins.
-    + Merge 'make_tag()' into 'HTMLBuilder.tag()'.
+    + Merge 'make_tag()' into 'HTMLBuilder.tag()'. Make it call 'self' rather
+      than joining strings.
     + Move 'empty_tags' to 'HTMLBuilder.void_tags'.
     + Move part of 'format_attrs()' to 'HTMLBuilder.optimize_attrs()', and
       merge '_attr_decode()' into it, and also None value handling. Move the

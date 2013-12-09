@@ -247,21 +247,20 @@ class HTMLBuilder(object):
         attrs = kw
         self.optimize_attrs(attrs, boolean_attrs)
         attrs_str = self.render_attrs(attrs)
+        chunks = []
         if not args and tag in self.void_tags and closed:
-            substr = '<%s%s />'
-            html = literal(substr % (tag, attrs_str))
+            substr = literal("<{}{} />")
+            html = substr.format(tag, attrs_str)
+            chunks.append(html)
         else:
-            chunks = ["<%s%s>" % (tag, attrs_str)]
-            chunks.extend(escape(x) for x in args)
+            substr = literal("<{}{}>")
+            html = substr.format(tag, attrs_str)
+            chunks.append(html)
+            chunks.extend(args)
             if closed:
-                chunks.append("</%s>" % tag)
-            if nl:
-                html = "\n".join(chunks)
-            else:
-                html = "".join(chunks)
-        if nl:
-            html += "\n"
-        return literal(html)
+                substr = literal("</{}>")
+                chunks.append(substr.format(tag))
+        return self(*chunks, nl=nl)
 
     def __getattr__(self, attr):
         """Generate the tag for the given attribute name."""
@@ -323,7 +322,7 @@ class HTMLBuilder(object):
             if value is None:
                 del attrs[key]
                 continue
-            # Rename key if contains internal or trailing underscores.
+            # Rename key if it contains internal or trailing underscores.
             key_orig = key
             while key.endswith("_"):
                 key = key[:-1]
