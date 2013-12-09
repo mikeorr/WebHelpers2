@@ -73,6 +73,12 @@
       + Call 'HTML.tag()' rather than attribute access for a slight performance
         improvement.
 
+- webhelpers.html.tools:
+
+    * Implementation changes:
+
+      + Unpack nested tag expression in 'button_to()'.
+
 - Port doctests in 'html' subpackage to unit tests.
 
 2.0b5 (2013-11-24)

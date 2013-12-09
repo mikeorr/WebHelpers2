@@ -136,8 +136,11 @@ def button_to(name, url='', **html_attrs):
         html_attrs["type"] = "submit"
         html_attrs["value"] = name
     
-    return HTML.tag("form", method=form_method, action=url, class_="button-to",
-        c=[HTML.tag("div", method_tag, HTML.tag("input", **html_attrs))])
+    input_ = HTML.tag("input", **html_attrs)
+    div = HTML.tag("div", method_tag, input_)
+    form = HTML.tag("form", div, 
+        method=form_method, action=url, class_="button-to")
+    return form
 
 def js_obfuscate(content):
     """Obfuscate data in a Javascript tag.
