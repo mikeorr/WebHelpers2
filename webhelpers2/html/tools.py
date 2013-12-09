@@ -7,6 +7,7 @@ There are no helpers to prettify HTML or canonicalize whitespace because
 BeautifulSoup and HTMLTidy handle this well.
 """
 
+from __future__ import unicode_literals
 import re
 
 import six

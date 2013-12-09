@@ -9,6 +9,7 @@ noted in the helpers' docstrings.
 To create your own custom tags, see ``webhelpers2.html.builder``.
 """
 
+from __future__ import unicode_literals
 import datetime
 import logging
 import os
