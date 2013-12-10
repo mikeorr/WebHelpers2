@@ -164,17 +164,13 @@ def text(name, value=None, id=NotGiven, type="text", **attrs):
         literal(u'<input id="color" name="color" type="color" />')
     
     """
-    _set_input_attrs(attrs, type, name, value)
-    _set_id_attr(attrs, id, name)
-    return HTML.tag("input", **attrs)
+    return _input(type, name, value, id, attrs)
 
 
 def hidden(name, value=None, id=NotGiven, **attrs):
     """Create a hidden field.
     """
-    _set_input_attrs(attrs, "hidden", name, value)
-    _set_id_attr(attrs, id, name)
-    return HTML.tag("input", **attrs)
+    return _input("hidden", name, value, id, attrs)
 
 
 def file(name, value=None, id=NotGiven, **attrs):
@@ -189,9 +185,7 @@ def file(name, value=None, id=NotGiven, **attrs):
         literal(u'<input id="myfile" name="myfile" type="file" />')
     
     """
-    _set_input_attrs(attrs, "file", name, value)
-    _set_id_attr(attrs, id, name)
-    return HTML.tag("input", **attrs)
+    return _input("file", name, value, id, attrs)
 
 
 def password(name, value=None, id=NotGiven, **attrs):
@@ -200,9 +194,7 @@ def password(name, value=None, id=NotGiven, **attrs):
     Takes the same options as ``text()``.
     
     """
-    _set_input_attrs(attrs, "password", name, value)
-    _set_id_attr(attrs, id, name)
-    return HTML.tag("input", **attrs)
+    return _input("password", name, value, id, attrs)
 
 
 def textarea(name, content="", id=NotGiven, **attrs):
@@ -250,11 +242,9 @@ def checkbox(name, value="1", checked=False, label=None, id=NotGiven, **attrs):
         >>> checkbox("hi")
         literal(u'<input id="hi" name="hi" type="checkbox" value="1" />')
     """
-    _set_input_attrs(attrs, "checkbox", name, value)
-    _set_id_attr(attrs, id, name)
     if checked:
         attrs["checked"] = "checked"
-    widget = HTML.tag("input", **attrs)
+    widget = _input("checkbox", name, value, id, attrs)
     if label:
         widget = HTML.tag("label", widget, " ", label)
     return widget
@@ -279,12 +269,13 @@ def radio(name, value, checked=False, label=None, **attrs):
     To arrange multiple radio buttons in a group, see
     webhelpers2.containers.distribute().
     """
-    _set_input_attrs(attrs, "radio", name, value)
     if checked:
         attrs["checked"] = "checked"
     if not "id" in attrs:
         attrs["id"] = "{}_{}".format(name, _make_safe_id_component(value))
-    widget = HTML.tag("input", **attrs)
+    # Pass None as 'id' arg to '_input()' to prevent further modification of
+    # the 'id' attribute.
+    widget = _input("radio", name, value, None, attrs)
     if label:
         widget = HTML.tag("label", widget, " ", label)
     return widget
@@ -292,9 +283,7 @@ def radio(name, value, checked=False, label=None, **attrs):
 
 def submit(name, value, id=NotGiven, **attrs):
     """Create a submit button with the text ``value`` as the caption."""
-    _set_input_attrs(attrs, "submit", name, value)
-    _set_id_attr(attrs, id, name)
-    return HTML.tag("input", **attrs)
+    return _input("submit", name, value, id, attrs)
 
 
 def select(name, selected_values, options, id=NotGiven, **attrs):
@@ -1082,10 +1071,13 @@ BR = HTML.BR
 
 ########## INTERNAL FUNCTIONS ##########
 
-def _set_input_attrs(attrs, type, name, value):
+def _input(type, name, value, id, attrs):
+    """Finish rendering an input tag."""
     attrs["type"] = type
     attrs["name"] = name
     attrs["value"] = value
+    _set_id_attr(attrs, id, name)
+    return HTML.tag("input", **attrs)
 
 def _set_id_attr(attrs, id_arg, name):
     if "id_" in attrs:
