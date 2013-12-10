@@ -63,6 +63,7 @@
 
 - webhelpers.html.tags:
 
+    * Delete 'title()'. It's too specific for a general-purpose library.
     * Delete 'xml_declaration()'.
     * Delete 'convert_boolean_attrs()'. The HTML builder now does this itself.
     * Rename 'link_to()' to 'link()', 'link_to_if()' to 'link_if()', and

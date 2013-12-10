@@ -27,7 +27,7 @@ __all__ = [
            "text", "textarea", "hidden", "file", "password", 
            "checkbox", "radio", "submit",
            "select", "Options", "Option", "OptGroup",
-           "ModelTags", "title",
+           "ModelTags",
            # hyperlinks
            "link", "link_if", "link_unless",
            # Table tags
@@ -709,54 +709,6 @@ class Options(tuple):
         """Iterate the label element of each pair."""
         return (x.label for x in self)
 
-def title(title, required=False, label_for=None):
-    """Format the user-visible title for a form field.
-
-    Use this for forms that have a text title above or next to each
-    field.
-
-    ``title`` -- the name of the field; e.g., "First Name".
-
-    ``required`` -- if true, append a \*" to the title and use the
-    'required' HTML format (see example); otherwise use the 'not
-    required' format.
-
-    ``label_for`` -- if provided, put ``<label for="ID">`` around the
-    title.  The value should be the HTML ID of the input field related
-    to this title.  Per the HTML standard, the ID should point to a
-    single control (input, select, textarea), not to multiple controls
-    (fieldset, group of checkboxes, group of radio buttons).  ID's are
-    set by passing the keyword arg ``id`` to the appropriate helper.
-    
-    Note that checkboxes and radio buttions typically have their own
-    individual labels in addition to the title.  You can set these with
-    the ``label`` argument to ``checkbox()`` and ``radio()``.
-
-    This helper does not accept other keyword arguments.
-
-    >>> title("First Name")
-    literal(u'<span class="not-required">First Name</span>')
-    >>> title("Last Name", True)
-    literal(u'<span class="required">Last Name <span class="required-symbol">*</span></span>')
-    >>> title("First Name", False, "fname")
-    literal(u'<span class="not-required"><label for="fname">First Name</label></span>')
-    >>> title("Last Name", True, label_for="lname")
-    literal(u'<span class="required"><label for="lname">Last Name</label> <span class="required-symbol">*</span></span>')
-    """
-    title_html = title
-    required_html = literal("")
-    if label_for:
-        title_html = HTML.tag("label", title_html, for_=label_for)
-    if required:
-        required_symbol = HTML.tag("span", "*", class_="required-symbol")
-        return HTML.tag("span",
-            title_html, 
-            " ",
-            required_symbol,
-            class_="required")
-    else:
-        return HTML.tag("span", title_html, class_="not-required")
-        
 
 #### Hyperlink tags
 

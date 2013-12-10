@@ -362,28 +362,6 @@ class TestOptions(HTMLTestCase):
         assert a[2].label == "B"
 
 
-class TestTitle(HTMLTestCase):
-    def test1(self):
-        a = title("First Name")
-        b = literal('<span class="not-required">First Name</span>')
-        self.check(a, b)
-
-    def test2(self):
-        a = title("Last Name", True)
-        b = literal('<span class="required">Last Name <span class="required-symbol">*</span></span>')
-        self.check(a, b)
-
-    def test3(self):
-        a = title("First Name", False, "fname")
-        b = literal(u'<span class="not-required"><label for="fname">First Name</label></span>')
-        self.check(a, b)
-
-    def test4(self):
-        a = title("Last Name", True, label_for="lname")
-        b = literal('<span class="required"><label for="lname">Last Name</label> <span class="required-symbol">*</span></span>')
-        self.check(a, b)
-
-
 class TestThSortable(HTMLTestCase):
     def test1(self):
         sort = "name"
