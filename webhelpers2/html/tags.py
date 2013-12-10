@@ -43,6 +43,9 @@ __all__ = [
 
 log = logging.getLogger(__name__)
 
+
+########## Function-based form tag helpers ##########
+
 def form(url, method="post", multipart=False, hidden_fields=None, **attrs):
     """An open tag for a form that will submit to ``url``.
 
@@ -388,6 +391,8 @@ def select(name, selected_values, options, id=NotGiven, **attrs):
     return HTML.tag("select", NL, NL.join(html_options), NL, **attrs)
 
 
+########## ModelTags helper ##########
+
 class ModelTags(object):
     """A nice way to build a form for a database record.
     
@@ -615,6 +620,8 @@ class ModelTags(object):
             kw['id'] = self.id_format.format(name)
 
 
+########## Containers for select() options ##########
+
 class Option(object):
     """An option for an HTML select.
     
@@ -710,7 +717,7 @@ class Options(tuple):
         return (x.label for x in self)
 
 
-#### Hyperlink tags
+########## Hyperlink tags ##########
 
 def link(label, url='', **attrs):
     """Create a hyperlink with the given text pointing to the URL.
@@ -748,7 +755,9 @@ def link_unless(condition, label, url='', **attrs):
     else:
         return label
 
-#### Table tags
+
+########## Table tags ##########
+
 def th_sortable(current_order, column_order, label, url,
     class_if_sort_column="sort", class_if_not_sort_column=None, 
     link_attrs=None, name="th", **attrs):
@@ -801,7 +810,7 @@ def th_sortable(current_order, column_order, label, url,
 
 
 
-#### Other non-form tags
+########## Other non-form tags ##########
 
 def ul(items, default=None, li_attrs=None, **attrs):
     R"""Return an unordered list with each item wrapped in <li>.
@@ -921,7 +930,8 @@ def image(url, alt, width=None, height=None, **attrs):
         attrs['height'] = height
     return HTML.tag("img", src=url, alt=alt, **attrs)
 
-#### Tags for the HTML head
+
+########## Tags for the HTML head ##########
 
 def javascript_link(*urls, **attrs):
     """Return script include tags for the specified javascript URLs.
@@ -1021,7 +1031,7 @@ def auto_discovery_link(url, feed_type="rss", **attrs):
     return HTML.tag("link", rel="alternate", type=feed_type, href=url, **attrs)
 
 
-########## BACKWARD COMPATIBILITY ##########
+########## Backward compatibility ##########
 
 link_to = link
 link_to_if = link_if
@@ -1030,7 +1040,8 @@ link_to_unless = link_unless
 NL = HTML.NL
 BR = HTML.BR
 
-########## INTERNAL FUNCTIONS ##########
+
+########## Private functions ##########
 
 def _input(type, name, value, id, attrs):
     """Finish rendering an input tag."""
