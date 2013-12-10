@@ -256,7 +256,7 @@ def checkbox(name, value="1", checked=False, label=None, id=NotGiven, **attrs):
         attrs["checked"] = "checked"
     widget = HTML.tag("input", **attrs)
     if label:
-        widget = HTML.tag("label", widget, label)
+        widget = HTML.tag("label", widget, " ", label)
     return widget
 
 def radio(name, value, checked=False, label=None, **attrs):
@@ -286,7 +286,7 @@ def radio(name, value, checked=False, label=None, **attrs):
         attrs["id"] = "{}_{}".format(name, _make_safe_id_component(value))
     widget = HTML.tag("input", **attrs)
     if label:
-        widget = HTML.tag("label", widget, label)
+        widget = HTML.tag("label", widget, " ", label)
     return widget
 
 

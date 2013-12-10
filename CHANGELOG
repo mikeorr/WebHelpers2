@@ -71,6 +71,8 @@
     * The 'id_format' argument to the 'ModelTags' constructor now uses "{}"
       string formatting. It still accepts "%s" for backward compatibility and
       converts it to the newer format.
+    * Add a space between the widget and the label when rendering 'checkbox()'
+      or 'radio()' with the 'label' argument.
 
     * Implementation changes:
 

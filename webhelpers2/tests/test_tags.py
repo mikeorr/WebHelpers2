@@ -70,8 +70,15 @@ class TestInputPassword(HTMLTestCase):
 
 class TestInputCheckbox(HTMLTestCase):
     def test_check_box(self):
+        a = checkbox("admin")
         b = '<input id="admin" name="admin" type="checkbox" value="1" />'
-        assert checkbox("admin") == b
+        self.check(a, b)
+
+    def test_label_space(self):
+        """Make sure there's a space between the widget and the label."""
+        a = checkbox("admin", label="Check me")
+        b = '<label><input id="admin" name="admin" type="checkbox" value="1" /> Check me</label>'
+        self.check(a, b)
 
 
 class TestInputRadio(HTMLTestCase):
@@ -98,6 +105,12 @@ class TestInputRadio(HTMLTestCase):
     def test6(self):
         b = '<input checked="checked" id="num_people_5" name="num_people" type="radio" value="5" />'
         assert radio("num_people", 5, checked=True) == b
+
+    def test_label_space(self):
+        """Make sure there's a space between the widget and the label."""
+        a = radio("gender", "m", label="Push me")
+        b = '<label><input id="gender_m" name="gender" type="radio" value="m" /> Push me</label>'
+        self.check(a, b)
 
 
 class TestInputSubmit(HTMLTestCase):
