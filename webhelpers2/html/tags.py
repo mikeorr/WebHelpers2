@@ -211,7 +211,8 @@ def textarea(name, content="", id=NotGiven, **attrs):
     return HTML.tag("textarea", content, **attrs)
 
 
-def checkbox(name, value="1", checked=False, label=None, id=NotGiven, **attrs):
+def checkbox(name, value="1", checked=False, label=None, label_class=None,
+    id=NotGiven, **attrs):
     """Create a check box.
 
     Arguments:
@@ -222,6 +223,10 @@ def checkbox(name, value="1", checked=False, label=None, id=NotGiven, **attrs):
     ``checked`` -- true if the box should be initially checked.
 
     ``label`` -- a text label to display to the right of the box.
+    This puts a <label> tag around the input tag.
+
+    ``label_class`` -- CSS class for <label> tag. This should be a keyword
+    argument because its position may change in a future version.
 
     ``id`` is the HTML ID attribute, and should be passed as a keyword
     argument.  By default the ID is the same as the name filtered through
@@ -246,10 +251,10 @@ def checkbox(name, value="1", checked=False, label=None, id=NotGiven, **attrs):
         attrs["checked"] = "checked"
     widget = _input("checkbox", name, value, id, attrs)
     if label:
-        widget = HTML.tag("label", widget, " ", label)
+        widget = HTML.tag("label", widget, " ", label, class_=label_class)
     return widget
 
-def radio(name, value, checked=False, label=None, **attrs):
+def radio(name, value, checked=False, label=None, label_class=None, **attrs):
     """Create a radio button.
 
     Arguments:
@@ -261,7 +266,11 @@ def radio(name, value, checked=False, label=None, **attrs):
     ``checked`` -- true if the button should be initially pressed.
 
     ``label`` -- a text label to display to the right of the button.
+    This puts a <label> tag around the input tag.
     
+    ``label_class`` -- CSS class for <label> tag. This should be a keyword
+    argument because its position may change in a future version.
+
     The id of the radio button will be set to the name + '_' + value to 
     ensure its uniqueness.  An ``id`` keyword arg overrides this.  (Note
     that this behavior is unique to the ``radio()`` helper.)
@@ -277,7 +286,7 @@ def radio(name, value, checked=False, label=None, **attrs):
     # the 'id' attribute.
     widget = _input("radio", name, value, None, attrs)
     if label:
-        widget = HTML.tag("label", widget, " ", label)
+        widget = HTML.tag("label", widget, " ", label, class_=label_class)
     return widget
 
 

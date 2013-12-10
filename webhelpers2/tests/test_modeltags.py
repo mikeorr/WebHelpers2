@@ -1,12 +1,14 @@
 from webhelpers2.html import HTML
 from webhelpers2.html.tags import *
 
+from . import HTMLTestCase
+
 class Holder(object):
     def __init__(self, settings):
         for k,v in settings.items():
             setattr(self, k, v)
             
-class TestModelTagsHelperWithObject(object):
+class TestModelTagsHelperWithObject(HTMLTestCase):
     def setup_method(self, method):
         obj = Holder({"name":"Jim", "phone":"123-456-7890", "fulltime":True, "fired":False, "password":"bacon", "longtext":"lorem ipsum lorem ipsum\n"*10, "favcolor":"blue", "lang":"en"})
         self.m = ModelTags(obj)
@@ -58,6 +60,11 @@ class TestModelTagsHelperWithDict(TestModelTagsHelperWithObject):
         b = '<input checked="checked" id="fulltime" name="fulltime" type="checkbox" value="1" />'
         assert self.m.checkbox("fulltime") == b
 
+    def test_check_box_with_label_and_label_class(self):
+        a = self.m.checkbox("fulltime", label="Full Time", label_class="cl")
+        b = '<label class="cl"><input checked="checked" id="fulltime" name="fulltime" type="checkbox" value="1" /> Full Time</label>'
+        self.check(a, b)
+
     def test_hidden_field(self):
         b = '<input id="name" name="name" type="hidden" value="Jim" />'
         assert self.m.hidden("name") == b
@@ -77,6 +84,11 @@ class TestModelTagsHelperWithDict(TestModelTagsHelperWithObject):
     def test_radio_button2(self):
         b = '<input id="favcolor_red" name="favcolor" type="radio" value="red" />'
         assert self.m.radio("favcolor", "red") == b
+
+    def test_radio_button_with_label_and_label_class(self):
+        a = self.m.radio("favcolor", "blue", label="Blue", label_class="cl")
+        b = '<label class="cl"><input checked="checked" id="favcolor_blue" name="favcolor" type="radio" value="blue" /> Blue</label>'
+        self.check(a, b)
 
     def test_text_area(self):
         b = '<textarea id="longtext" name="longtext">lorem ipsum lorem ipsum\nlorem ipsum lorem ipsum\nlorem ipsum lorem ipsum\nlorem ipsum lorem ipsum\nlorem ipsum lorem ipsum\nlorem ipsum lorem ipsum\nlorem ipsum lorem ipsum\nlorem ipsum lorem ipsum\nlorem ipsum lorem ipsum\nlorem ipsum lorem ipsum\n</textarea>'

@@ -73,6 +73,8 @@
       converts it to the newer format.
     * Add a space between the widget and the label when rendering 'checkbox()'
       or 'radio()' with the 'label' argument.
+    * 'checkbox()' and 'radio()' have a new keyword argument 'label_class'.
+      This sets the <label>'s class attribute.
 
     * Implementation changes:
 

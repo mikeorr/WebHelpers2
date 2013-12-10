@@ -80,6 +80,11 @@ class TestInputCheckbox(HTMLTestCase):
         b = '<label><input id="admin" name="admin" type="checkbox" value="1" /> Check me</label>'
         self.check(a, b)
 
+    def test_label_class(self):
+        a = checkbox("admin", label="Check me", label_class="emphasize")
+        b = '<label class="emphasize"><input id="admin" name="admin" type="checkbox" value="1" /> Check me</label>'
+        self.check(a, b)
+
 
 class TestInputRadio(HTMLTestCase):
     def test_radio_button(self):
@@ -110,6 +115,12 @@ class TestInputRadio(HTMLTestCase):
         """Make sure there's a space between the widget and the label."""
         a = radio("gender", "m", label="Push me")
         b = '<label><input id="gender_m" name="gender" type="radio" value="m" /> Push me</label>'
+        self.check(a, b)
+
+    def test_label_class(self):
+        """Make sure there's a space between the widget and the label."""
+        a = radio("gender", "m", label="Push me", label_class="emphasize")
+        b = '<label class="emphasize"><input id="gender_m" name="gender" type="radio" value="m" /> Push me</label>'
         self.check(a, b)
 
 
