@@ -66,7 +66,8 @@
     * Delete 'xml_declaration()'.
     * Delete 'convert_boolean_attrs()'. The HTML builder now does this itself.
     * Rename 'link_to()' to 'link()', 'link_to_if()' to 'link_if()', and
-      'link_to_unless()' to 'link_unless()'.
+      'link_to_unless()' to 'link_unless()'. Keep the old names as aliases for
+      backward compatibility.
 
     * Implementation changes:
 

@@ -33,15 +33,15 @@ __all__ = [
            # Table tags
            "th_sortable",
            # Other non-form tags
-           "ol", "ul", "image", "BR",
+           "ol", "ul", "image",
            # Head tags and document type
            "stylesheet_link", "javascript_link", "auto_discovery_link",
+           # Backward compatibility
+           "link_to", "link_to_if", "link_to_unless",
+           "BR",
            ]
 
 log = logging.getLogger(__name__)
-
-NL = HTML.NL
-BR = HTML.BR
 
 def form(url, method="post", multipart=False, hidden_fields=None, **attrs):
     """An open tag for a form that will submit to ``url``.
@@ -1066,6 +1066,15 @@ def auto_discovery_link(url, feed_type="rss", **attrs):
     attrs.setdefault("title", title)
     return HTML.tag("link", rel="alternate", type=feed_type, href=url, **attrs)
 
+
+########## BACKWARD COMPATIBILITY ##########
+
+link_to = link
+link_to_if = link_if
+link_to_unless = link_unless
+
+NL = HTML.NL
+BR = HTML.BR
 
 ########## INTERNAL FUNCTIONS ##########
 

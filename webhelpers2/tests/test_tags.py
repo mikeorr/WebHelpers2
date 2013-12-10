@@ -203,6 +203,11 @@ class TestLinkHelper(HTMLTestCase):
         a = link("Hello", "http://www.example.com", onclick="alert('yay!')")
         b = '<a href="http://www.example.com" onclick="alert(&#39;yay!&#39;)">Hello</a>'
         assert a == b
+
+    def test_backward_compatibility_alias(self):
+        assert link_to is link
+        assert link_to_if is link_if
+        assert link_to_unless is link_unless
     
 
 class TestAssetTagHelper(HTMLTestCase):
