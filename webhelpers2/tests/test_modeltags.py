@@ -92,6 +92,22 @@ class TestModelTagsHelperWithDict(TestModelTagsHelperWithObject):
         assert a == b
 
 
+class TestIdGeneration(object):
+    def check_id_format_syntax(self, id_format):
+        m = ModelTags(None, id_format=id_format)
+        a = {}
+        b = {"id": "person:foo"}
+        m._update_id("foo", a)
+        assert a == b
+
+    def test_braces_syntax(self):
+        self.check_id_format_syntax("person:{}")
+
+    def test_percent_syntax(self):
+        """Backward compatibility with WebHelpers."""
+        self.check_id_format_syntax("person:%s")
+
+
 class TestModelTagsHelperWithIdGeneration(TestModelTagsHelperWithObject):
     def setup_method(self, method):
         obj = Holder({"name":"Jim", "phone":"123-456-7890", "fulltime":True, "fired":False, "password":"bacon", "longtext":"lorem ipsum lorem ipsum\n"*10, "favcolor":"blue", "lang":"en"})

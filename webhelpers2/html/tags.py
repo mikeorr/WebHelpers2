@@ -283,7 +283,7 @@ def radio(name, value, checked=False, label=None, **attrs):
     if checked:
         attrs["checked"] = "checked"
     if not "id" in attrs:
-        attrs["id"] = '%s_%s' % (name, _make_safe_id_component(value))
+        attrs["id"] = "{}_{}".format(name, _make_safe_id_component(value))
     widget = HTML.tag("input", **attrs)
     if label:
         widget = HTML.tag("label", widget, label)
@@ -435,12 +435,16 @@ class ModelTags(object):
         European format (DD/MM/YYYY) is "%d/%m/%Y".  ISO format (YYYY-MM-DD)
         is "%Y-%m-%d".
 
-        ``id_format`` is a formatting-operator format for the HTML 'id' attribute.
-        It should contain one "%s" where the tag's name will be embedded.
+        ``id_format`` is a formatting-operator format for the HTML 'id'
+        attribute.  It should contain one "{}" where the tag's name will be
+        embedded. For backward compatibility with WebHelpers, "%s" is
+        automatically converted to "{}".
         """
         self.record = record
         self.use_keys = use_keys
         self.date_format = date_format
+        if id_format:
+            id_format = id_format.replace("%s", "{}")
         self.id_format = id_format
     
     def checkbox(self, name, value='1', label=None, **kw):
@@ -539,7 +543,7 @@ class ModelTags(object):
         self._update_id(name, kw)
         value = self._get_value(name, kw)
         if 'id' in kw:
-            kw["id"] = '%s_%s' % (kw['id'], _make_safe_id_component(checked_value))
+            kw["id"] = "{}_{}".format(kw['id'], _make_safe_id_component(checked_value))
         checked = (value == checked_value)
         return radio(name, checked_value, checked, label, **kw)
 
@@ -610,7 +614,7 @@ class ModelTags(object):
         Otherwise do nothing.
         """
         if self.id_format is not None and 'id' not in kw:
-            kw['id'] = self.id_format % name
+            kw['id'] = self.id_format.format(name)
 
 
 class Option(object):
@@ -643,7 +647,7 @@ class OptGroup(object):
     def __repr__(self):
         classname = self.__class__.__name__
         data = [x for x in self.options]
-        return "%s(%s, %s)" % (classname, data, repr(self.label))
+        return "{}({}, {})".format(classname, data, repr(self.label))
 
 class Options(tuple):
     """A tuple of ``Option`` objects for the ``select()`` helper.
@@ -697,7 +701,7 @@ class Options(tuple):
     def __repr__(self):
         classname = self.__class__.__name__
         data = [x for x in self]
-        return "%s(%s)" % (classname, data)
+        return "{}({})".format(classname, data)
 
     def values(self):
         """Iterate the value element of each pair."""
@@ -1062,7 +1066,7 @@ def auto_discovery_link(url, feed_type="rss", **attrs):
     title = ""
     if feed_type.lower() in ('rss', 'atom'):
         title = feed_type.upper()
-        feed_type = 'application/%s+xml' % feed_type.lower()
+        feed_type = 'application/{}+xml'.format(feed_type.lower())
     attrs.setdefault("title", title)
     return HTML.tag("link", rel="alternate", type=feed_type, href=url, **attrs)
 

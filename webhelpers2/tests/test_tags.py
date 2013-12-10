@@ -187,7 +187,7 @@ class TestAttributes(HTMLTestCase):
 
     def test_id_and_id_(self):
         raises(TypeError, text, "spam", "pizza", id="fubar", id_="eggs")
-        
+
 
 class TestLinkHelper(HTMLTestCase):
     def test_link_tag_with_query(self):
