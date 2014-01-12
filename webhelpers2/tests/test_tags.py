@@ -398,6 +398,11 @@ class TestSelect(HTMLTestCase):
         b = literal('<select id="recipients" name="recipients">\n<optgroup label="Users">\n<option value="u1">User1</option>\n<option value="u2">User2</option>\n</optgroup>\n<optgroup label="Groups">\n<option value="g1">Group1</option>\n<option value="g2">Group2</option>\n</optgroup>\n</select>')
         self.check(a, b)
 
+    def test7(self):
+        a = select("enabled", True, [(False, "No"), (True, "Yes")])
+        b = literal('<select id="enabled" name="enabled">\n<option value="False">No</option>\n<option selected="selected" value="True">Yes</option>\n</select>')
+        self.check(a, b)
+
 
 class TestOptGroup(object):
     def test_repr(self):
