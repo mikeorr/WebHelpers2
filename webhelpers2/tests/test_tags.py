@@ -308,7 +308,6 @@ class TestImage(HTMLTestCase):
         assert a == b
 
 
-@pytest.mark.xfail(reason="Selected options not being set properly.")
 class TestSelect(HTMLTestCase):
     def test1(self):
         a = select("currency", "$", [["$", "Dollar"], ["DKK", "Kroner"]])
@@ -338,6 +337,11 @@ class TestSelect(HTMLTestCase):
     def test6(self):
         a = select("recipients", None, [([("u1", "User1"), ("u2", "User2")], "Users"), ([("g1", "Group1"), ("g2", "Group2")], "Groups")])
         b = literal('<select id="recipients" name="recipients">\n<optgroup label="Users">\n<option value="u1">User1</option>\n<option value="u2">User2</option>\n</optgroup>\n<optgroup label="Groups">\n<option value="g1">Group1</option>\n<option value="g2">Group2</option>\n</optgroup>\n</select>')
+        self.check(a, b)
+
+    def test7(self):
+        a = select("enabled", True, [(False, "No"), (True, "Yes")])
+        b = literal('<select id="enabled" name="enabled">\n<option value="False">No</option>\n<option selected="selected" value="True">Yes</option>\n</select>')
         self.check(a, b)
 
 
