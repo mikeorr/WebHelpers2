@@ -308,7 +308,6 @@ class TestImage(HTMLTestCase):
         assert a == b
 
 
-@pytest.mark.xfail(reason="Selected options not being set properly.")
 class TestSelect(HTMLTestCase):
     def test1(self):
         a = select("currency", "$", [["$", "Dollar"], ["DKK", "Kroner"]])

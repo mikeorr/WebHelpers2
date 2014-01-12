@@ -360,10 +360,10 @@ def select(name, selected_values, options, id=NotGiven, **attrs):
     if selected_values is None:
         selected_values = ('',)
     # Turn a single string or integer into a list
-    elif isinstance(selected_values, six.integer_types):
+    elif isinstance(selected_values, (six.string_types, six.integer_types)):
         selected_values = (selected_values,)
     # Cast integer values to strings
-    selected_values = map(six.text_type, selected_values)
+    selected_values = set(map(six.text_type, selected_values))
     # Prepend the prompt
     prompt = attrs.pop("prompt", None)
     if prompt:
