@@ -77,17 +77,6 @@ def form(url, method="post", multipart=False, hidden_fields=None, **attrs):
     '<div style="display:none">'.  The style prevents the <div> from being
     displayed or affecting the layout.
 
-    Examples:
-
-    >>> form("/submit")
-    literal(u'<form action="/submit" method="post">')
-    >>> form("/submit", method="get")
-    literal(u'<form action="/submit" method="get">')
-    >>> form("/submit", method="put")
-    literal(u'<form action="/submit" method="post"><div style="display:none">\\n<input name="_method" type="hidden" value="put" />\\n</div>\\n')
-    >>> form("/submit", "post", multipart=True) 
-    literal(u'<form action="/submit" enctype="multipart/form-data" method="post">')
-
     Changed in WebHelpers 1.0b2: add <div> and ``hidden_fields`` arg.
 
     Changed in WebHelpers 1.2: don't add an "id" attribute to hidden tags
@@ -121,11 +110,6 @@ def form(url, method="post", multipart=False, hidden_fields=None, **attrs):
 
 def end_form():
     """Output "</form>".
-    
-    Example::
-
-        >>> end_form()
-        literal(u'</form>')
     """
     return literal("</form>")
 
@@ -155,17 +139,6 @@ def text(name, value=None, id=NotGiven, type="text", **attrs):
         will allow the user to enter.
     
     The remaining keyword args will be standard HTML attributes for the tag.
-
-    Example, a text input field::
-
-        >>> text("address")
-        literal(u'<input id="address" name="address" type="text" />')
-
-    HTML 5 example, a color picker:
-
-        >>> text("color", type="color")
-        literal(u'<input id="color" name="color" type="color" />')
-    
     """
     return _input(type, name, value, id, attrs)
 
@@ -202,12 +175,6 @@ def password(name, value=None, id=NotGiven, **attrs):
 
 def textarea(name, content="", id=NotGiven, **attrs):
     """Create a text input area.
-    
-    Example::
-    
-        >>> textarea("body", "", cols=25, rows=10)
-        literal(u'<textarea cols="25" id="body" name="body" rows="10"></textarea>')
-    
     """
     attrs["name"] = name
     _set_id_attr(attrs, id, name)
@@ -244,11 +211,6 @@ def checkbox(name, value="1", checked=False, label=None, label_class=None,
 
     To arrange multiple checkboxes in a group, see
     webhelpers2.containers.distribute().
-
-    Example::
-    
-        >>> checkbox("hi")
-        literal(u'<input id="hi" name="hi" type="checkbox" value="1" />')
     """
     if checked:
         attrs["checked"] = "checked"
@@ -650,18 +612,6 @@ class Options(tuple):
       rather than a list to guarantee that nonconformant elements won't be 
       added after canonicalization.
     - Provide convenience methods to iterate the values and labels separately.
-
-    >>> opts = Options(["A", 1, ("b", "B")])
-    >>> opts
-    Options([(u'A', u'A'), (u'1', u'1'), (u'b', u'B')])
-    >>> list(opts.values())
-    [u'A', u'1', u'b']
-    >>> list(opts.labels())
-    [u'A', u'1', u'B']
-    >>> opts[2].value
-    u'b'
-    >>> opts[2].label
-    u'B'
     """
     def __new__(class_, options):
         text_type = six.text_type
@@ -769,16 +719,6 @@ def th_sortable(current_order, column_order, label, url,
 
     To change the sort order via client-side Javascript, pass ``url=None`` and
     the appropriate Javascript attributes in ``link_attrs``.
-
-    Examples:
-
-    >>> sort = "name"
-    >>> th_sortable(sort, "name", "Name", "?sort=name")
-    literal(u'<th class="sort">Name</th>')
-    >>> th_sortable(sort, "date", "Date", "?sort=date")
-    literal(u'<th><a href="?sort=date">Date</a></th>')
-    >>> th_sortable(sort, "date", "Date", None, link_attrs={"onclick": "myfunc()"})
-    literal(u'<th><a onclick="myfunc()">Date</a></th>')
     """
     from webhelpers2.html import HTML
     if current_order == column_order:
@@ -806,21 +746,6 @@ def ul(items, default=None, li_attrs=None, **attrs):
 
     ``li_attrs``
         dict of attributes for the <li> tags.
-
-    Examples:
-
-    >>> ul(["foo", "bar"])
-    literal(u'<ul>\n<li>foo</li>\n<li>bar</li>\n</ul>')
-    >>> ul(["A", "B"], li_attrs={"class_": "myli"}, class_="mylist") 
-    literal(u'<ul class="mylist">\n<li class="myli">A</li>\n<li class="myli">B</li>\n</ul>')
-    >>> ul([])
-    literal(u'<ul></ul>')
-    >>> ul([], default="")
-    ''
-    >>> ul([], default=literal('<span class="no-data">No data</span>'))
-    literal(u'<span class="no-data">No data</span>')
-    >>> ul(["A"], default="NOTHING")
-    literal(u'<ul>\n<li>A</li>\n</ul>')
     """
     li_attrs = li_attrs or {}
     return _list("ul", items, default, attrs, li_attrs)
@@ -837,15 +762,6 @@ def ol(items, default=literal(""), li_attrs=None, **attrs):
 
     ``li_attrs``
         dict of attributes for the <li> tags.
-
-    Examples:
-
-    >>> ol(["foo", "bar"])
-    literal(u'<ol>\n<li>foo</li>\n<li>bar</li>\n</ol>')
-    >>> ol(["A", "B"], li_attrs={"class_": "myli"}, class_="mylist") 
-    literal(u'<ol class="mylist">\n<li class="myli">A</li>\n<li class="myli">B</li>\n</ol>')
-    >>> ol([])
-    literal(u'')
     """
     li_attrs = li_attrs or {}
     return _list("ol", items, default, attrs, li_attrs)
@@ -880,23 +796,6 @@ def image(url, alt, width=None, height=None, **attrs):
     ``height``
         The height of the image, default is not included.
 
-    Examples::
-
-        >>> image('/images/rss.png', 'rss syndication')
-        literal(u'<img alt="rss syndication" src="/images/rss.png" />')
-
-        >>> image('/images/xml.png', "")
-        literal(u'<img alt="" src="/images/xml.png" />')
-
-        >>> image("/images/icon.png", height=16, width=10, alt="Edit Entry")
-        literal(u'<img alt="Edit Entry" height="16" src="/images/icon.png" width="10" />')
-
-        >>> image("/icons/icon.gif", alt="Icon", width=16, height=16)
-        literal(u'<img alt="Icon" height="16" src="/icons/icon.gif" width="16" />')
-
-        >>> image("/icons/icon.gif", None, width=16)
-        literal(u'<img alt="" src="/icons/icon.gif" width="16" />')
-
     Note: This version does not support the 'path' and 'use_pil' arguments,
     because they depended on the WebHelpers 'media' subpackage which was
     dropped in WebHelpers 2. 
@@ -923,17 +822,6 @@ def javascript_link(*urls, **attrs):
 
     Specify the keyword argument ``defer=True`` to enable the script 
     defer attribute.
-
-    Examples::
-    
-        >>> print javascript_link('/javascripts/prototype.js', '/other-javascripts/util.js')
-        <script src="/javascripts/prototype.js" type="text/javascript"></script>
-        <script src="/other-javascripts/util.js" type="text/javascript"></script>
-
-        >>> print javascript_link('/app.js', '/test/test.1.js')
-        <script src="/app.js" type="text/javascript"></script>
-        <script src="/test/test.1.js" type="text/javascript"></script>
-        
     """
     tags = []
     for url in urls:
@@ -947,15 +835,6 @@ def stylesheet_link(*urls, **attrs):
 
     ``urls`` should be the exact URLs desired.  A previous version of this
     helper added magic prefixes; this is no longer the case.
-
-    Examples::
-
-        >>> stylesheet_link('/stylesheets/style.css')
-        literal(u'<link href="/stylesheets/style.css" media="screen" rel="stylesheet" type="text/css" />')
-
-        >>> stylesheet_link('/stylesheets/dir/file.css', media='all')
-        literal(u'<link href="/stylesheets/dir/file.css" media="all" rel="stylesheet" type="text/css" />')
-
     """
     if "href" in attrs:
         raise TypeError("keyword arg 'href' not allowed")
@@ -985,21 +864,6 @@ def auto_discovery_link(url, feed_type="rss", **attrs):
         translates to a type of 'application/rss+xml' or 
         'application/atom+xml', respectively. Otherwise the type is
         used as specified. Defaults to 'rss'.
-        
-    Examples::
-
-        >>> auto_discovery_link('http://feed.com/feed.xml')
-        literal(u'<link href="http://feed.com/feed.xml" rel="alternate" title="RSS" type="application/rss+xml" />')
-
-        >>> auto_discovery_link('http://feed.com/feed.xml', feed_type='atom')
-        literal(u'<link href="http://feed.com/feed.xml" rel="alternate" title="ATOM" type="application/atom+xml" />')
-
-        >>> auto_discovery_link('app.rss', feed_type='atom', title='atom feed')
-        literal(u'<link href="app.rss" rel="alternate" title="atom feed" type="application/atom+xml" />')
-
-        >>> auto_discovery_link('/app.html', feed_type='text/html')
-        literal(u'<link href="/app.html" rel="alternate" title="" type="text/html" />')
-        
     """
     if "href" in attrs:
         raise TypeError("keyword arg 'href' is not allowed")

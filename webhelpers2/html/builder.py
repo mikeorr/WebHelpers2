@@ -105,12 +105,6 @@ The ``HTML`` object has the following methods for tag building:
         If present and true, insert a newline before the first content
         element, between each content element, and at the end of the tag.
 
-    Example:
-
-    >>> HTML.tag("a", href="http://www.yahoo.com", name=None, 
-    ... c="Click Here")
-    literal(u'<a href="http://www.yahoo.com">Click Here</a>')
-
 
 ``HTML.__getattr__``
     Same as ``HTML.tag`` but using attribute access.  Example:
@@ -120,7 +114,7 @@ The ``HTML`` object has the following methods for tag building:
 
 ``HTML.cdata``
     Wrap the text in a "<![CDATA[ ... ]]>" section. Plain strings will not be
-    escaped because CDATA itself is an escaping syntax.
+    escaped because CDATA itself is an escaping syntax. ::
 
     >>> HTML.cdata(u"Foo")
     literal(u'<![CDATA[Foo]]>')
@@ -369,12 +363,6 @@ class HTMLBuilder(object):
     def render_attrs(self, attrs):
         """Format HTML attributes into a string of ' key="value"' pairs which
         can be inserted into an HTML tag.
-
-        Usage:
-        >>> format_attrs({"p": 2, "q": 3})
-        literal(u' p="2" q="3"')
-        >>> format_attrs({"p": 2})
-        literal(u' p="2"')
         """
         keys = sorted(attrs)
         fmt = literal(' {}="{}"')
