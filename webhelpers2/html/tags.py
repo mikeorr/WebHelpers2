@@ -337,31 +337,13 @@ def select(name, selected_values, options, id=NotGiven, **attrs):
       pseudo-options.  Its value is "", equivalent to not making a selection.
 
     Any other keyword args will become HTML attributes for the <select>.
-
-    Examples (call, result)::
-    
-        >>> select("currency", "$", [["$", "Dollar"], ["DKK", "Kroner"]])
-        literal(u'<select id="currency" name="currency">\\n<option selected="selected" value="$">Dollar</option>\\n<option value="DKK">Kroner</option>\\n</select>')
-        >>> select("cc", "MasterCard", [ "VISA", "MasterCard" ], id="cc", class_="blue")
-        literal(u'<select class="blue" id="cc" name="cc">\\n<option value="VISA">VISA</option>\\n<option selected="selected" value="MasterCard">MasterCard</option>\\n</select>')
-        >>> select("cc", ["VISA", "Discover"], [ "VISA", "MasterCard", "Discover" ])
-        literal(u'<select id="cc" name="cc">\\n<option selected="selected" value="VISA">VISA</option>\\n<option value="MasterCard">MasterCard</option>\\n<option selected="selected" value="Discover">Discover</option>\\n</select>')
-        >>> select("currency", None, [["$", "Dollar"], ["DKK", "Kroner"]], prompt="Please choose ...")
-        literal(u'<select id="currency" name="currency">\\n<option selected="selected" value="">Please choose ...</option>\\n<option value="$">Dollar</option>\\n<option value="DKK">Kroner</option>\\n</select>')
-        >>> select("privacy", 3L, [(1, "Private"), (2, "Semi-public"), (3, "Public")])
-        literal(u'<select id="privacy" name="privacy">\\n<option value="1">Private</option>\\n<option value="2">Semi-public</option>\\n<option selected="selected" value="3">Public</option>\\n</select>')
-        >>> select("recipients", None, [([("u1", "User1"), ("u2", "User2")], "Users"), ([("g1", "Group1"), ("g2", "Group2")], "Groups")])
-        literal(u'<select id="recipients" name="recipients">\\n<optgroup label="Users">\\n<option value="u1">User1</option>\\n<option value="u2">User2</option>\\n</optgroup>\\n<optgroup label="Groups">\\n<option value="g1">Group1</option>\\n<option value="g2">Group2</option>\\n</optgroup>\\n</select>')
-        
     """
     _set_id_attr(attrs, id, name)
     attrs["name"] = name
-    # Accept None as selected_values meaning that no option is selected
     if selected_values is None:
-        selected_values = ('',)
-    # Turn a single string or integer into a list
-    elif isinstance(selected_values, six.integer_types):
-        selected_values = (selected_values,)
+        selected_values = [""]
+    elif not isinstance(selected_values, (list, tuple)):
+        selected_values = [selected_values]
     # Cast integer values to strings
     selected_values = map(six.text_type, selected_values)
     # Prepend the prompt
