@@ -65,7 +65,8 @@
 
     * Delete 'title()'. It's too specific for a general-purpose library.
     * Delete 'xml_declaration()'.
-    * Delete 'convert_boolean_attrs()'. The HTML builder now does this itself.
+    * Delete 'convert_boolean_attrs()' and 'css_classes()'. The HTML builder
+      now does these itself.
     * Rename 'link_to()' to 'link()', 'link_to_if()' to 'link_if()', and
       'link_to_unless()' to 'link_unless()'. Keep the old names as aliases for
       backward compatibility.

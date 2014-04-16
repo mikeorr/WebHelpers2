@@ -39,8 +39,6 @@ Form tags
 .. autoclass:: OptGroup
    :members:
 
-.. autofunction:: title
-
 
 :class:`ModelTags` class
 --------------------------
@@ -88,13 +86,3 @@ Head tags and document type
 .. autofunction:: javascript_link
 
 .. autofunction:: auto_discovery_link
-
-.. autofunction:: xml_declaration
-
-
-Utility functions
------------------
-
-.. autofunction:: css_classes
-
-.. autofunction:: convert_boolean_attrs
