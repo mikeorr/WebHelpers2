@@ -215,19 +215,48 @@ class TestAttributes(HTMLTestCase):
 
 class TestLinkHelper(HTMLTestCase):
     def test_link_tag_with_query(self):
+        a = link_to("Hello", "http://www.example.com?q1=v1&q2=v2")
         b = "<a href=\"http://www.example.com?q1=v1&amp;q2=v2\">Hello</a>" 
-        assert link_to("Hello", "http://www.example.com?q1=v1&q2=v2") == b
-    
-    def test_link_tag_with_query_and_no_name(self):
-        a = link_to(None, HTML.literal("http://www.example.com?q1=v1&amp;q2=v2"))
-        b = "<a href=\"http://www.example.com?q1=v1&amp;q2=v2\">http://www.example.com?q1=v1&amp;q2=v2</a>" 
-        assert a == b
+        self.check(a, b)
     
     def test_link_tag_with_custom_onclick(self):
         a = link_to("Hello", "http://www.example.com", onclick="alert('yay!')")
         b = '<a href="http://www.example.com" onclick="alert(&#39;yay!&#39;)">Hello</a>'
-        assert a == b
-    
+        self.check(a, b)
+
+    def test_link_to_if_true(self):
+        a = link_to_if(True, "A", "B")
+        b = '<a href="B">A</a>'
+        self.check(a, b)
+
+    def test_link_to_if_false(self):
+        a = link_to_if(False, "A", "B")
+        b = "A"
+        self.check(a, b)
+
+    def test_link_to_unless_true(self):
+        a = link_to_unless(True, "A", "B")
+        b = "A"
+        self.check(a, b)
+
+    def test_link_to_unless_false(self):
+        a = link_to_unless(False, "A", "B")
+        b = '<a href="B">A</a>'
+        self.check(a, b)
+
+
+class TestLinkClass(HTMLTestCase):
+    def test_link_class(self):
+        a = Link("Hello", "http://www.example.com/")
+        b = '<a href="http://www.example.com/">Hello</a>'
+        self.check(a.__html__(), b)
+
+    def test_link_class_with_false_condition(self):
+        a = Link("Hello", "http://www.example.com/")
+        a.condition = False
+        b = "Hello"
+        self.check(a.__html__(), b)
+
 
 class TestAssetTagHelper(HTMLTestCase):
     def test_auto_discovery_link_tag(self):

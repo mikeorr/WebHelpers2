@@ -86,3 +86,11 @@ Head tags and document type
 .. autofunction:: javascript_link
 
 .. autofunction:: auto_discovery_link
+
+
+Lazy-rendering tags
+-------------------
+
+.. autoclass:: Link
+
+   .. automethod:: __init__

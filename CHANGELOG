@@ -63,10 +63,13 @@
 
 - webhelpers.html.tags:
 
+    * New class 'Link' is like 'link_to_if' but is lazily evaluated.
     * Delete 'title()'. It's too specific for a general-purpose library.
     * Delete 'xml_declaration()'.
     * Delete 'convert_boolean_attrs()' and 'css_classes()'. The HTML builder
       now does these itself.
+    * When 'link_to_if' and 'link_to_unless' return just the label, escape it.
+      Tag functions are always supposed to return literals.
     * The 'id_format' argument to the 'ModelTags' constructor now uses "{}"
       string formatting. It still accepts "%s" for backward compatibility and
       converts it to the newer format.

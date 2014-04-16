@@ -36,6 +36,8 @@ __all__ = [
            "ol", "ul", "image",
            # Head tags and document type
            "stylesheet_link", "javascript_link", "auto_discovery_link",
+           # Lazy-rendering tags
+           "Link",
            # Backward compatibility
            "BR",
            ]
@@ -675,7 +677,7 @@ def link_to_if(condition, label, url='', **attrs):
     if condition:
         return link_to(label, url, **attrs)
     else:
-        return label
+        return HTML(label)
 
 def link_to_unless(condition, label, url='', **attrs):
     """The opposite of ``link_to``. Return just the label if the condition is 
@@ -684,7 +686,7 @@ def link_to_unless(condition, label, url='', **attrs):
     if not condition:
         return link_to(label, url, **attrs)
     else:
-        return label
+        return HTML(label)
 
 
 ########## Table tags ##########
@@ -874,6 +876,43 @@ def auto_discovery_link(url, feed_type="rss", **attrs):
         feed_type = 'application/{}+xml'.format(feed_type.lower())
     attrs.setdefault("title", title)
     return HTML.tag("link", rel="alternate", type=feed_type, href=url, **attrs)
+
+
+########## Lazy-rendering tags ##########
+
+class Link(object):
+    """A lazy-rendering hyperlink object.
+
+    Attributes:
+
+    * **label**: The text content. Can contain HTML markup or an image if you
+      use a literal or the other helpers.
+    * **url**: The URL target. Renders as the 'href' attribute.
+    * **condition**: If true (default), render an <a> tag. If false, render
+      only the text content.
+    * **attrs**: Dict of HTML attributes.
+
+    The 'condition' attribute is useful in cases like a menu where want the
+    curent page to show just as text rather than a link.
+    """
+
+    def __init__(self, label, url="", condition=True, **attrs):
+        """Constructor.
+        
+        The 'label' argument is required. If empty or ``None``, copy the URL to
+        the label. The URL defaults to ``""``.
+        """
+        self.label = label or url
+        self.url = url
+        self.condition = condition
+        self.attrs = attrs
+
+    def __html__(self):
+        if not self.condition:
+            return HTML(self.label)
+        return HTML.tag("a", self.label, href=self.url, **self.attrs)
+
+    __str__ = __html__
 
 
 ########## Backward compatibility ##########
