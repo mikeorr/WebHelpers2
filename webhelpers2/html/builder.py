@@ -167,9 +167,6 @@ BR = literal("<br />\n")
 
 __all__ = ["HTML", "escape", "literal", "url_escape", "lit_sub"]
 
-# Not included in __all__ because for specialized purposes only: 
-# "format_attrs".
-
 
 class HTMLBuilder(object):
     
