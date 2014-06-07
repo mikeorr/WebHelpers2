@@ -308,7 +308,7 @@ def select(name, selected_values, options, id=NotGiven, **attrs):
     elif not isinstance(selected_values, (list, tuple)):
         selected_values = [selected_values]
     # Cast integer values to strings
-    selected_values = map(six.text_type, selected_values)
+    selected_values = set(map(six.text_type, selected_values))
     # Prepend the prompt
     prompt = attrs.pop("prompt", None)
     if prompt:
@@ -319,6 +319,7 @@ def select(name, selected_values, options, id=NotGiven, **attrs):
     html_options = []
     # Create the options structure
     def gen_opt(val, label):
+        val = six.text_type(val)
         if val in selected_values:
             return HTML.tag("option", label, value=val, selected="selected")
         else:
