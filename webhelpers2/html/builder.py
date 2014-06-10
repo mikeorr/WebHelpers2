@@ -374,7 +374,7 @@ def lit_sub(*args, **kw):
     """
     lit = hasattr(args[2], '__html__')
     cls = args[2].__class__
-    result = re.sub(*args, **kw)
+    result = re.sub(*(six.text_type(arg) if hasattr(arg,'__html__') else arg for arg in args), **kw)
     if lit:
         return cls(result)
     else:
