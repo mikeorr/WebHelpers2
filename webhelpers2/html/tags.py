@@ -305,7 +305,7 @@ def select(name, selected_values, options, id=NotGiven, **attrs):
     attrs["name"] = name
     if selected_values is None:
         selected_values = [""]
-    elif not isinstance(selected_values, (list, tuple)):
+    elif isinstance(selected_values, six.string_types) or not hasattr(selected_values,'__iter__'):
         selected_values = [selected_values]
     # Cast integer values to strings
     selected_values = set(map(six.text_type, selected_values))
