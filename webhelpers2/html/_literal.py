@@ -90,7 +90,7 @@ class literal(markupsafe.Markup):
         return super(literal, cls).escape(s)
 
     def lit_join(self, iterable):
-        """Like ``self.join`` but don't escape elements in the iterable."""
+        """Like the ``.join`` string method but don't escape elements in the iterable."""
         s = super(markupsafe.Markup, self).join(iterable)
         return self.__class__(s)
 

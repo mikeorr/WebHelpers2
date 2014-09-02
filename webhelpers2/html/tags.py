@@ -347,13 +347,6 @@ class ModelTags(object):
     ``""`` instead of a record, and it will set all the current values to a
     default value, which is either the `default` keyword arg to the method, or
     `""` if not specified.
-
-    (Hint: in Pylons you can put ``mt = ModelTags(c.record)`` in your template,
-    and then if the record doesn't exist you can either set ``c.record = None``
-    or not set it at all.  That's because nonexistent ``c`` attributes resolve
-    to `""` unless you've set ``config["pylons.strict_c"] = True``. However,
-    having a ``c`` attribute that's sometimes set and sometimes not is
-    arguably bad programming style.)
     """
 
     undefined_values = set([None, ""])

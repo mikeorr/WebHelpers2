@@ -45,6 +45,7 @@ Form tags
 
 .. autoclass:: ModelTags
    :members:
+   :special-members: __init__
 
 
 Hyperlinks

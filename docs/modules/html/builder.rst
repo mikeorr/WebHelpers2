@@ -24,7 +24,7 @@ Literals
 --------
 
 .. autoclass:: literal(s, encoding=None, errors=strict')
-   :members:  __new__, escape, unescape, striptags
+   :members:  __new__, escape, unescape, striptags, lit_join
 
 
 The HTML generator
