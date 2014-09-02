@@ -379,9 +379,16 @@ def lit_sub(*args, **kw):
     a literal, return a literal result.  All arguments are passed directly to
     ``re.sub``.
     """
+    pattern = args[0]
+    repl = args[1]
+    string = args[2]
+    extra = args[3:]
     lit = hasattr(args[2], '__html__')
     cls = args[2].__class__
-    result = re.sub(*args, **kw)
+    if six.PY3:
+        # ``re.sub`` overescapes if the third arg is a literal in Python 3.
+        string = str(string)
+    result = re.sub(pattern, repl, string, *extra, **kw)
     if lit:
         return cls(result)
     else:

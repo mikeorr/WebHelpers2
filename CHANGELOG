@@ -45,6 +45,8 @@
   
     + Convert None to "" when passed to constructor.
     + Pass attribute when raising AttributeError.
+    + ``re.sub`` overescapes in Python 3 if the third argument (the
+      original string) is a literal, so convert it to a plain string.
 
   * Implementation changes:
 
