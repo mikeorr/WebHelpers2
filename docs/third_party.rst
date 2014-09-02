@@ -1,8 +1,9 @@
 Third-party helpers
 ===================
 
-The following third-party Python packages are not included in WebHelpers due to
-their size or dependencies, but are often used in WebHelpers applications.
+The following third-party Python packages are not included in
+WebHelpers2 due to their size or dependencies, but may be useful in
+applications.
 
 `BeautifulSoup <http://www.crummy.com/software/BeautifulSoup/>`_
 
@@ -14,6 +15,11 @@ their size or dependencies, but are often used in WebHelpers applications.
     `Python bindings
     <http://pypi.python.org/pypi?%3Aaction=search&term=tidy&submit=search>`_ to
     it.
+
+`reprutils <https://pypi.python.org/pypi/reprutils>`_
+
+    Helpers to make a robust ``.__repr__`` method without reinventing
+    the wheel.
 
 `Unidecode <http://pypi.python.org/pypi/Unidecode>`_
 
