@@ -11,6 +11,9 @@
   * 'HTMLBuilder.\_\_call\_\_()' accepts keyword args 'nl' and 'lit'. If 'nl'
     is true, add a newline after each element. If 'lit' is true, don't escape
     the elements when joining them.
+  * 'HTMLBuilder.literal()' is the 'literal' class constructor. As a
+  * consequence it no longer accepts multiple positional args.
+    Use '.\_\_call\_\_()' with 'lit=True' as an alternative.
   * '.comment()' adds a space before and after the content.
   * 'HTMLBuilder.void_tags' is a set of tag names to render in the self-closing
     style because they can never have content. It replaces the 'empty_tags'
@@ -45,7 +48,6 @@
 
   * Implementation changes:
 
-    + '.literal' shadows the global object rather than using UnfinishedLiteral.
     + '.comment()' is now a regular method.
     + Replace UnfinishedTag with functools.partial.
     + Delete UnfinishedComment, UnfinishedLiteral, UnfinishedTag.
