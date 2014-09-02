@@ -82,6 +82,10 @@
     * 'checkbox()' and 'radio()' have a new keyword argument 'label_class'.
       This sets the <label>'s class attribute.
 
+    * Bugfixes:
+
+      + Python 3's 'map()' behavior broke 'select()'.
+
     * Implementation changes:
 
       + Call 'HTML.tag()' rather than attribute access for a slight performance

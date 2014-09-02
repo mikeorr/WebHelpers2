@@ -302,7 +302,7 @@ def select(name, selected_values, options, id=NotGiven, **attrs):
     elif not isinstance(selected_values, (list, tuple)):
         selected_values = [selected_values]
     # Cast integer values to strings
-    selected_values = map(six.text_type, selected_values)
+    selected_values = list(map(six.text_type, selected_values))
     # Prepend the prompt
     prompt = attrs.pop("prompt", None)
     if prompt:
