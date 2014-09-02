@@ -94,3 +94,9 @@ Lazy-rendering tags
 .. autoclass:: Link
 
    .. automethod:: __init__
+
+
+Utilities
+---------
+
+.. autofunction:: _make_safe_id_component
