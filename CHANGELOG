@@ -90,14 +90,14 @@
 
       + Call 'HTML.tag()' rather than attribute access for a slight performance
         improvement.
+      + Input helpers call '_input()' to render themselves. It subsumes the
+        old '_set_input_attrs()' code.
 
 - webhelpers.html.tools:
 
     * Implementation changes:
 
       + Unpack nested tag expression in 'button_to()'.
-      + Input helpers call '_input()' to render themselves. It subsumes the
-        old '_set_input_attrs()' code.
         
 
 - Port doctests in 'html' subpackage to unit tests.
