@@ -41,7 +41,7 @@ Form tags
 
 
 :class:`ModelTags` class
---------------------------
+++++++++++++++++++++++++
 
 .. autoclass:: ModelTags
    :members:
@@ -56,6 +56,14 @@ Hyperlinks
 .. autofunction:: link_to_if
 
 .. autofunction:: link_to_unless
+
+:class:`Link` class
++++++++++++++++++++
+
+.. autoclass:: Link
+
+   .. automethod:: __init__
+
 
 
 Table tags
@@ -75,6 +83,7 @@ Other non-form tags
 
 .. attribute:: BR
 
+    Same as ``HTML.BR``. 
     A break tag ("<br />") followed by a newline. This is a literal 
     constant, not a function.
 
@@ -87,14 +96,6 @@ Head tags and document type
 .. autofunction:: javascript_link
 
 .. autofunction:: auto_discovery_link
-
-
-Lazy-rendering tags
--------------------
-
-.. autoclass:: Link
-
-   .. automethod:: __init__
 
 
 Utilities
