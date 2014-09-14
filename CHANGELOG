@@ -163,11 +163,6 @@
     ``"{:,}".format(12346)`` (always comma) or ``"{:n}".format(12345)``
     (locale-specific).
 
-- webhelpers.html.number:
-
-  * Keep the individual statistic helpers but delete the container classes
-    (``Stats`` and ``SimpleStats``).
-
 - webhelpers.html.tags:
 
   * Delete ``required_legend()``.
@@ -184,6 +179,11 @@
   * Delete ``all``, ``any``, and ``no``.  Python >= 2.5 has builtins for the
     first two.
   * Rename ``convert_or_none`` to ``convert``.
+
+- webhelpers.number:
+
+  * Keep the individual statistic helpers but delete the container classes
+    (``Stats`` and ``SimpleStats``).
 
 - Delete the sample CSS stylesheet.
 
