@@ -18,7 +18,7 @@ documentation and module docstrings for a more complete list.
 ``html``
     A package of HTML-related helpers.
 
-    ``html.builder``
+    ``builder``
         A library for generating HTML tags with smart escaping.  All
         public symbols are imported into ``webhelpers.html``.
 
@@ -30,9 +30,6 @@ documentation and module docstrings for a more complete list.
     ``tools``
         Helpers producing chunks of HTML. Also test-to-HTML and HTML-to-text
         converters.
-
-``media``
-    Helpers for images, PDFs, etc.
 
 ``misc``
     Miscellaneous helpers that are neither text, numeric, container, or date.
