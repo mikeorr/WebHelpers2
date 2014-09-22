@@ -1,0 +1,4 @@
+*.mako.py
+*.mako.pyc
+*.atom
+*.rss
