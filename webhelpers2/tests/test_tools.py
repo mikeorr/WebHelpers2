@@ -290,3 +290,35 @@ class TestTextToHTML(object):
 
     def test_text_to_html7(self):
         assert "" == text_to_html(None)
+
+class TestUpdateParams(object):
+    def test_add_param(self):
+        assert update_params("foo", new1="NEW1") == "foo?new1=NEW1"
+
+    def test_modify_param(self):
+        assert update_params("foo?p=1", p="2") == "foo?p=2"
+
+    def test_delete_param(self):
+        assert update_params("foo?p=1", p=None) == "foo"
+
+    def test_modify_param_with_fragment(self):
+        control = "http://example.com/foo?new1=NEW1#myfrag"
+        result = update_params(
+            "http://example.com/foo?new1=OLD1#myfrag", new1="NEW1")
+        assert result == control
+
+    def test_debug(self):
+        control = ("http://example.com/foo", {"new1": "NEW1"}, "myfrag")
+        result = update_params("http://example.com/foo?new1=OLD1#myfrag",
+            new1="NEW1", _debug=True)
+        assert result == control
+
+    def add_param2(self):
+        control = "http://www.mau.de?foo=2&brrr=3"
+        result = update_params("http://www.mau.de?foo=2", brrr=3)
+        assert result == control
+
+    def add_multiple_values(self):
+        control = "http://www.mau.de?foo=C&foo=D"
+        result = update_params("http://www.mau.de?foo=A&foo=B", foo=["C", "D"])
+        assert result == control

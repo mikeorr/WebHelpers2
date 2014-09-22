@@ -27,3 +27,4 @@
 
 .. autofunction:: text_to_html
 
+.. autofunction:: update_params

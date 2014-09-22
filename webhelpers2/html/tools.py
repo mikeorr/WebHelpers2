@@ -1,7 +1,7 @@
 """HTML helpers that are more than just simple tags.
 
-I contain helpers to generate complex tags, to convert text to HTML, and to strip
-tags.
+I contain helpers to generate complex tags, convert text to HTML,
+strip tags, and modify URLs.
 
 There are no helpers to prettify HTML or canonicalize whitespace because
 BeautifulSoup and HTMLTidy handle this well.
@@ -11,6 +11,8 @@ from __future__ import unicode_literals
 import re
 
 import six
+from six.moves.urllib.parse import parse_qs
+from six.moves.urllib.parse import urldefrag
 from six.moves.urllib.parse import urlencode
 
 from webhelpers2.html._autolink import auto_link
@@ -30,6 +32,7 @@ __all__ = [
     "strip_links",
     "strip_tags",
     "text_to_html",
+    "update_params",
     ]
 
 tag_re = re.compile(r'<.*?>', re.S)
@@ -364,3 +367,58 @@ def text_to_html(text, preserve_lines=False):
         paragraphs[i] = HTML.tag("p", para)
     return literal("\n\n").join(paragraphs)
 
+def update_params(_url, _debug=False, **params):
+    """Update the query parameters in a URL.
+
+    ``_url`` is any URL, with or without a query string.
+
+    ``**params`` are query parameters to add or replace. Each value may be a
+    string, a list of strings, or None. Passing a list generates multiple
+    values for the same parameter. Passing None deletes the corresponding
+    parameter if present.
+
+    Return the new URL.
+
+    *Debug mode:* if ``_debug=True``, return a tuple:
+    ``[0]`` is the URL without query string or fragment,
+    ``[1]`` is the final query parameters as a dict, and
+    ``[2]`` is the fragment part of the original URL or the empty string.
+
+    Usage:
+
+    >>> update_params("foo", new1="NEW1")
+    'foo?new1=NEW1'
+    >>> update_params("foo?p=1", p="2")
+    'foo?p=2'
+    >>> update_params("foo?p=1", p=None)
+    'foo'
+    >>> update_params("http://example.com/foo?new1=OLD1#myfrag", new1="NEW1")
+    'http://example.com/foo?new1=NEW1#myfrag'
+    >>> update_params("http://example.com/foo?new1=OLD1#myfrag", new1="NEW1", _debug=True)
+    ('http://example.com/foo', {'new1': 'NEW1'}, 'myfrag')
+    >>> update_params("http://www.mau.de?foo=2", brrr=3)
+    'http://www.mau.de?foo=2&brrr=3'
+    >>> update_params("http://www.mau.de?foo=A&foo=B", foo=["C", "D"])
+    'http://www.mau.de?foo=C&foo=D'
+    """
+
+    url, fragment = urldefrag(_url)
+    if "?" in url:
+        url, qs = url.split("?", 1)
+        query = parse_qs(qs)
+    else:
+        query = {}
+    for key in params:
+        value = params[key]
+        if value is not None:
+            query[key] = value
+        elif key in query:
+            del query[key]
+    if _debug:
+        return url, query, fragment
+    qs = urlencode(query, True)
+    if qs:
+        qs = "?" + qs
+    if fragment:
+        fragment = "#" + fragment
+    return "{}{}{}".format(url, qs, fragment)
