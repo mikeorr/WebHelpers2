@@ -1,0 +1,23 @@
+.. _markupsafe: https://pypi.python.org/pypi/markupsafe
+.. _six: https://pypi.python.org/pypi/six
+.. _Unidecode: https://pypi.python.org/pypi/Unidecode/
+.. _pylons-discuss: http://groups.google.com/group/pylons-discuss
+.. _WebHelpers: https://pypi.python.org/pypi/WebHelpers
+
+.. _BeautifulSoup: http://www.crummy.com/software/BeautifulSoup/
+.. _dimensions: https://pypi.python.org/pypi/dimensions
+.. _feedgenerator: https://pypi.python.org/pypi/feedgenerator
+.. _feedgen: https://pypi.python.org/pypi/feedgen
+.. _HTMLTidy: http://tidy.sourceforge.net/
+.. _imagefacts: https://pypi.python.org/pypi/imagefacts
+.. _mako: https://pypi.python.org/pypi/Mako
+.. _markdown: https://pypi.python.org/pypi/markdown
+.. _markdown2: https://pypi.python.org/pypi/markdown2
+.. _path.py: https://pypi.python.org/pypi/path.py
+.. _Pillow: https://pypi.python.org/pypi/Pillow
+.. _paginate: https://pypi.python.org/pypi/paginate
+.. _paginate_sqlalchemy: https://pypi.python.org/pypi/paginate_sqlalchemy
+.. _reprutils: https://pypi.python.org/pypi/reprutils
+.. _textile: https://pypi.python.org/pypi/textile
+.. _Unipath: https://pypi.python.org/pypi/Unipath
+.. _webhelpers2_grid: https://pypi.python.org/pypi/webhelpers2_grid

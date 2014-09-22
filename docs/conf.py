@@ -52,7 +52,7 @@ master_doc = 'index'
 
 # General substitutions.
 project = 'WebHelpers2'
-copyright = '2009-2013, Ben Bangert and Mike Orr'
+copyright = '2009-2014, Mike Orr'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -74,11 +74,11 @@ release = webhelpers2.__version__
 #today_fmt = '%B %d, %Y'
 
 # List of documents that shouldn't be included in the build.
-#unused_docs = []
+unused_docs = ["include"]
 
 # List of directories, relative to source directory, that shouldn't be searched
 # for source files.
-exclude_trees = ['_build']
+exclude_trees = ['_build', "_themes"]
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 #default_role = None
@@ -147,7 +147,7 @@ html_theme = 'pyramid'
 
 # If true, SmartyPants will be used to convert quotes and dashes to
 # typographically correct entities.
-#html_use_smartypants = True
+html_use_smartypants = False
 
 # Custom sidebar templates, maps document names to template names.
 #html_sidebars = {}

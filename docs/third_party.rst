@@ -5,23 +5,23 @@ The following third-party Python packages are not included in
 WebHelpers2 due to their size or dependencies, but may be useful in
 applications.
 
-`BeautifulSoup <http://www.crummy.com/software/BeautifulSoup/>`_
+BeautifulSoup_
 
     A robust HTML/XML parser that can make sense of bad markup.
 
-`HTMLTidy <http://tidy.sourceforge.net/>`_
+HTMLTidy_
 
     Clean up and pretty print HTML. This is a C library. There are several
     `Python bindings
     <http://pypi.python.org/pypi?%3Aaction=search&term=tidy&submit=search>`_ to
     it.
 
-`reprutils <https://pypi.python.org/pypi/reprutils>`_
+reprutils_
 
     Helpers to make a robust ``.__repr__`` method without reinventing
     the wheel.
 
-`Unidecode <http://pypi.python.org/pypi/Unidecode>`_
+Unidecode_
 
     Convert Unicode characters to ASCII equivalents. Accented letters and
     symbols are converted to a visual approximation, and non-Latin letters
@@ -29,8 +29,11 @@ applications.
     ``convert_\*`` functions in ``webhelpers.text`` will use Unidecode if
     it's installed.
 
-`Unipath <http://pypi.python.org/pypi/Unipath>`_
+Unipath_
 
     An object-oriented alternative to the path functions in ``os``,
     ``os.path``, and ``shutil``.  Similar packages include
-    `path.py <http://pypi.python.org/pypi/path.py>`_. 
+    path.py_. 
+
+
+.. include:: include.rst

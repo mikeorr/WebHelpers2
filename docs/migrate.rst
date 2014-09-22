@@ -6,14 +6,17 @@ Migrating from WebHelpers
 This chapter explains how to migrate an application from WebHelpers to
 WebHelpers2.
 
-WebHelpers2 has a narrower scope than WebHelpers. It deletes some subsystems
-that were the hardest to support or had dependencies on the obsolete Pylons
-framework, so that the most popular and smallest parts of WebHelpers could be
-ported to Python 3. The parts that remain focus on HTML generation, text
-processing, value formatting, container objects, and statistics. All helpers
-were reviewed, and several were renamed and a few changed their argument
-signatures. Several were deleted because they were little used, no longer
-needed in Python 2.6+, or depended on deleted modules.
+All helpers were reviewed and several were renamed or moved to organize
+them better, or changed their arguments to be more useful long term.
+WebHelpers2 focuses on the HTML generator and tag library, text
+processing, value formatting, container objects, and statistics. Other
+large subsystems were deleted if they're available separately on PyPI or
+were difficult to maintain. Also deleted were helpers that were
+little-used or no longer needed in Python 2.6+, or depended on the
+obsolete Pylons framework.
+
+New features are not mentioned here. Please read the rest of the
+documentation for them.
 
 Global changes
 ==============
@@ -23,60 +26,9 @@ your imports. (The reason it was renamed was to avoid breaking older
 applications that are still using the WebHelpers API but were not pinned to a
 specific version of it.)
 
-The test suite is PyTest rather than Nose. All doctests have been converted to
-unit tests. The remaining code examples in the documentation are meant solely
-for documentation. (The doctests in the HTML subpackage have not been
-converted yet because a larger rewrite of that subpackage is pending.)
-
-Deleted modules
-===============
-
-Deleted the **feedgenerator** module. PyPI has a feedgenerator_ distribution
-that is a more basic port of the Django original, and a feedgen_ distro that's
-more modular. Neither of them support GeoRSS as the WebHelpers module did.
-(This module was dropped because it was significant work to periodically merge
-updates from the Django original, and the WebHelpers developers are not
-newsfeed experts and couldn't really evaluate the patches.) You can also
-generate newsfeeds with a simple template; XXX TODO here are Mako functions for
-that generate Atom and RSS with GeoRSS.
-
-Deleted the **html.converters**, **markdown**, and **textile** modules.
-For Markdown, see the markdown_ and markdown2_ distros on PyPI. For Textile,
-see the textile_ distro. The remaining helpers in the 'converters' module were
-moved to 'webhelpers.html.tools'. Renamed:
-
-    * format_paragraphs() -> ``text_to_html()`` (in 'webhelpers.html.tools')
-    * render() -> ``html_to_text()`` (in 'webhelpers.html.tools')
-
-Deleted the **html.grid** and **html.grid_demo** modules. These were other
-third-party modules that were ill-advisedly included in WebHelpers.  The author
-Marcin Lulek (Ergo^) has stated his intention to release it on PyPI; it does
-not appear to be there yet.
-
-Deleted the **media**.  The ``choose_height()`` helper was moved to
-'webhelpers.misc'. The 'get_dimensions()' helper has equivalents on PyPI; see
-the dimensions_ and imagefacts_ distros, and the Pillow_ imaging library.
-
-Deleted the **mimehelper** module. It had undeclared Pylons dependencies
-and didn't really do much useful.
-
-Deleted the **paginate** module. Its author Christoph Haas has released a
-newer and more modular version as the 'paginate' distro on PyPI. It refactors
-Deleted the URL generation API and SQLAlchemy support, so you will have to make those
-changes in your appliation.
-
-Deleted the **pylonslib** subpackage. Pylons is obsolete and will not be
-ported to Python 3. For Pyramid applications, equivalents to 'flash' and
-'secure_form' are in the Pyramid session support. For CSS/Javascript
-minification, see the several third-party implementations. 'grid' has been
-deprecated since WebHelpers 1.0b1.
-
-Deleted the **util** module. Most of it was support functions for other
-helpers, and most of that was either obsolete or superceded by the Python
-standard library, MarkupSafe, or newer versions of WebOb. (This leaves
-*update_params()* without a home; it’s currently in the 'unfinished' directory in
-Deleted the source distribution until a location is determined.)
-
+The test suite has been changed to PyTest. All doctests have been converted to
+unit tests. The remaining code examples in the documentation are solely
+for documentation.
 
 webhelpers.constants
 ====================
@@ -111,47 +63,118 @@ webhelpers.date
 No changes.
 
 
+webhelpers.feedgenerator
+========================
+
+Deleted. PyPI has a feedgenerator_ distribution
+that is a more basic port of the Django original, and a feedgen_
+distribution that's more modular. Neither of them support GeoRSS as the
+WebHelpers module did.  (This module was dropped because it was
+significant work to periodically merge updates from the Django original,
+and the WebHelpers maintainers were not newsfeed experts and couldn't
+really evaluate the patches.) You can also generate newsfeeds with a
+simple template; XXX TODO here are Mako functions for that generate Atom
+and RSS with GeoRSS.
+
+
 webhelpers.html
 ===============
 
-A rewrite of the HTML subpackage is pending. It's still unclear whether it will be
-compatible, or require changing imports, or require changing helper names and
-arguments. The MarkupSafe dependency will probably be retained, although there
-may be a callback to provide your own implementation. MarkupSafe 0.16
-dropped compatibility with Python 3.0 - 3.2 (it's still compatible with 2.6,
-2.7, or 3.3), so if you're running under an early version of Python 3 you'll
-have to use MarkupSafe 0.15. (But WebHelpers2 is not yet compatible with Python
-3 anyway.)
+No changes at the package level, except for imports from the ``builder``
+module that have changed.
+
+
+builder
+-------
+
+``HTML.literal`` is now the ``literal`` class rather than a wrapper
+method. As a consequence it no longer accepts multiple positional args.
+Use ``HTML(..., lit=True)`` instead.
+
+The 'make_tag()' function was merged into ``HTML.tag()``. 'format_attrs'
+was split into ``HTML.optimize_attrs()`` and ``HTML.render_attrs()``.
+The 'empty_attrs' global was replaced by ``HTML.void_attrs``.
 
 All tag-generating helpers now convert underscores to hyphens in attribute
 names. This is to support HTML5 "data-" attributes as keyword args. Trailing
 underscores are still removed ("class\_" -> "class"). This was implemented at
-the lowest level, so all the low-level helpers in the 'builder' module and the
-high-level helpers in the 'tags' module have this feature.
+the lowest level, so both ``HTML.tag()`` and all the high-level helpers in
+the 'tags' module have this feature.
+
+The code for boolean HTML attributes was rewritten and new boolean
+attributes defined; see the :doc:`builder <modules/html/builder>` page
+for details.
 
 
-webhelpers.html.tags
---------------------
+converters
+----------
 
-The ``image()`` helper no longer accepts args 'path' or 'use_pil', and raises
-TypeError if they are specified. These depended on the 'media' module which was
-deleted. To perform the equivalent, write a wrapper function that uses one of
-the 'media' alternatives discussed above to parse the dimensions from an image
-file. A future version of WebHelpers2 may reintroduce an API for this, but you
-would have to supply your own callback function to do the parsing.
+Deleted. Moved and renamed the following helpers:
 
-Deleted 'required_legend()'. Put equivalent HTML in your template manually.
+* format_paragraphs() -> ``webhelpers2.html.tools.text_to_html()``
+* render() -> ``webhelpers2.html.tools.html_to_text()``
 
-Deleted the 'Doctype' class. Use simply "<!DOCTYPE html>" for HTML 5.
+
+grid
+----
+
+Deleted the **html.grid** and **html.grid_demo** modules. These were
+third-party modules that were ill-advisedly included in WebHelpers.  The
+author Marcin Lulek (Ergo^) has released then on PyPI as
+webhelpers2_grid_.
 
 Deleted the sample CSS stylesheet.
 
 
-webhelpers.html.tools
----------------------
+tags
+----
+
+The ``image()`` helper no longer accepts args 'path' or 'use_pil', and raises
+TypeError if they are specified. These depended on the 'media' module which was
+deleted. To perform the equivalent, write a wrapper function that uses one of
+the 'media' alternatives discussed below to parse the dimensions from an image
+file. A future version of WebHelpers2 may reintroduce an API for this, but you
+would have to supply your own callback function to do the parsing.
+
+Deleted 'required_legend()', 'title()', and 'xml_declaration()'. Use
+manual HTML.
+
+Deleted the 'Doctype' class. Use simply "<!DOCTYPE html>" for HTML 5.
+
+Deleted 'convert_boolean_attrs()' and 'css_classes()'. The HTML builder
+now does these itself.
+
+
+tools
+-----
 
 Deleted the 'highlighter' arg in ``highlight()``. It has been deprecated since
 WebHelpers 1.0b2.
+
+
+
+webhelpers.markdown
+===================
+
+Deleted. Use the markdown_ or markdown2_ distributions on PyPI.
+
+
+webhelpers.media
+================
+
+Deleted.
+
+The ``choose_height()`` helper was moved to 'webhelpers.misc'.
+
+The 'get_dimensions()' helper has equivalents on PyPI; see the
+dimensions_ and imagefacts_ distributions, and the Pillow_ imaging library.
+
+
+webhelpers.mimehelper
+=====================
+
+Deleted. It had undeclared Pylons dependencies and didn't really do much
+useful.
 
 
 webhelpers.misc
@@ -159,11 +182,11 @@ webhelpers.misc
 
 Renamed helpers:
 
-    * convert_or_none() -> ``convert()``
-    * subclasses_only() -> ``subclasses_of()``
+* convert_or_none() -> ``convert()``
+* subclasses_only() -> ``subclasses_of()``
 
 Deleted 'all()', 'any()', and 'no()'. For the first two without a predicate,
-use the Python builtins ``all()`` or ``any()`` (added in Python 2.5). For 'no'
+use the Python builtins ``all()`` or ``any()``. For 'no()'
 or to use a predicate, copy the WebHelpers implementations (which were borrowed
 from Python's ``itertools`` documentation).
 
@@ -184,6 +207,22 @@ Deleted the 'Stats' and 'SimpleStats' classes. The underlying function-based
 helpers remain.
 
 
+webhelpers.paginate
+===================
+
+Deleted. Its author Christoph Haas has released a newer and more modular
+version as the paginate_ and paginate_sqlalchemy_ distributions on PyPI.
+
+webhelpers.pylonslib
+====================
+
+Deleted the subpackage. Pylons is obsolete and will not be
+ported to Python 3. For Pyramid applications, equivalents to 'flash' and
+'secure_form' are in the Pyramid session support. For CSS/Javascript
+minification, see the several third-party implementations. 'grid' has
+been deprecated since WebHelpers 1.0b1.
+
+
 webhelpers.text
 ===============
 
@@ -192,13 +231,21 @@ args instead of an iterable, and the keyword args are renamed to ``conj`` and
 ``strict``.
 
 
+webhelpers.textile
+==================
 
-.. _dimensions: http://pypi.python.org/pypi/dimensions
-.. _feedgenerator: http://pypi.python.org/pypi/feedgenerator
-.. _feedgen: http://pypi.python.org/pypi/feedgen
-.. _imagefacts: http://pypi.python.org/pypi/imagefacts
-.. _markdown: http://pypi.python.org/pypi/markdown
-.. _markdown2: http://pypi.python.org/pypi/markdown2
-.. _Pillow: http://pypi.python.org/pypi/Pillow
-.. _paginate: http://pypi.python.org/pypi/paginate
-.. _textile: http://pypi.python.org/pypi/textile
+Deleted. Use the textile_ distribution on PyPI.
+
+
+webhelpers.util
+===============
+
+Deleted. Most of it was support functions for other helpers, and most of
+that was either obsolete or superceded by the Python standard library,
+MarkupSafe, or newer versions of WebOb. 
+
+This leaves *update_params()* without a home; it’s currently in the
+'unfinished' directory in the source distribution until a location is
+determined.
+
+.. include:: include.rst
