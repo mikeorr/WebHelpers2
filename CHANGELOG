@@ -1,6 +1,12 @@
 Unreleased
 ----------
 
+- webhelpers2.html.builder
+
+  * Bugfixes:
+
+    + ``HTML()``: Fix "unknown keyword args" reporting
+
 - webhelpers2.html.tools
 
   * Bugfixes:
