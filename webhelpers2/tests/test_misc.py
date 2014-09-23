@@ -1,5 +1,11 @@
 from webhelpers2.misc import *
 
+import pytest
+
+def test_choose_height():
+    assert choose_height(400, 800, 600) == 300
+
+
 def by_name(class_):
     return class_.__name__
 
@@ -61,3 +67,30 @@ def test_subclasses_of_with_exclude():
     subclasses.sort(key=by_name)
     control = [EarlGrey, EnglishBreakfast, JasminePearl, Sencha]
     assert  subclasses == control
+
+
+class TestFormatException(object):
+    def test_with_explicit_exception(self):
+        exc = ValueError('x')
+        assert format_exception(exc) == 'ValueError: x'
+
+    def test_from_exc_info(self):
+        try:
+            assert False, 'foo'
+        except:
+            assert format_exception() == 'AssertionError: foo'
+
+
+class TestDeprecate(object):
+    @pytest.mark.parametrize('pending, warning_class', [
+        (False, DeprecationWarning),
+        (True, PendingDeprecationWarning),
+        ])
+    def test_pending(self, pending, warning_class):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter('always')
+            deprecate('foo', pending=pending)
+        assert len(w) == 1
+        assert isinstance(w[0].message, warning_class)
+        assert str(w[0].message) == 'foo'
+        assert w[0].filename == __file__
