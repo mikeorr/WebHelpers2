@@ -1,9 +1,21 @@
+import calendar
 from datetime import datetime as DT
+import time
 
-from pytest import raises
+from pytest import fixture, raises
 
 from webhelpers2.date import distance_of_time_in_words as dtw
 from webhelpers2.date import _is_leap_year
+
+@fixture(params=range(1970, 2100, 5))
+def run_in_various_years(request, monkeypatch):
+    """ Monkeypatch time.time() to midnight UTC on Jan 1 of various years.
+
+    The assortment of years includes both leap years and non-leap years.
+    """
+    year = request.param
+    t = calendar.timegm((year, 1, 1, 0, 0, 0))
+    monkeypatch.setattr(time, 'time', lambda: t)
 
 class TestDistanceOfTimeInWords(object):
     
@@ -14,8 +26,7 @@ class TestDistanceOfTimeInWords(object):
         # Test that if integers are supplied they are interpreted as seconds from now
         assert dtw(1) == "1 second"
 
-    def test_now_to_1_year(self):
-
+    def test_now_to_1_year(self, run_in_various_years):
         # The following two tests test the span from "now" to "a year from
         # now".  Depending on when the test is run, the interval may include a
         # leap year.  The 'try' assumes it's not a leap year, the 'except'
