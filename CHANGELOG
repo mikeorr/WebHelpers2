@@ -26,6 +26,12 @@ Unreleased
     + format_exception() did not work if called with ``exc=None`` (due
       to missing ``import sys``.)
 
+- webhelpers2.number
+
+  * Bugfixes:
+
+    + median() was not computing the median correctly for even-length sequences
+
 2.0rc1 (2014-09-22)
 -------------------
 

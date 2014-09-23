@@ -40,7 +40,7 @@ def median(r):
     >>> incomes.append(67000)   # Manager
     >>> incomes.append(9999999) # Bill Gates
     >>> median(incomes)
-    49500.0
+    38000.0
     >>> mean(incomes)
     1697499.8333333333
 
@@ -52,7 +52,7 @@ def median(r):
     s = list(r)
     s_len = len(s)
     if s_len == 0:
-        raise ValueError("can't calculate mean of empty collection")
+        raise ValueError("can't calculate median of empty collection")
     s.sort()
     center = s_len // 2
     is_odd = s_len % 2
@@ -60,7 +60,7 @@ def median(r):
         return s[center]   # Return the center element.
     # Return the average of the two elements nearest the center.
     low = s[center-1]
-    high = s[center+1]
+    high = s[center]
     return mean([low, high])
 
 def standard_deviation(r, sample=True):
