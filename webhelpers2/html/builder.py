@@ -33,7 +33,7 @@ class HTMLBuilder(object):
     NL2 = NL * 2
     BR2 = BR * 2
 
-    void_tags = {
+    void_tags = set([
         "area",
         "base",
         "basefont",
@@ -47,13 +47,13 @@ class HTMLBuilder(object):
         "link",
         "meta",
         "param",
-        }
-    boolean_attrs = {
+        ])
+    boolean_attrs = set([
         "defer",
         "disabled",
         "multiple",
         "readonly",
-        }
+        ])
     compose_attrs = {
         "class": literal(" "),
         "style": literal("; "),
@@ -85,7 +85,7 @@ class HTMLBuilder(object):
         nl = kw.pop("nl", False)
         lit = kw.pop("lit", False)
         if kw:
-            raise TypeError("unknown keyword args: {}".format(sorted(kw)))
+            raise TypeError("unknown keyword args: {0}".format(sorted(kw)))
         if not lit:
             args = map(escape, args)
         if nl:
@@ -204,16 +204,16 @@ class HTMLBuilder(object):
         attrs_str = self.render_attrs(attrs)
         chunks = []
         if not args and tag in self.void_tags and closed:
-            substr = literal("<{}{} />")
+            substr = literal("<{0}{1} />")
             html = substr.format(tag, attrs_str)
             chunks.append(html)
         else:
-            substr = literal("<{}{}>")
+            substr = literal("<{0}{1}>")
             html = substr.format(tag, attrs_str)
             chunks.append(html)
             chunks.extend(args)
             if closed:
-                substr = literal("</{}>")
+                substr = literal("</{0}>")
                 chunks.append(substr.format(tag))
         return self(*chunks, nl=nl)
 
@@ -292,7 +292,7 @@ class HTMLBuilder(object):
         """
 
         keys = sorted(attrs)
-        fmt = literal(' {}="{}"')
+        fmt = literal(' {0}="{1}"')
         strings = [fmt.format(x, attrs[x]) for x in keys]
         return EMPTY.join(strings)
 

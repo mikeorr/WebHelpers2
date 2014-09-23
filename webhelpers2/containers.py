@@ -146,7 +146,7 @@ def split_dict(dic, *keys):
     """
     for k in keys:
         if k not in dic:
-            raise KeyError("key {!r} is not in original mapping".format(k))
+            raise KeyError("key {0!r} is not in original mapping".format(k))
     r1 = {}
     r2 = {}
     for k, v in dic.items():

@@ -312,5 +312,5 @@ class TestBooleanAttributes(object):
     def test_boolean_true_with_additional_boolean_attr(self):
         a = {"defer": True, "data-foo": True}
         b = {"defer": "defer", "data-foo": "data-foo"}
-        HTML.optimize_attrs(a, {"data-foo"})
+        HTML.optimize_attrs(a, set(["data-foo"]))
         assert a == b

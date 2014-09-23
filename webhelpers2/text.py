@@ -269,7 +269,7 @@ def series(*items, **kw):
     strict = kw.pop("strict", True)
     if kw:
         keys = sorted(kw)
-        raise TypeError("unrecognized keyword args: {}".format(keys))
+        raise TypeError("unrecognized keyword args: {0}".format(keys))
     items = list(items)
     length = len(items)
     if length == 0:

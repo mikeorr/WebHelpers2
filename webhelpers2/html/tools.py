@@ -446,4 +446,4 @@ def update_params(_url, _debug=False, **params):
         qs = "?" + qs
     if fragment:
         fragment = "#" + fragment
-    return "{}{}{}".format(url, qs, fragment)
+    return "{0}{1}{2}".format(url, qs, fragment)

@@ -241,7 +241,7 @@ def radio(name, value, checked=False, label=None, label_class=None, **attrs):
     if checked:
         attrs["checked"] = "checked"
     if not "id" in attrs:
-        attrs["id"] = "{}_{}".format(name, _make_safe_id_component(value))
+        attrs["id"] = "{0}_{1}".format(name, _make_safe_id_component(value))
     # Pass None as 'id' arg to '_input()' to prevent further modification of
     # the 'id' attribute.
     widget = _input("radio", name, value, None, attrs)
@@ -379,7 +379,7 @@ class ModelTags(object):
         self.use_keys = use_keys
         self.date_format = date_format
         if id_format:
-            id_format = id_format.replace("%s", "{}")
+            id_format = id_format.replace("%s", "{0}")
         self.id_format = id_format
     
     def checkbox(self, name, value='1', label=None, **kw):
@@ -478,7 +478,7 @@ class ModelTags(object):
         self._update_id(name, kw)
         value = self._get_value(name, kw)
         if 'id' in kw:
-            kw["id"] = "{}_{}".format(kw['id'], _make_safe_id_component(checked_value))
+            kw["id"] = "{0}_{1}".format(kw['id'], _make_safe_id_component(checked_value))
         checked = (value == checked_value)
         return radio(name, checked_value, checked, label, **kw)
 
@@ -584,7 +584,7 @@ class OptGroup(object):
     def __repr__(self):
         classname = self.__class__.__name__
         data = [x for x in self.options]
-        return "{}({!r}, {!r})".format(classname, self.label, data)
+        return "{0}({1!r}, {2!r})".format(classname, self.label, data)
 
 class Options(tuple):
     """A tuple of ``Option`` objects for the ``select()`` helper.
@@ -626,7 +626,7 @@ class Options(tuple):
     def __repr__(self):
         classname = self.__class__.__name__
         data = [x for x in self]
-        return "{}({})".format(classname, data)
+        return "{0}({1})".format(classname, data)
 
     def values(self):
         """Iterate the value element of each pair."""
@@ -860,7 +860,7 @@ def auto_discovery_link(url, feed_type="rss", **attrs):
     title = ""
     if feed_type.lower() in ('rss', 'atom'):
         title = feed_type.upper()
-        feed_type = 'application/{}+xml'.format(feed_type.lower())
+        feed_type = 'application/{0}+xml'.format(feed_type.lower())
     attrs.setdefault("title", title)
     return HTML.tag("link", rel="alternate", type=feed_type, href=url, **attrs)
 

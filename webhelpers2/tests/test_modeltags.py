@@ -105,7 +105,7 @@ class TestIdGeneration(object):
         assert a == b
 
     def test_braces_syntax(self):
-        self.check_id_format_syntax("person:{}")
+        self.check_id_format_syntax("person:{0}")
 
     def test_percent_syntax(self):
         """Backward compatibility with WebHelpers."""
