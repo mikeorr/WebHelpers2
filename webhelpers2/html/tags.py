@@ -584,7 +584,7 @@ class OptGroup(object):
     def __repr__(self):
         classname = self.__class__.__name__
         data = [x for x in self.options]
-        return "{}({}, {})".format(classname, data, repr(self.label))
+        return "{}({!r}, {!r})".format(classname, self.label, data)
 
 class Options(tuple):
     """A tuple of ``Option`` objects for the ``select()`` helper.

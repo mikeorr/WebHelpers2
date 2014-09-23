@@ -7,6 +7,12 @@ Unreleased
 
     + ``HTML()``: Fix "unknown keyword args" reporting
 
+- webhelpers2.html.tags
+
+  * Bugfixes:
+
+    + Fix OptGroup.__repr__ to list its arguments in the correct order
+
 - webhelpers2.html.tools
 
   * Bugfixes:
