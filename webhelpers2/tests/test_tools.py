@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
 import re
 from string import Template
 
+import pytest
 from six.moves.urllib.parse import parse_qs, urlsplit
 
 from webhelpers2.html import HTML, literal
@@ -199,6 +201,30 @@ class TestURLHelper(object):
                          mail_to("me@domain.com", None, encode = "hex", replace_at = "(at)", replace_dot = "(dot)"))
         eq_("<script type=\"text/javascript\">\n//<![CDATA[\neval(unescape('%64%6f%63%75%6d%65%6e%74%2e%77%72%69%74%65%28%27%3c%61%20%68%72%65%66%3d%22%6d%61%69%6c%74%6f%3a%6d%65%40%64%6f%6d%61%69%6e%2e%63%6f%6d%22%3e%4d%79%20%65%6d%61%69%6c%3c%2f%61%3e%27%29%3b'))\n//]]>\n</script>",
                          mail_to("me@domain.com", "My email", encode = "javascript", replace_at = "(at)", replace_dot = "(dot)"))
+
+
+def test_js_obfuscate():
+    def _escape(s):
+        return ''.join('%{0:02x}'.format(ord(c)) for c in s)
+
+    assert js_obfuscate('foo') == (
+        '<script type="text/javascript">\n'
+        '//<![CDATA[\n'
+        "eval(unescape('"
+        + _escape("document.write('foo');")
+        + "'))\n"
+        '//]]>\n'
+        '</script>')
+
+@pytest.mark.parametrize('s, quoted', [
+    ('a', "'a'"),
+    (u'€', r"'\u20AC'"),
+    ('"', r"'\x22'"),
+    ("'", r"'\x27'"),
+    ])
+def test_js_quote_string(s, quoted):
+    from webhelpers2.html.tools import js_quote_string
+    assert js_quote_string(s) == quoted
 
 
 class TestHighlightHelper(object):

@@ -9,6 +9,7 @@ BeautifulSoup and HTMLTidy handle this well.
 
 from __future__ import unicode_literals
 import re
+import string
 
 import six
 from six.moves.urllib.parse import parse_qs
@@ -155,12 +156,36 @@ def js_obfuscate(content):
         literal(u'<script type="text/javascript">\\n//<![CDATA[\\neval(unescape(\\'%64%6f%63%75%6d%65%6e%74%2e%77%72%69%74%65%28%27%3c%69%6e%70%75%74%20%74%79%70%65%3d%27%68%69%64%64%65%6e%27%20%6e%61%6d%65%3d%27%63%68%65%63%6b%27%20%76%61%6c%75%65%3d%27%76%61%6c%69%64%27%20%2f%3e%27%29%3b\\'))\\n//]]>\\n</script>')
         
     """
-    doc_write = "document.write('%s');" % content
+    doc_write = "document.write(%s);" % js_quote_string(content)
     obfuscated = ''.join(['%%%x' % ord(x) for x in doc_write])
     complete = "eval(unescape('%s'))" % obfuscated
     cdata = HTML.cdata("\n", complete, "\n//")
     return HTML.tag("script", "\n//", cdata, "\n", type="text/javascript")
 
+JS_STRING_SAFE_CHARS = (
+    string.ascii_letters
+    + string.digits
+    + u' ~!@$%^*()-_=+<>,./?'
+    )
+
+def js_quote_string(s, safe_chars=JS_STRING_SAFE_CHARS):
+    """ Return a javascript quoted string literal.
+
+    Characters not listed in SAFE_CHARS (which by default includes
+    alphanumerics and most ASCII punctuation characters) are escaped
+    using javascripts ``\\xXX`` or ``\\uXXXX`` escapes.
+
+    """
+    chars = []
+    for c in s:
+        if c in safe_chars:
+            chars.append(c)
+        elif ord(c) < 256:
+            chars.append('\\x{0:02X}'.format(ord(c)))
+        else:
+            chars.append('\\u{0:04X}'.format(ord(c)))
+    return "'{0}'".format(''.join(chars))
+    
 
 def mail_to(email_address, name=None, cc=None, bcc=None, subject=None, 
     body=None, replace_at=None, replace_dot=None, encode=None, **html_attrs):
