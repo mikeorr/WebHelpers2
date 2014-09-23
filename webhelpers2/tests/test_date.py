@@ -14,7 +14,8 @@ class TestDistanceOfTimeInWords(object):
         # Test that if integers are supplied they are interpreted as seconds from now
         assert dtw(1) == "1 second"
 
-    def now_to_1_year(self):
+    def test_now_to_1_year(self):
+
         # The following two tests test the span from "now" to "a year from
         # now".  Depending on when the test is run, the interval may include a
         # leap year.  The 'try' assumes it's not a leap year, the 'except'

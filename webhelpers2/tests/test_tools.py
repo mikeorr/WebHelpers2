@@ -313,12 +313,12 @@ class TestUpdateParams(object):
             new1="NEW1", _debug=True)
         assert result == control
 
-    def add_param2(self):
+    def test_add_param2(self):
         control = "http://www.mau.de?foo=2&brrr=3"
         result = update_params("http://www.mau.de?foo=2", brrr=3)
         assert result == control
 
-    def add_multiple_values(self):
+    def test_add_multiple_values(self):
         control = "http://www.mau.de?foo=C&foo=D"
         result = update_params("http://www.mau.de?foo=A&foo=B", foo=["C", "D"])
         assert result == control
