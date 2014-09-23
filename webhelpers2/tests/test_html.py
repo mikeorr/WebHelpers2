@@ -60,6 +60,11 @@ class TestLiteral(object):
         lit = literal("<%i>")
         assert "<5>" == lit % 5
 
+    def test_literal_none(self):
+        result = literal(None)
+        assert result == ""
+        assert type(result) is literal
+
 
 class TestLitSub(object):
     def test_lit_sub(self):
@@ -127,6 +132,10 @@ class TestHTMLBuilderConstructor(HTMLTestCase):
         a = HTML("A&B", "&C", nl=True, lit=True)
         b = "A&B\n&C\n"
         self.check(a, b)
+
+    def test_raises_error_on_unknown_kwarg(self):
+        with raises(TypeError):
+            HTML("A", foo='bar')
 
 
 class TestHTMLBuilder(HTMLTestCase):

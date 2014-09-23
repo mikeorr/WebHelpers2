@@ -116,12 +116,24 @@ class TestToolsHelper(object):
         # Failing test: PylonsHQ bug #657
         #eq_('&lt;<a href="http://www.google.com">www.google.com</a>&gt;', auto_link("<www.google.com>"))
 
+    @pytest.mark.parametrize('text', [
+        '<a href="http://www.example.com/">www.example.com</a>',
+        '<a rel="nofollow" href="http://www.example.com/">www.example.com</a>',
+        ])
+    def test_auto_link_does_not_link_link(self, text):
+        text = literal(text)
+        assert auto_link(text) == text
+
     def test_strip_links(self):
         eq_("on my mind", strip_links("<a href='almost'>on my mind</a>"))
         eq_("on my mind", strip_links("<A href='almost'>on my mind</A>"))
         eq_("on my mind\nall day long",
                          strip_links("<a href='almost'>on my mind</a>\n<A href='almost'>all day long</A>"))
 
+    def test_strip_links_literal(self):
+        result = strip_links(literal('<a href="foo">bar</a>'))
+        assert type(result) is literal
+        assert result == 'bar'
 
 
 class TestURLHelper(object):
@@ -289,6 +301,9 @@ class TestNL2BR(object):
     def test_nl2br3(self):
         assert "<strike>W</strike><br />\nThe W" == \
             nl2br(literal("<strike>W</strike>\nThe W"))
+
+    def test_nl2br_none(self):
+        assert nl2br(None) == ''
 
 
 class TestTextToHTML(object):

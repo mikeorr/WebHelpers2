@@ -5,6 +5,7 @@ import time
 from pytest import fixture, raises
 
 from webhelpers2.date import distance_of_time_in_words as dtw
+from webhelpers2.date import time_ago_in_words
 from webhelpers2.date import _is_leap_year
 
 @fixture(params=range(1970, 2100, 5))
@@ -84,6 +85,9 @@ class TestDistanceOfTimeInWords(object):
         assert dtw(to_time, from_time, granularity="second") == \
             dtw(to_time, from_time, granularity="second", round=True)
         
+    def test_round_smaller_than_granularity(self):
+        assert dtw(1, granularity="hour", round=True) == "less than 1 hour"
+
     def test_plural(self):
         # Pluralization
         assert dtw(DT(200, 1,1), DT(300, 1, 1)) == "1 century"
@@ -151,3 +155,6 @@ class TestLeapYears(object):
 
     def test_is_leap_year_2100(self):
         assert not _is_leap_year(2100)
+
+def test_time_ago_in_words():
+    assert time_ago_in_words(-18*3600, granularity="day", round=True) == '1 day'
