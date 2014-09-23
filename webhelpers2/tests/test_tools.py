@@ -1,6 +1,8 @@
 import re
 from string import Template
 
+from six.moves.urllib.parse import parse_qs, urlsplit
+
 from webhelpers2.html import HTML, literal
 import webhelpers2.html._render as render
 from webhelpers2.html.tools import *
@@ -314,9 +316,8 @@ class TestUpdateParams(object):
         assert result == control
 
     def test_add_param2(self):
-        control = "http://www.mau.de?foo=2&brrr=3"
         result = update_params("http://www.mau.de?foo=2", brrr=3)
-        assert result == control
+        assert parse_qs(urlsplit(result).query) == dict(foo=['2'], brrr=['3'])
 
     def test_add_multiple_values(self):
         control = "http://www.mau.de?foo=C&foo=D"
