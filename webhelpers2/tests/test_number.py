@@ -1,3 +1,4 @@
+import pytest
 from pytest import raises
 
 from webhelpers2.number import *
@@ -32,16 +33,26 @@ class TestMean(object):
     def test1(self):
         assert mean([5, 10]) == 7.5
 
+    def test_empty_sequence(self):
+        with raises(ValueError) as exc_info:
+            mean([])
+        assert "mean of empty collection" in str(exc_info.value)
 
 class TestMedian(object):
-    incomes = [18000, 24000, 32000, 44000, 67000, 9999999]
 
-    def test_median(self):
-        assert median(self.incomes) == 49500.0
+    @pytest.mark.parametrize('values, expected_median', [
+        ([42], 42),
+        ([40,44], 42),
+        ([40,44,42], 42),
+        ([18000, 24000, 32000, 44000, 67000, 9999999], 38000.0),
+        ])
+    def test_median(self, values, expected_median):
+        assert median(values) == expected_median
 
-    def test_compare_to_mean(self):
-        eq(mean(self.incomes), 1697499.833333333)
-
+    def test_empty_sequence(self):
+        with raises(ValueError) as exc_info:
+            median([])
+        assert "median of empty collection" in str(exc_info.value)
 
 class TestStandardDeviation(object):
     
@@ -113,6 +124,10 @@ class TestFormatDataSize(object):
         assert format_bit_size(1024, 0, False, True) ==  "1 kilobits"
         assert format_bit_size(1024, 2, False, True) ==  "1.02 kilobits"
 
+    def test_binary_kilobits(self):
+        assert format_bit_size(1024, 2, True, False) ==  "1.00 Kib"
+        assert format_bit_size(1024, 2, True, True) ==  "1.00 kibibits"
+
     def test_megabytes(self):
         assert format_byte_size(12345678, 2, True) ==  "11.77 MiB"
         assert format_byte_size(12345678, 2, False) ==  "12.35 MB"
@@ -128,3 +143,14 @@ class TestFormatDataSize(object):
     def test_yottabytes(self):
         assert format_byte_size(123456789012345678901234567890, 2, True) == "102121.06 YiB"
         assert format_byte_size(123456789012345678901234567890, 2, False) ==  "123456.79 YB"
+
+    @pytest.mark.parametrize('units, expected', [
+        ('m', '1.20 km'),
+        ('meters', '1.20 kilometers'),
+        ])
+    def test_full_name_none(self, units, expected):
+        assert format_data_size(1200, units, 2, full_name=None) == expected
+
+    def test_negative(self):
+        # FIXME: is this really the intended behavior?
+        assert format_bit_size(-1200) == '-1200 b'
