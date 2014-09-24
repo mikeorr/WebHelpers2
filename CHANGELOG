@@ -1,6 +1,12 @@
 Unreleased
 ----------
 
+- webhelpers2.containers
+
+  * Bugfixes:
+
+    + [py3k] Fix ``ordered_items`` when ``other_keys`` is set
+
 - webhelpers2.html.builder
 
   * Bugfixes:
