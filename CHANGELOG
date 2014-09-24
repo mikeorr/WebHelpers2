@@ -38,6 +38,15 @@ Unreleased
 
     + median() was not computing the median correctly for even-length sequences
 
+- webhelpers2.text
+
+  * Bugfixes:
+
+    + excerpt() now works correctly when ``text`` is a ``literal``.
+
+    + wrap_paragraphs() now works when ``width`` is a
+      ``textwrap.TextWrapper`` instance.
+
 2.0rc1 (2014-09-22)
 -------------------
 
