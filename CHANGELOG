@@ -1,3 +1,52 @@
+Unreleased
+----------
+
+- webhelpers2.containers
+
+  * Bugfixes:
+
+    + [py3k] Fix ``ordered_items`` when ``other_keys`` is set
+
+- webhelpers2.html.builder
+
+  * Bugfixes:
+
+    + ``HTML()``: Fix "unknown keyword args" reporting
+
+- webhelpers2.html.tags
+
+  * Bugfixes:
+
+    + Fix OptGroup.__repr__ to list its arguments in the correct order
+
+- webhelpers2.html.tools
+
+  * Bugfixes:
+
+    + Properly escape the string passed to ``js_obfuscate``.
+
+- webhelpers2.misc
+
+  * Bugfixes:
+
+    + format_exception() did not work if called with ``exc=None`` (due
+      to missing ``import sys``.)
+
+- webhelpers2.number
+
+  * Bugfixes:
+
+    + median() was not computing the median correctly for even-length sequences
+
+- webhelpers2.text
+
+  * Bugfixes:
+
+    + excerpt() now works correctly when ``text`` is a ``literal``.
+
+    + wrap_paragraphs() now works when ``width`` is a
+      ``textwrap.TextWrapper`` instance.
+
 2.0rc1 (2014-09-22)
 -------------------
 

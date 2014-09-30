@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
+
+import textwrap
+
+import pytest
+
 from webhelpers2.text import *
+from webhelpers2.html import literal
 
 class TestExcerptHelper(object):
     def test_excerpt(self):
@@ -26,6 +32,16 @@ class TestExcerptHelper(object):
         assert "...is a beautiful? mor..." == \
              excerpt("This is a beautiful? morning", "beautiful", 5)
 
+    def test_excerpt_null_text(self):
+        assert excerpt("", "foo") == ""
+
+    def test_excerpt_null_phrase(self):
+        assert excerpt("foo", None) == "foo"
+
+    def test_excerpt_literal(self):
+        result = excerpt(literal('Some fine morning'), 'fine')
+        assert isinstance(result, literal)
+        assert result == 'Some fine morning'
 
 class TestPluralHelper(object):
     def test1(self):
@@ -34,6 +50,9 @@ class TestPluralHelper(object):
     def test2(self):
         assert plural(2, "ox", "oxen", False) == "oxen"
 
+    def test_singular(self):
+        assert plural(1, "ox", "oxen") == "1 ox"
+
 
 class TestChopHelper(object):
     def test_chop_at(self):
@@ -41,6 +60,9 @@ class TestChopHelper(object):
 
     def test_chop_at2(self):
         assert chop_at("plutocratic brats", "rat", True) == "plutocrat"
+
+    def test_chop_at_returns_whole_string_if_sub_not_found(self):
+        assert chop_at("plutocratic brats", "wurst") == "plutocratic brats"
 
     def test_lchop(self):
         assert lchop("##This is a comment.##", "##") == "This is a comment.##"
@@ -71,6 +93,9 @@ class TestSeriesHelper(object):
     def test7(self):
         assert series("A", "B", "C", conj="or", strict=False) == "A, B or C"
 
+    def test_type_error_on_unexpect_kwargs(self):
+        with pytest.raises(TypeError):
+            series("A", "B", arg='unexpected')
 
 class TestTruncateHelper(object):
     def test_truncate(self):
@@ -82,6 +107,12 @@ class TestTruncateHelper(object):
     def test_truncate3(self):
         assert "Hello..." == truncate("Hello World!!", 12, whole_word=True)
 
+    def test_truncate_none(self):
+        assert truncate(None) == ""
+
+    def test_truncate_long_whole_word(self):
+        assert truncate("Hello World!!", 6, whole_word=True) == "Hel..."
+
 
 class TestStripLeadingWhitespaceHelper(object):
     def test_strip_leading_whitespace(self):
@@ -89,12 +120,30 @@ class TestStripLeadingWhitespaceHelper(object):
         control = "def fn(x):\nreturn x\n"
         assert control == strip_leading_whitespace(s)
 
+class TestWrapParagraphsHelper(object):
+    def test(self):
+        paragraph = 'word word word word\n' * 2 + '\n'
+        wrapped = 'word word\n' * 4 + '\n'
+        assert wrap_paragraphs(paragraph * 2, 10) == wrapped * 2
 
-# @@MO wrap_paragraphs untested.
+    def test_short_lines(self):
+        # FIXME: is this really the desired behavior?
+        paragraph = 'word\n' * 8 + '\n'
+        assert wrap_paragraphs(paragraph * 2, 10) == paragraph * 2
 
+    def test_with_textwrapper(self):
+        paragraph = 'word ' * 7 + 'word\n\n'
+        wrapped = 'word word\n' * 4 + '\n'
+        width = textwrap.TextWrapper(width=10)
+        assert wrap_paragraphs(paragraph * 2, width) == wrapped * 2
 
 class TestURLifyHelper(object):
     def test_urlify(self):
         s = "What is this? It is a car."
         control = "what-is-this%3F-it-is-a-car."
         assert urlify(s) == control
+
+    def test_urlify_calls_unidecode(self, monkeypatch):
+        from webhelpers2 import text
+        monkeypatch.setattr(text, 'unidecode', lambda s: 'unidecoded')
+        assert urlify('foo') == 'unidecoded'

@@ -7,7 +7,7 @@ package.
 
 import collections
 import sys
-
+from six import iteritems
 from webhelpers2.misc import NotGiven
 
 class DumbObject(object):
@@ -186,7 +186,7 @@ def ordered_items(dic, key_order, other_keys=True, default=NotGiven):
         elif default is not NotGiven:
             yield key, default
     if other_keys:
-        for key, value in d.iteritems():
+        for key, value in iteritems(d):
             yield key, value
 
 def del_keys(dic, *keys):

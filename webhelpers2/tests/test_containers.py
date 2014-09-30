@@ -1,3 +1,4 @@
+import pytest
 from pytest import raises
 
 from webhelpers2.containers import *
@@ -35,6 +36,12 @@ class TestCounter(object):
         assert c.result["A"] == 2
         assert c.result["B"] == 1
 
+@pytest.mark.parametrize('elements, expected_result', [
+    (('a', 'b') * 2, ['a', 'b']),
+    ('aabbcc', ['a', 'b', 'c']),
+    ])
+def test_unique(elements, expected_result):
+    assert unique(elements) == expected_result
 
 class TestDictFunctions(object):
     orig = {"A": 1, "B": 2, "C": 3}
@@ -43,7 +50,7 @@ class TestDictFunctions(object):
         assert copy_keys(self.orig, "A", "C") == {"A": 1, "C": 3}
 
     def test_copy_keys_except(self):
-        assert copy_keys_except(self.orig, "A", "C") == {"B": 2}
+        assert copy_keys_except(self.orig, "A", "C", "missing") == {"B": 2}
 
     def test_split_dict(self):
         email_headers = {"From": "F", "To": "T", "Received": "R"}
@@ -66,9 +73,17 @@ class TestDictFunctions(object):
         result = list(ordered_items(email_headers, order, False))
         assert result == [("From", "me"), ("To", "you"), ("Subject", "X")]
 
+    def test_ordered_items_default(self):
+        assert list(ordered_items({}, ['key'], False, default='default')) \
+               == [('key', 'default')]
+
+    def test_ordered_items_other_keys(self):
+        assert list(ordered_items({'key': 'val'}, [], other_keys=True)) \
+               == [('key', 'val')]
+
     def test_del_keys(self):
         d = self.orig.copy()
-        del_keys(d, "A", "C")
+        del_keys(d, "A", "C", "missing")
         assert d == {"B": 2}
 
     def test_correlate_dicts(self):
@@ -78,6 +93,12 @@ class TestDictFunctions(object):
         assert sorted(flintstones.keys()) == ["Barney", "Fred"]
         assert flintstones["Fred"]["age"] == 41
 
+    def test_correlate_dicts_missing_key(self):
+        d1 = {"name": "Fred", "age": 41}
+        with raises(KeyError) as exc_info:
+            correlate_dicts([d1], "missing")
+        assert "element 0 contains no key 'missing'" in str(exc_info.value)
+
     def test_correlate_objects(self):
         class Flintstone(DumbObject):
             pass
@@ -86,6 +107,15 @@ class TestDictFunctions(object):
         flintstones = correlate_objects([fred, barney], "name")
         assert sorted(flintstones.keys()) == ["Barney", "Fred"]
         assert flintstones["Barney"].age == 31
+
+    def test_correlate_objects_missing_key(self):
+        class Flintstone(DumbObject):
+            pass
+        fred = Flintstone(name="Fred", age=41)
+        barney = Flintstone(name="Barney", age=31)
+        with raises(AttributeError) as exc_info:
+            correlate_objects([fred], "missing")
+        assert "contains no attribute 'missing'" in str(exc_info.value)
 
 
 class TestDistribute(object):
@@ -119,7 +149,16 @@ class TestDistribute(object):
             ["daikon", "honey"]]
         assert distribute(food, 2, "V", "") == control
 
-
+    def test_not_enough_columns(self):
+        with raises(ValueError) as exc_info:
+            distribute(food, 0, "H", "")
+        assert "'columns' must be >= 1" in str(exc_info.value)
+    
+    def test_bad_direction(self):
+        with raises(ValueError) as exc_info:
+            distribute(food, 2, "Sideways", "")
+        assert "must start with 'H' or 'V'" in str(exc_info.value)
+    
 class TestDistributeWithExtra(object):
     def test1(self):
         control = [

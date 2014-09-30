@@ -1,9 +1,22 @@
+import calendar
 from datetime import datetime as DT
+import time
 
-from pytest import raises
+from pytest import fixture, raises
 
 from webhelpers2.date import distance_of_time_in_words as dtw
+from webhelpers2.date import time_ago_in_words
 from webhelpers2.date import _is_leap_year
+
+@fixture(params=range(1970, 2100, 5))
+def run_in_various_years(request, monkeypatch):
+    """ Monkeypatch time.time() to midnight UTC on Jan 1 of various years.
+
+    The assortment of years includes both leap years and non-leap years.
+    """
+    year = request.param
+    t = calendar.timegm((year, 1, 1, 0, 0, 0))
+    monkeypatch.setattr(time, 'time', lambda: t)
 
 class TestDistanceOfTimeInWords(object):
     
@@ -14,7 +27,7 @@ class TestDistanceOfTimeInWords(object):
         # Test that if integers are supplied they are interpreted as seconds from now
         assert dtw(1) == "1 second"
 
-    def now_to_1_year(self):
+    def test_now_to_1_year(self, run_in_various_years):
         # The following two tests test the span from "now" to "a year from
         # now".  Depending on when the test is run, the interval may include a
         # leap year.  The 'try' assumes it's not a leap year, the 'except'
@@ -72,6 +85,9 @@ class TestDistanceOfTimeInWords(object):
         assert dtw(to_time, from_time, granularity="second") == \
             dtw(to_time, from_time, granularity="second", round=True)
         
+    def test_round_smaller_than_granularity(self):
+        assert dtw(1, granularity="hour", round=True) == "less than 1 hour"
+
     def test_plural(self):
         # Pluralization
         assert dtw(DT(200, 1,1), DT(300, 1, 1)) == "1 century"
@@ -139,3 +155,6 @@ class TestLeapYears(object):
 
     def test_is_leap_year_2100(self):
         assert not _is_leap_year(2100)
+
+def test_time_ago_in_words():
+    assert time_ago_in_words(-18*3600, granularity="day", round=True) == '1 day'

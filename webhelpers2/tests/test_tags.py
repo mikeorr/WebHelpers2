@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import re
+
 import pytest
 from pytest import raises
+import six
 
 from webhelpers2.html import HTML, literal
 from webhelpers2.html.tags import *
@@ -45,6 +48,22 @@ class TestForm(HTMLTestCase):
         a = form("/submit", "post", multipart=True)
         b = literal('<form action="/submit" enctype="multipart/form-data" method="post">')
         self.check(a, b)
+
+    def test_hidden_fields(self):
+        tag = form("/submit", hidden_fields=[('foo', 'bar')])
+        assert tag == literal( 
+            '<form action="/submit" method="post">'
+            '<div style="display:none">\n'
+            '<input name="foo" type="hidden" value="bar" />\n'
+            '</div>\n')
+
+    def test_hidden_fields_from_dict(self):
+        tag = form("/submit", hidden_fields={'foo': 'bar'})
+        assert tag == literal(
+            '<form action="/submit" method="post">'
+            '<div style="display:none">\n'
+            '<input name="foo" type="hidden" value="bar" />\n'
+            '</div>\n')
 
     def test_end_form(self):
         a = end_form() 
@@ -224,6 +243,11 @@ class TestLinkHelper(HTMLTestCase):
         b = '<a href="http://www.example.com" onclick="alert(&#39;yay!&#39;)">Hello</a>'
         self.check(a, b)
 
+    def test_link_to_default_label(self):
+        self.check(
+            link_to("", "http://www.example.com"),
+            '<a href="http://www.example.com">http://www.example.com</a>')
+
     def test_link_to_if_true(self):
         a = link_to_if(True, "A", "B")
         b = '<a href="B">A</a>'
@@ -331,6 +355,17 @@ class TestImage(HTMLTestCase):
         b = '<img alt="Icon" src="/icons/icon.gif" width="16" />'
         assert a == b
 
+    def test_path_not_supported(self):
+        with raises(TypeError) as exc_info:
+            image("foo.png", 'foo', path="/tmp/foo.png")
+        assert re.search(r"\bpath\b.*\bnot supported\b", str(exc_info.value))
+
+    def test_use_pil_not_supported(self):
+        with raises(TypeError) as exc_info:
+            image("foo.png", 'foo', use_pil=True)
+        assert re.search(r"\buse_pil\b.*\bnot supported\b",
+                         str(exc_info.value))
+
 
 class TestSelect(HTMLTestCase):
     def test1(self):
@@ -364,6 +399,14 @@ class TestSelect(HTMLTestCase):
         self.check(a, b)
 
 
+class TestOptGroup(object):
+    def test_repr(self):
+        group = OptGroup('foo', [Option('bar', 'baz')])
+        expected = "OptGroup(u'foo', [(u'bar', u'baz')])"
+        if six.PY3:
+            expected = expected.replace("u'", "'")
+        assert repr(group) == expected
+
 class TestOptions(HTMLTestCase):
     def get_options(self):
         return Options(["A", 1, ("b", "B")])
@@ -384,6 +427,16 @@ class TestOptions(HTMLTestCase):
         a = self.get_options()
         assert a[2].label == "B"
 
+    def test_labels(self):
+        opts = self.get_options()
+        assert list(opts.labels()) == ['A', '1', 'B']
+
+    def test_repr(self):
+        opts = self.get_options()
+        expected = "Options([(u'A', u'A'), (u'1', u'1'), (u'b', u'B')])"
+        if six.PY3:
+            expected = expected.replace("u'", "'")
+        assert repr(opts) == expected
 
 class TestThSortable(HTMLTestCase):
     def test1(self):
@@ -491,6 +544,10 @@ class TestStylesheetLink(HTMLTestCase):
         b = literal('<link href="/stylesheets/dir/file.css" media="all" rel="stylesheet" type="text/css" />')
         self.check(a, b)
 
+    def test_href_not_supported(self):
+        with raises(TypeError) as exc_info:
+            stylesheet_link('/file.css', href="foo.css")
+        assert re.search(r'\bhref\b.* not allowed\b', str(exc_info.value))
 
 class TestAutoDiscoveryLink(HTMLTestCase):
     def test1(self):
@@ -512,3 +569,13 @@ class TestAutoDiscoveryLink(HTMLTestCase):
         a = auto_discovery_link('/app.html', feed_type='text/html')
         b = literal('<link href="/app.html" rel="alternate" title="" type="text/html" />')
         self.check(a, b)
+
+    def test_href_not_supported(self):
+        with raises(TypeError) as exc_info:
+            auto_discovery_link('/app.html', href="foo.html")
+        assert re.search(r'\bhref\b.* not allowed\b', str(exc_info.value))
+
+    def test_type_not_supported(self):
+        with raises(TypeError) as exc_info:
+            auto_discovery_link('/app.html', type="text/html")
+        assert re.search(r'\btype\b.* not allowed\b', str(exc_info.value))

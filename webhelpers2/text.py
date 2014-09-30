@@ -9,6 +9,7 @@ import textwrap
 
 from six.moves.urllib.parse import quote as url_escape
 
+from webhelpers2.html.builder import literal
 from webhelpers2.html.tools import strip_tags
 
 try:
@@ -106,7 +107,7 @@ def excerpt(text, phrase, radius=100, excerpt_string="..."):
     if match.end(1) < len(text):
         excerpt = excerpt + excerpt_string
     if hasattr(text, '__html__'):
-        return literal(excertp)
+        return literal(excerpt)
     else:
         return excerpt
 
@@ -184,6 +185,7 @@ def wrap_paragraphs(text, width=72):
     """
     if isinstance(width, textwrap.TextWrapper):
         wrapper = width
+        width = wrapper.width
     else:
         wrapper = textwrap.TextWrapper(width=width)
     result = []

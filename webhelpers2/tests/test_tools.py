@@ -1,5 +1,9 @@
+# -*- coding: utf-8 -*-
 import re
 from string import Template
+
+import pytest
+from six.moves.urllib.parse import parse_qs, urlsplit
 
 from webhelpers2.html import HTML, literal
 import webhelpers2.html._render as render
@@ -112,12 +116,24 @@ class TestToolsHelper(object):
         # Failing test: PylonsHQ bug #657
         #eq_('&lt;<a href="http://www.google.com">www.google.com</a>&gt;', auto_link("<www.google.com>"))
 
+    @pytest.mark.parametrize('text', [
+        '<a href="http://www.example.com/">www.example.com</a>',
+        '<a rel="nofollow" href="http://www.example.com/">www.example.com</a>',
+        ])
+    def test_auto_link_does_not_link_link(self, text):
+        text = literal(text)
+        assert auto_link(text) == text
+
     def test_strip_links(self):
         eq_("on my mind", strip_links("<a href='almost'>on my mind</a>"))
         eq_("on my mind", strip_links("<A href='almost'>on my mind</A>"))
         eq_("on my mind\nall day long",
                          strip_links("<a href='almost'>on my mind</a>\n<A href='almost'>all day long</A>"))
 
+    def test_strip_links_literal(self):
+        result = strip_links(literal('<a href="foo">bar</a>'))
+        assert type(result) is literal
+        assert result == 'bar'
 
 
 class TestURLHelper(object):
@@ -199,6 +215,30 @@ class TestURLHelper(object):
                          mail_to("me@domain.com", "My email", encode = "javascript", replace_at = "(at)", replace_dot = "(dot)"))
 
 
+def test_js_obfuscate():
+    def _escape(s):
+        return ''.join('%{0:02x}'.format(ord(c)) for c in s)
+
+    assert js_obfuscate('foo') == (
+        '<script type="text/javascript">\n'
+        '//<![CDATA[\n'
+        "eval(unescape('"
+        + _escape("document.write('foo');")
+        + "'))\n"
+        '//]]>\n'
+        '</script>')
+
+@pytest.mark.parametrize('s, quoted', [
+    ('a', "'a'"),
+    (u'€', r"'\u20AC'"),
+    ('"', r"'\x22'"),
+    ("'", r"'\x27'"),
+    ])
+def test_js_quote_string(s, quoted):
+    from webhelpers2.html.tools import js_quote_string
+    assert js_quote_string(s) == quoted
+
+
 class TestHighlightHelper(object):
     def test_highlight(self):
         eq_("This is a <strong class=\"highlight\">beautiful</strong> morning",
@@ -262,6 +302,9 @@ class TestNL2BR(object):
         assert "<strike>W</strike><br />\nThe W" == \
             nl2br(literal("<strike>W</strike>\nThe W"))
 
+    def test_nl2br_none(self):
+        assert nl2br(None) == ''
+
 
 class TestTextToHTML(object):
     def test_text_to_html1(self):
@@ -313,12 +356,11 @@ class TestUpdateParams(object):
             new1="NEW1", _debug=True)
         assert result == control
 
-    def add_param2(self):
-        control = "http://www.mau.de?foo=2&brrr=3"
+    def test_add_param2(self):
         result = update_params("http://www.mau.de?foo=2", brrr=3)
-        assert result == control
+        assert parse_qs(urlsplit(result).query) == dict(foo=['2'], brrr=['3'])
 
-    def add_multiple_values(self):
+    def test_add_multiple_values(self):
         control = "http://www.mau.de?foo=C&foo=D"
         result = update_params("http://www.mau.de?foo=A&foo=B", foo=["C", "D"])
         assert result == control

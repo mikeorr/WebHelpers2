@@ -85,7 +85,7 @@ class HTMLBuilder(object):
         nl = kw.pop("nl", False)
         lit = kw.pop("lit", False)
         if kw:
-            raise TypeError("unknown keyword args: {}".format(sort(kw)))
+            raise TypeError("unknown keyword args: {}".format(sorted(kw)))
         if not lit:
             args = map(escape, args)
         if nl:

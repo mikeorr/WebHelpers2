@@ -60,6 +60,11 @@ class TestLiteral(object):
         lit = literal("<%i>")
         assert "<5>" == lit % 5
 
+    def test_literal_none(self):
+        result = literal(None)
+        assert result == ""
+        assert type(result) is literal
+
 
 class TestLitSub(object):
     def test_lit_sub(self):
@@ -71,36 +76,6 @@ class TestLitSub(object):
         
         result = lit_sub(r"a <str", "a <b> <b", unlit)
         assert "This is also a &lt;b&gt; &lt;bing&gt;" == escape(result)
-
-
-class TestHTMLBuilder(object):
-    def test_html(self):
-        a = HTML.a(href='http://mostlysafe\" <tag', c="Bad <script> tag")
-        assert a == '<a href="http://mostlysafe&#34; &lt;tag">Bad &lt;script&gt; tag</a>'
-        
-        img = HTML.img(src="http://some/image.jpg")
-        assert img == '<img src="http://some/image.jpg" />'
-        
-        br = HTML.br()
-        assert "<br />" == br
-
-    def test_unclosed_tag(self):
-        result = HTML.form(_closed=False)
-        assert "<form>" == result
-        
-        result = HTML.form(_closed=False, action="hello")
-        assert '<form action="hello">' == result
-
-    def test_newline_arg(self):
-        assert HTML.a() ==         literal("<a></a>")
-        assert HTML.a(_nl=True) == literal("<a>\n</a>\n")
-        assert HTML.a(_closed=False) ==           literal("<a>")
-        assert HTML.a(_closed=False, _nl=True) == literal("<a>\n")
-        assert HTML.a("A", "B", href="/") ==      literal('<a href="/">AB</a>')
-        assert HTML.a("A", "B", href="/", _nl=True) == literal('<a href="/">\nA\nB\n</a>\n')
-
-    def test_tag_with_data_attr(self):
-        assert HTML.span(data_foo="bar") == literal('<span data-foo="bar"></span>')
 
 
 class TestLitJoin(HTMLTestCase):
@@ -158,8 +133,40 @@ class TestHTMLBuilderConstructor(HTMLTestCase):
         b = "A&B\n&C\n"
         self.check(a, b)
 
-        
+    def test_raises_error_on_unknown_kwarg(self):
+        with raises(TypeError):
+            HTML("A", foo='bar')
+
+
 class TestHTMLBuilder(HTMLTestCase):
+    def test_html(self):
+        a = HTML.a(href='http://mostlysafe\" <tag', c="Bad <script> tag")
+        assert a == '<a href="http://mostlysafe&#34; &lt;tag">Bad &lt;script&gt; tag</a>'
+        
+        img = HTML.img(src="http://some/image.jpg")
+        assert img == '<img src="http://some/image.jpg" />'
+        
+        br = HTML.br()
+        assert "<br />" == br
+
+    def test_unclosed_tag(self):
+        result = HTML.form(_closed=False)
+        assert "<form>" == result
+        
+        result = HTML.form(_closed=False, action="hello")
+        assert '<form action="hello">' == result
+
+    def test_newline_arg(self):
+        assert HTML.a() ==         literal("<a></a>")
+        assert HTML.a(_nl=True) == literal("<a>\n</a>\n")
+        assert HTML.a(_closed=False) ==           literal("<a>")
+        assert HTML.a(_closed=False, _nl=True) == literal("<a>\n")
+        assert HTML.a("A", "B", href="/") ==      literal('<a href="/">AB</a>')
+        assert HTML.a("A", "B", href="/", _nl=True) == literal('<a href="/">\nA\nB\n</a>\n')
+
+    def test_tag_with_data_attr(self):
+        assert HTML.span(data_foo="bar") == literal('<span data-foo="bar"></span>')
+
     def test_tag(self):
         a = HTML.tag("a", href="http://www.yahoo.com", name=None, 
             c="Click Here")
