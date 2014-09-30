@@ -76,9 +76,9 @@ class TestFormatException(object):
 
     def test_from_exc_info(self):
         try:
-            assert False, 'foo'
+            raise ValueError('foo')
         except:
-            assert format_exception() == 'AssertionError: foo'
+            assert format_exception() == 'ValueError: foo'
 
 
 class TestDeprecate(object):
