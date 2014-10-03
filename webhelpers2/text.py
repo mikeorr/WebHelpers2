@@ -182,6 +182,15 @@ def wrap_paragraphs(text, width=72):
     ``width`` may be an int or a ``textwrap.TextWrapper`` instance.  
     The latter allows you to set other options besides the width, and is more
     efficient when wrapping many texts.  
+
+    This is intended only to split lines that are too long. It keeps
+    short lines intact, including at the beginning of paragraphs. If a
+    paragraph starts with short lines and then a long line, it will keep
+    the initial short lines as is, and wrap from the long line until the
+    end of the paragraph (a blank line, a line containing only
+    whitespace, or the end of the document). This is intended to
+    preserve preformatted text (tables, poetry, headers), but
+    occasionally it may preserve short lines you wanted to join.
     """
     if isinstance(width, textwrap.TextWrapper):
         wrapper = width
