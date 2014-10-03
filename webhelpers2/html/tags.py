@@ -299,7 +299,8 @@ def select(name, selected_values, options, id=NotGiven, **attrs):
     attrs["name"] = name
     if selected_values is None:
         selected_values = [""]
-    elif not isinstance(selected_values, (list, tuple)):
+    elif isinstance(selected_values, six.string_types) or \
+        not hasattr(selected_values, "__iter__"):
         selected_values = [selected_values]
     # Cast integer values to strings
     selected_values = list(map(six.text_type, selected_values))
@@ -313,6 +314,7 @@ def select(name, selected_values, options, id=NotGiven, **attrs):
     html_options = []
     # Create the options structure
     def gen_opt(val, label):
+        val = six.text_type(val)
         if val in selected_values:
             return HTML.tag("option", label, value=val, selected="selected")
         else:
