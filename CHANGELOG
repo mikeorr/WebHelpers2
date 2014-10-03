@@ -1,51 +1,39 @@
 Unreleased
 ----------
 
+- Several unit tests and bugfixes contributed by Jeff Dairiki.
+
 - webhelpers2.containers
 
-  * Bugfixes:
-
-    + [py3k] Fix ``ordered_items`` when ``other_keys`` is set
+  * [bug][py3k] Fix ``ordered_items`` when ``other_keys`` is set
 
 - webhelpers2.html.builder
 
-  * Bugfixes:
-
-    + ``HTML()``: Fix "unknown keyword args" reporting
+  * [bug] Fix "unknown keyword args" reporting in ``HTML()``
 
 - webhelpers2.html.tags
 
-  * Bugfixes:
-
-    + Fix OptGroup.__repr__ to list its arguments in the correct order
+  * [bug] Fix OptGroup.__repr__ to list its arguments in the correct order
 
 - webhelpers2.html.tools
 
-  * Bugfixes:
-
-    + Properly escape the string passed to ``js_obfuscate``.
+  * [bug] Properly escape the string passed to ``js_obfuscate``.
 
 - webhelpers2.misc
 
-  * Bugfixes:
-
-    + format_exception() did not work if called with ``exc=None`` (due
-      to missing ``import sys``.)
+  * [bug] format_exception() did not work if called with ``exc=None`` (due
+    to missing ``import sys``.)
 
 - webhelpers2.number
 
-  * Bugfixes:
-
-    + median() was not computing the median correctly for even-length sequences
+  * [bug] median() was not computing the median correctly for
+    even-length sequences
 
 - webhelpers2.text
 
-  * Bugfixes:
-
-    + excerpt() now works correctly when ``text`` is a ``literal``.
-
-    + wrap_paragraphs() now works when ``width`` is a
-      ``textwrap.TextWrapper`` instance.
+  * [bug] excerpt() now works correctly when ``text`` is a ``literal``.
+  * [bug] wrap_paragraphs() now works when ``width`` is a
+    ``textwrap.TextWrapper`` instance.
 
 2.0rc1 (2014-09-22)
 -------------------
