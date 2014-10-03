@@ -32,6 +32,7 @@ __all__ = [
     "strip_leading_whitespace",
     "truncate", 
     "urlify",
+    "wrap_long_lines",
     "wrap_paragraphs",
     ]
 
@@ -175,6 +176,33 @@ def strip_leading_whitespace(s):
     """
     ret = [x.lstrip() for x in s.splitlines(True)]
     return "".join(ret)
+
+def wrap_long_lines(text, width=72):
+    """Wrap all long lines in a text string to the specified width.
+
+    ``width`` may be an int or a ``textwrap.TextWrapper`` instance.  
+    The latter allows you to set other options besides the width, and is more
+    efficient when wrapping many texts.  
+
+    Unlike ``wrap_paragraphs()``, this splits individual lines and does
+    not look at the paragraph context. Thus it never joins lines.
+    This is safer if the text might contain preformatted lines (tables,
+    poetry, headers) in the middle of paragraphs. However, it could lead
+    to splitting a line just before the last word or two, putting the
+    orphan words on a separate line, in the middle of a paragraph.
+    """
+    if isinstance(width, textwrap.TextWrapper):
+        wrapper = width
+        width = wrapper.width
+    else:
+        wrapper = textwrap.TextWrapper(width=width)
+    result = []
+    lines = text.splitlines(True)
+    for lin in lines:
+        if len(lin) > width:
+            lin = wrapper.fill(lin) + "\n"
+        result.append(lin)
+    return "".join(result)
 
 def wrap_paragraphs(text, width=72):
     """Wrap all paragraphs in a text string to the specified width.

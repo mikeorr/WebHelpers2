@@ -120,6 +120,25 @@ class TestStripLeadingWhitespaceHelper(object):
         control = "def fn(x):\nreturn x\n"
         assert control == strip_leading_whitespace(s)
 
+
+class TestWrapLongLinesHelper(object):
+    def test_all_short_lines(self):
+        s = "short\nshort short\nshort short\nshort short\n"
+        control = "short\nshort short\nshort short\nshort short\n"
+        assert wrap_long_lines(s, 11) == control
+
+    def test_long_line_in_middle(self):
+        s = "short\nshort short\nlong long long\nshort short\n"
+        control = "short\nshort short\nlong long\nlong\nshort short\n"
+        assert wrap_long_lines(s, 11) == control
+
+    def test_with_textwrapper(self):
+        paragraph = 'word ' * 7 + 'word\n\n'
+        wrapped = 'word word\n' * 4 + '\n'
+        width = textwrap.TextWrapper(width=10)
+        assert wrap_long_lines(paragraph * 2, width) == wrapped * 2
+
+
 class TestWrapParagraphsHelper(object):
     def test(self):
         paragraph = 'word word word word\n' * 2 + '\n'
@@ -127,7 +146,6 @@ class TestWrapParagraphsHelper(object):
         assert wrap_paragraphs(paragraph * 2, 10) == wrapped * 2
 
     def test_short_lines(self):
-        # FIXME: is this really the desired behavior?
         paragraph = 'word\n' * 8 + '\n'
         assert wrap_paragraphs(paragraph * 2, 10) == paragraph * 2
 

@@ -34,6 +34,7 @@ Unreleased
 
 - webhelpers2.text
 
+  * [feature] New helper ``wrap_long_lines()``.
   * [bug] excerpt() now works correctly when ``text`` is a ``literal``.
   * [bug] wrap_paragraphs() now works when ``width`` is a
     ``textwrap.TextWrapper`` instance.

@@ -19,6 +19,7 @@
 .. autofunction:: strip_leading_whitespace
 .. autofunction:: truncate 
 .. autofunction:: urlify
+.. autofunction:: wrap_long_lines
 .. autofunction:: wrap_paragraphs
 
 ..
