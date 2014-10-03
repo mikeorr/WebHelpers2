@@ -26,6 +26,9 @@ Unreleased
 
 - webhelpers2.number
 
+  * [bug] The format size helpers now format negative numbers correctly.
+    Previously they passed the number unchanged and appended the unit
+    suffix, which changed the quantity.
   * [bug] median() was not computing the median correctly for
     even-length sequences
 

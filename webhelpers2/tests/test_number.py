@@ -152,5 +152,7 @@ class TestFormatDataSize(object):
         assert format_data_size(1200, units, 2, full_name=None) == expected
 
     def test_negative(self):
-        # FIXME: is this really the intended behavior?
-        assert format_bit_size(-1200) == '-1200 b'
+        assert format_bit_size(-1200) == "-1.2 kb"
+
+    def test_zero(self):
+        assert format_bit_size(0) == "0 b"

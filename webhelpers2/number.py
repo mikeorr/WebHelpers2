@@ -192,10 +192,15 @@ def format_data_size(size, unit, precision=1, binary=False, full_name=False):
         else:
             multiples = ('', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'Zi', 'Yi')
             
-    if size <= 0:
-        m = 0
+    sign = ""
+    if size > 0:
+        m = int(math.log(size, base))
+    elif size < 0:
+        sign = "-"
+        size = -size
+        m = int(math.log(size, base))
     else:
-        m = int(math.log(size) / math.log(base))
+        m = 0
     if m > 8:
         m = 8
 
@@ -206,7 +211,7 @@ def format_data_size(size, unit, precision=1, binary=False, full_name=False):
         
     size = precision % (size / math.pow(base, m))
 
-    return '%s %s%s' % (size.strip(), multiples[m], unit)
+    return '%s%s %s%s' % (sign, size.strip(), multiples[m], unit)
 
 def format_byte_size(size, precision=1, binary=False, full_name=False):
     """Same as ``format_data_size`` but specifically for bytes.
