@@ -495,11 +495,6 @@ class ModelTags(object):
         may have multiple values selected. """
         self._update_id(name, kw)
         selected_values = self._get_value(name, kw)
-        if not isinstance(selected_values, (list, tuple)):
-            if selected_values in ["", None]:
-                selected_values = []
-            else:
-                selected_values = [selected_values]
         return select(name, selected_values, options, **kw)
 
     def text(self, name, **kw):
