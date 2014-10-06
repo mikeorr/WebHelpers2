@@ -139,3 +139,42 @@ def deprecate(message, pending=False, stacklevel=2):
     """
     category = pending and PendingDeprecationWarning or DeprecationWarning
     warnings.warn(message, category, stacklevel)
+
+
+class StudlyException(Exception):
+    """A simpler way to define an exception with a message.
+
+    To use, subclass and set class attribute ``m`` to the message.
+    It may contain placeholders using ``"{keyword}"`` syntax.
+
+    Instantiate with the same keyword args. It will call
+    ``self.m.format(**kw)`` to generate the message, and also set
+    instance attributes corresponding to the keywords. If instantiated
+    without arguments, ``self.m`` is the message.
+
+    Positional arguments are not accepted. Keyword arg ``"m"`` is not
+    accepted either. Either of these raises ``TypeError``.
+
+    Examples::
+
+        >>> class MyError(StudlyException):
+        ...     m = "can't frob the bar when foo is enabled"
+        ...
+        >>> raise MyError()
+        >>> class MyError2(StudlyException):
+        ...     m = "file {filename} not found"
+        >>> e = MyError2(filename="foo.ini")
+        >>> print(e.filename)
+    """
+    m = ""
+
+    def __init__(self, **kw):
+        if "m" in kw:
+            raise TypeError("keyword arg 'm' not allowed")
+        if kw:
+            message = self.m.format(**kw)
+            for key in kw:
+                setattr(self, key, kw[key])
+        else:
+            message = self.m
+        Exception.__init__(self, message)

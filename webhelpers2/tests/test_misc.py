@@ -1,6 +1,6 @@
-from webhelpers2.misc import *
-
 import pytest
+
+from webhelpers2.misc import *
 
 def test_choose_height():
     assert choose_height(400, 800, 600) == 300
@@ -94,3 +94,37 @@ class TestDeprecate(object):
         assert isinstance(w[0].message, warning_class)
         assert str(w[0].message) == 'foo'
         assert w[0].filename == __file__
+
+
+class TestStudlyException(object):
+    def test_static_message(self):
+        class MyError(StudlyException):
+            m = "can't frob the bar when foo is enabled"
+        # Couldn't get pytest.raises to work here;
+        # ``excinfo.value`` wasn't defined.
+        try:
+            raise MyError()
+        except MyError as e:
+            assert str(e) == "can't frob the bar when foo is enabled"
+        else:
+            raise AssertionError("didn't raise MyError")
+
+    def test_message_with_keywords(self):
+        class MyError(StudlyException):
+            m = "can't frob the {bar} when {foo} is enabled"
+        try:
+            raise MyError(bar="baz", foo="food")
+        except MyError as e:
+            assert str(e) == "can't frob the baz when food is enabled"
+            assert e.bar == "baz"
+            assert e.foo == "food"
+        else:
+            raise AssertionError("didn't raise MyError")
+
+    def test_default(self):
+        try:
+            raise StudlyException()
+        except StudlyException as e:
+            assert str(e) == ""
+        else:
+            raise AssertionError("didn't raise StudlyException")

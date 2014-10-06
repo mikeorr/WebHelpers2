@@ -29,3 +29,4 @@ Exceptions and deprecation
 
 .. autofunction:: deprecate
 .. autofunction:: format_exception
+.. autoclass:: StudlyException

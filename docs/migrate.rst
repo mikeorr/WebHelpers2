@@ -194,7 +194,8 @@ Deleted 'format_number()'. To display a number with thousands separators, use
 ``"{:,}".format(12346)`` (which always uses commas) or ``"{:n}".format(12345)``
 (which uses the locale-specific separator). The former was added in Python 2.7.
 
-Deleted 'DeclarativeException'. It was too specialized for general use.
+Replaced 'DeclarativeException' with ``StudlyException``. It's the same
+concept but has different arguments and attributes.
 
 Deleted 'OverwriteError'. Python 3 may add an exception for this; otherwise you
 can use one of the stdlib exceptions or make your own.
