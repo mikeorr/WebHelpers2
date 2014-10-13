@@ -49,10 +49,12 @@ class HTMLBuilder(object):
         "param",
         ])
     boolean_attrs = set([
+        "checked",
         "defer",
         "disabled",
         "multiple",
         "readonly",
+        "selected",
         ])
     compose_attrs = {
         "class": literal(" "),

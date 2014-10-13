@@ -92,9 +92,9 @@ Normally you use the global rather than instantiating it yourself.
       ``disabled=True`` renders as 'disabled="disabled"', while
       ``disabled=False`` is not rendered at all.
 
-      The default set is conservative; it includes only "defer",
-      "disabled", "multiple", and "readonly". We may add to this later
-      as more standard boolean attributes are identified.
+      The default set is conservative; it includes only "checked", "defer",
+      "disabled", "multiple", "readonly", and "selected". We may add to this
+      later as more standard boolean attributes are identified.
 
    .. data:: compose_attrs
 

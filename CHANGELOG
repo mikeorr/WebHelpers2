@@ -9,6 +9,7 @@ Unreleased
 
 - webhelpers2.html.builder
 
+  * Add "checked" and "selected" to list of boolean attributes.
   * [bug] Fix "unknown keyword args" reporting in ``HTML()``
 
 - webhelpers2.html.tags
