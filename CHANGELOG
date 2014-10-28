@@ -18,6 +18,10 @@ Unreleased
 
 - webhelpers2.html.tools
 
+  * Don't set a 'value' attribute in the <option> tag in ``select()`` if
+    the corresponding element in the 'options' arg is a scalar or if the value
+    and label subelements are identical; just set the label.  We originally
+    thought the 'value' attribute was mandatory but it's not.
   * [bug] Properly escape the string passed to ``js_obfuscate``.
 
 - webhelpers2.misc

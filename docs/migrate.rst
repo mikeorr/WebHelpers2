@@ -129,6 +129,12 @@ Deleted the sample CSS stylesheet.
 tags
 ----
 
+``select()`` no longer puts a 'value' attribute in an '<option>' tag if the
+corresponding element in the 'options' list is a scalar (not a tuple); it just
+sets the label instead. It also drops the 'value' attribute if the value and
+label are identical. We originally thought the 'value' attribute was
+mandatory but it isn't. This should not affect the behavior of applications.
+
 The ``image()`` helper no longer accepts args 'path' or 'use_pil', and raises
 TypeError if they are specified. These depended on the 'media' module which was
 deleted. To perform the equivalent, write a wrapper function that uses one of

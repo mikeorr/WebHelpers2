@@ -225,7 +225,7 @@ class TestAttributes(HTMLTestCase):
         assert text("spam", "pizza", id_="eggs") == b
 
     def test3(self):
-        b = '<select id="eggs" name="spam">\n<option selected="selected" value="2">2</option>\n</select>'
+        b = '<select id="eggs" name="spam">\n<option selected="selected">2</option>\n</select>'
         assert select("spam", [1,2], [2], id="eggs") == b
 
     def test_id_and_id_(self):
@@ -375,12 +375,12 @@ class TestSelect(HTMLTestCase):
 
     def test2(self):
         a = select("cc", "MasterCard", [ "VISA", "MasterCard" ], id="cc", class_="blue")
-        b = literal('<select class="blue" id="cc" name="cc">\n<option value="VISA">VISA</option>\n<option selected="selected" value="MasterCard">MasterCard</option>\n</select>')
+        b = literal('<select class="blue" id="cc" name="cc">\n<option>VISA</option>\n<option selected="selected">MasterCard</option>\n</select>')
         self.check(a, b)
 
     def test3(self):
         a = select("cc", ["VISA", "Discover"], [ "VISA", "MasterCard", "Discover" ])
-        b = literal('<select id="cc" name="cc">\n<option selected="selected" value="VISA">VISA</option>\n<option value="MasterCard">MasterCard</option>\n<option selected="selected" value="Discover">Discover</option>\n</select>')
+        b = literal('<select id="cc" name="cc">\n<option selected="selected">VISA</option>\n<option>MasterCard</option>\n<option selected="selected">Discover</option>\n</select>')
         self.check(a, b)
 
     def test4(self):

@@ -314,11 +314,13 @@ def select(name, selected_values, options, id=NotGiven, **attrs):
     html_options = []
     # Create the options structure
     def gen_opt(val, label):
-        val = six.text_type(val)
-        if val in selected_values:
-            return HTML.tag("option", label, value=val, selected="selected")
+        if val is None or val == label:
+            selected = label in selected_values
+            val = None
         else:
-            return HTML.tag("option", label, value=val)
+            selected = val in selected_values
+            val = six.text_type(val)
+        return HTML.tag("option", label, value=val, selected=selected)
     # Loop options and create tree (if optgroups presents)
     for opt in options:
         if isinstance(opt, OptGroup):
