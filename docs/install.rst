@@ -36,11 +36,11 @@ tested on Python 3.3 and it's believed to still be compatible.
 Python 3.2 Caveats
 ==================
 
-On Python 3.2 you'll have to use MarkupSafe_ 0.15. Version 0.16 started
+On Python 3.2 you must use MarkupSafe_ 0.15. Version 0.16 started
 using the "u" string prefix which is invalid in Python 3.0 - 3.2. (It was
 re-added in 3.3.)
 
-WebHelpers2 is believed to run on Python 3.2 but this has not yet been tested.
+WebHelpers2 is believed to run on Python 3.2 but this has not been tested.
 All "u" prefixes have been removed from the code but remain in some
 former doctests.  (These are no longer supported as doctests but only as
 documentation.)
