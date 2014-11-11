@@ -1,27 +1,34 @@
-Unreleased
-----------
+2.0rc2 (2014-11-11)
+-------------------
 
 - Several unit tests and bugfixes contributed by Jeff Dairiki.
 
 - webhelpers2.containers
 
-  * [bug][py3k] Fix ``ordered_items`` when ``other_keys`` is set
+  * [bug][py3k] Fix ``ordered_items`` when ``other_keys`` is set.
 
 - webhelpers2.html.builder
 
   * Add "checked" and "selected" to list of boolean attributes.
-  * [bug] Fix "unknown keyword args" reporting in ``HTML()``
+  * [bug] Fix "unknown keyword args" reporting in ``HTML()``.
 
 - webhelpers2.html.tags
+
+  * Overhaul ``select``, ``Options``, ``Option``, and ``OptGroup``:
+
+    + Users should test their calls to verify no incompatibilities have crept
+      in , especially if using unusual argument types or edge cases.
+    + The main helper is now ``Options``; ``select`` is now a wrapper around it.
+    + The classes are now fully autonomous and render themselves as strings.
+    + When options are rendered, the 'value' attribute is suppressed if it's
+      identical to the label or None.
+    + ``SelectedValues`` is a new support class used to convert the
+      ``selected_values`` arguments.
 
   * [bug] Fix OptGroup.__repr__ to list its arguments in the correct order
 
 - webhelpers2.html.tools
 
-  * Don't set a 'value' attribute in the <option> tag in ``select()`` if
-    the corresponding element in the 'options' arg is a scalar or if the value
-    and label subelements are identical; just set the label.  We originally
-    thought the 'value' attribute was mandatory but it's not.
   * [bug] Properly escape the string passed to ``js_obfuscate``.
 
 - webhelpers2.misc

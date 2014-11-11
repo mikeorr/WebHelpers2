@@ -407,7 +407,7 @@ class TestSelect(HTMLTestCase):
 class TestOptGroup(object):
     def test_repr(self):
         group = OptGroup('foo', [Option('bar', 'baz')])
-        expected = "OptGroup(u'foo', [(u'bar', u'baz')])"
+        expected = "OptGroup(u'foo', Options([Option(u'bar', u'baz', False)]))"
         if six.PY3:
             expected = expected.replace("u'", "'")
         assert repr(group) == expected
@@ -418,30 +418,51 @@ class TestOptions(HTMLTestCase):
 
     def test1(self):
         a = self.get_options()
-        b = Options([("A", "A"), ("1", "1"), ("b", "B")])
-        assert a == b
+        assert isinstance(a, Options)
+        assert len(a.options) == 3
+        assert isinstance(a.options[0], Option)
+        assert a.options[0].value == "A"
+        assert a.options[0].label == "A"
+        assert a.options[1].value == "1"
+        assert a.options[1].label == "1"
+        assert a.options[2].value == "b"
+        assert a.options[2].label == "B"
 
     def test_list_values(self):
         assert list(self.get_options().values()) == ["A", "1", "b"]
 
     def test_opts_2_value(self):
         a = self.get_options()
-        assert a[2].value == "b"
+        assert a.options[2].value == "b"
 
     def test_opts_2_label(self):
         a = self.get_options()
-        assert a[2].label == "B"
+        assert a.options[2].label == "B"
 
     def test_labels(self):
         opts = self.get_options()
         assert list(opts.labels()) == ['A', '1', 'B']
 
+    def test_html(self):
+        opts = self.get_options()
+        a = opts.__html__()
+        b = literal('<option>A</option>\n<option>1</option>\n<option value="b">B</option>\n')
+        self.check(a, b)
+
+    def test_html_selected(self):
+        opts = self.get_options()
+        opts.options[1].selected = True
+        a = opts.__html__()
+        b = literal('<option>A</option>\n<option selected="selected">1</option>\n<option value="b">B</option>\n')
+        self.check(a, b)
+
     def test_repr(self):
         opts = self.get_options()
-        expected = "Options([(u'A', u'A'), (u'1', u'1'), (u'b', u'B')])"
+        expected = "Options([Option(u'A', u'A', False), Option(u'1', u'1', False), Option(u'b', u'B', False)])"
         if six.PY3:
             expected = expected.replace("u'", "'")
         assert repr(opts) == expected
+
 
 class TestThSortable(HTMLTestCase):
     def test1(self):

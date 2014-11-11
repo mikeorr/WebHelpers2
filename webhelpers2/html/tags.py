@@ -26,7 +26,7 @@ __all__ = [
            "form", "end_form", 
            "text", "textarea", "hidden", "file", "password", 
            "checkbox", "radio", "submit",
-           "select", "Options", "Option", "OptGroup",
+           "select", "Options", "Option", "OptGroup", "SelectedValues",
            "ModelTags",
            # hyperlinks
            "link_to", "link_to_if", "link_to_unless",
@@ -258,80 +258,244 @@ def submit(name, value, id=NotGiven, **attrs):
 def select(name, selected_values, options, id=NotGiven, **attrs):
     """Create a dropdown selection box.
 
-    * ``name`` -- the name of this control.
+    This is mostly a wrapper around the ``Options`` helper.
 
-    * ``selected_values`` -- a string or list of strings or integers giving
-      the value(s) that should be preselected.
+    Arguments:
 
-    * ``options`` -- an ``Options`` object or iterable of ``(value, label)``
-      pairs.  The label will be shown on the form; the option will be returned
-      to the application if that option is chosen.  If you pass a string or int
-      instead of a 2-tuple, it will be used for both the value and the label.
-      If the `value` is a tuple or a list, it will be added as an optgroup,
-      with `label` as label.
+    **name**: the name of this control.
 
-    ``id`` is the HTML ID attribute, and should be passed as a keyword
-    argument.  By default the ID is the same as the name.  filtered through
-    ``_make_safe_id_component()``.  Pass None to suppress the
-    ID attribute entirely.
+    **selected_values**: the value(s) that should be preselected.
+      See the ``SelectedValues`` class for the allowed types.
 
+    **options**: an iterable of options. See the ``Options`` class
+      for the allowed types.
 
-      CAUTION: the old rails helper ``options_for_select`` had the label first.
-      The order was reversed because most real-life collections have the value
-      first, including dicts of the form ``{value: label}``.  For those dicts
-      you can simply pass ``D.items()`` as this argument.
-
-      HINT: You can sort options alphabetically by label via:
-      ``sorted(my_options, key=lambda x: x[1])``
+    **id**: the HTML ID attribute. This should be a keyword argument if
+      passed.  By default the ID is the same as the name.  filtered through
+      ``_make_safe_id_component()``.  Pass None to suppress the
+      ID attribute entirely.
 
     The following options may only be keyword arguments:
 
-    * ``multiple`` -- if true, this control will allow multiple
+    **multiple**: if true, this control will allow multiple
        selections.
 
-    * ``prompt`` -- if specified, an extra option will be prepended to the 
-      list: ("", ``prompt``).  This is intended for those "Please choose ..."
-      pseudo-options.  Its value is "", equivalent to not making a selection.
+    **prompt**: An extra option that will be prepended to the list.
+      The argument is the option label; e.g., "Please choose ...". The generated
+      option's value will be the empty string (""), which is equivalent to not
+      making a selection.
 
     Any other keyword args will become HTML attributes for the <select>.
     """
+
     _set_id_attr(attrs, id, name)
     attrs["name"] = name
-    if selected_values is None:
-        selected_values = [""]
-    elif isinstance(selected_values, six.string_types) or \
-        not hasattr(selected_values, "__iter__"):
-        selected_values = [selected_values]
-    # Cast integer values to strings
-    selected_values = list(map(six.text_type, selected_values))
     # Prepend the prompt
     prompt = attrs.pop("prompt", None)
     if prompt:
-        options = [Option("", prompt)] + list(options)
-    # Canonicalize the options and make the HTML options.
-    if not isinstance(options, Options):
-        options = Options(options)
-    html_options = []
-    # Create the options structure
-    def gen_opt(val, label):
-        if val is None or val == label:
-            selected = label in selected_values
-            val = None
+        options = [("", prompt)] + list(options)
+    options = Options(options, selected_values)
+    return HTML.tag("select", NL, options, **attrs)
+
+
+########## Options helper and support classes ###########
+
+class Options(object):
+    """A list of options for a select or datalist.
+
+    The constructor takes an iterable of diverse types and converts them to
+    a list of ``Option`` and/or ``OptGroup`` instances. The list is available
+    under the ``options`` attribute.
+
+    My string representation is a concatenation of <option> and <optgroup> tags
+    with a newline after each.  ``select()`` does this automatically, or you can
+    manually render me in an HTML <select> or <datalist>. If an option's value
+    is identical to its label, only the label will be rendered; see the
+    ``Option`` class for examples.
+
+    Constructor args:
+
+    * **options**: An iterable whose elements are the type(s) in the next
+      paragraph. Required.
+    * **selected_values**: The value(s) that should be selected. See
+      the ``SelectedValues`` class for the allowed types.
+
+    The elements in the ``options`` iterable can be any of the following
+    types:
+
+    * An ``Option`` instance. It will be appended to ``self.options`` as-is.
+    * An ``OptGroup`` instance. It will be appended to ``self.options`` as-is.
+    * A scalar value. It will be converted to a string and used as both the
+      option's value and label.
+    * A sequence whose first two elements are a scalar value and a string.
+      The first is the option value, the second is the option label.
+    * A sequence whose first element is a non-string iteratable and second
+      element is a string. This is converted to an ``OptGroup``. The first
+      argument is recursively passed to me to create the group's options.
+      The second argument becomes the group's label.
+
+    If the ``options`` argument is already an ``Options`` instance,
+    it is taken as-is without further processing.
+    """
+
+    def __init__(self, options, selected_values=None):
+        if isinstance(options, self.__class__):
+            self.options = options
+            return
+        self.options = []
+        selected_values = SelectedValues(selected_values)
+        text_type = six.text_type
+        opts = []
+        for opt in options:
+            if isinstance(opt, (Option, OptGroup)):
+                self.options.append(opt)
+                continue
+            if isinstance(opt, (list, tuple)):
+                value, label = opt[:2]
+                if isinstance(value, (list, tuple)):  # It's an optgroup
+                    self.options.append(OptGroup(label, value))
+                    continue
+            else:
+                value = label = opt
+            if not isinstance(value, text_type):
+                value = text_type(value)
+            if not isinstance(label, text_type):  # Preserves literal.
+                label = text_type(label)
+            if value is not None:
+                selected = value in selected_values
+            else:
+                selected = label in selected_values
+            opt = Option(value, label, selected)
+            self.options.append(opt)
+
+    def __html__(self):
+        return HTML(*self.options, nl=True)
+
+    __str__ = __html__
+
+    def __repr__(self):
+        return _repr(self, self.options)
+
+    def values(self):
+        """Iterate the ``value`` attribute of all options.
+
+        If the value is identical to the label it will appear here but it
+        won't be rendered in the HTML.
+
+        This method is intended only for flat option sequences, not groups. It
+        will raise AttributeError if it encounters an ``OptGroup``.
+        """
+        return (x.value for x in self.options)
+
+    def labels(self):
+        """Iterate the ``label`` attribute of all options.
+
+        This method is intended only for flat option sequences, not groups. It
+        will yield the group label if it encounters an ``OptGroup``.
+        """
+        return (x.label for x in self.options)
+
+
+class Option(object):
+    """An option for an HTML select or datalist.
+
+    The ``Options`` constructor calls me automatically.
+
+    Attributes and constructor args:
+
+    * **value**: The option value.
+    * **label**: The option label.
+    * **selected**: True if the option is selected. Default false.
+
+    My string representation is an HTML <option> tag. If the value is None or
+    identical to the label it will be suppressed, producing
+    '<option>LABEL</option>'.  If the value is different from the label it
+    produces '<option value="VALUE">LABEL</option>'.
+    """
+
+    __slots__ = ("value", "label", "selected")
+
+    def __init__(self, value, label, selected=False):
+        self.value = value
+        self.label = label
+        self.selected = selected
+
+    def __html__(self):
+        value = self.value
+        label = self.label
+        selected = self.selected
+        if value == label:
+            value = None
+        text_type = six.text_type
+        if value is not None and not isinstance(value, text_type):
+            value = text_type(value)
+        if not isinstance(label, text_type):  # Preserve literal.
+            label = text_type(label)
+        return HTML.tag("option", label, value=value, selected=selected)
+
+    __str__ = __html__
+
+    def __repr__(self):
+        return _repr(self, self.value, self.label, self.selected)
+
+
+class OptGroup(object):
+    """An option group.
+
+    The ``Options`` constructor calls me automatically.
+
+    Attributes and constructor args:
+
+    * **label**: The group label.
+    * **options**: A list of options. This will be passed to ``Options``.
+
+    My string representation is an HTML <optgroup> tag.
+    """
+
+    __slots__ = ('options', 'label')
+
+    def __init__(self, label, options):
+        self.options = Options(options)
+        self.label = label
+
+    def __html__(self):
+        return HTML.tag("optgroup", NL, self.options, label=self.label)
+
+    __str__ = __html__
+
+    def __repr__(self):
+        return _repr(self, self.label, self.options)
+
+
+class SelectedValues(tuple):
+    """A tuple subclass to manage the selected values for an options list.
+
+    The ``Options`` constructor calls me automatically.
+
+    My main purpose is to convert my constructor arg to a tuple of strings
+    for the right side of ``x in selected_values`` expressions,
+    and to avoid converting the same argument repeatedly.
+
+    My constructor accepts the following types:
+
+    * A scalar value. Converted to a string.
+    * A non-string iterator. All elements are converted to strings.
+    * An instance of myself. Taken as-is.
+    * None. This imples the empty string ("") is selected.
+    * A ``SelectedValues`` instance. Taken as-is.
+    """
+
+    def __new__(cls, values):
+        if isinstance(values, cls):
+            return values
+        if values is None:
+            values = ("",)
+        elif isinstance(values, six.string_types) or \
+            not hasattr(values, "__iter__"):
+            values = (six.text_type(values),)
         else:
-            selected = val in selected_values
-            val = six.text_type(val)
-        return HTML.tag("option", label, value=val, selected=selected)
-    # Loop options and create tree (if optgroups presents)
-    for opt in options:
-        if isinstance(opt, OptGroup):
-            optgroup_options = []
-            for subopt in opt.options:
-                optgroup_options.append(gen_opt(subopt.value, subopt.label))
-            optgroup = HTML.tag("optgroup", NL, NL.join(optgroup_options), NL, label=opt.label)
-            html_options.append(optgroup)
-        else:
-            html_options.append(gen_opt(opt.value, opt.label))
-    return HTML.tag("select", NL, NL.join(html_options), NL, **attrs)
+            values = tuple(map(six.text_type, values))
+        return super(SelectedValues, cls).__new__(cls, values)
 
 
 ########## ModelTags helper ##########
@@ -549,91 +713,6 @@ class ModelTags(object):
         """
         if self.id_format is not None and 'id' not in kw:
             kw['id'] = self.id_format.format(name)
-
-
-########## Containers for select() options ##########
-
-class Option(object):
-    """An option for an HTML select.
-    
-    A simple container with two attributes, ``.value`` and ``.label``.
-    """
-    __slots__ = ("value", "label")
-
-
-    def __init__(self, value, label):
-        self.value = value
-        self.label = label
-
-    def __repr__(self):
-        return str((self.value, self.label))
-
-    def __eq__(self, other):
-        return ( isinstance(other, self.__class__) and
-            self.value == other.value and
-            self.label == other.label )
-            
-
-class OptGroup(object):
-    """A container for Options"""
-    __slots__ = ('options', 'label')
-    def __init__(self, label, options):
-        self.options = Options(options)
-        self.label = label
-    def __repr__(self):
-        classname = self.__class__.__name__
-        data = [x for x in self.options]
-        return "{0}({1!r}, {2!r})".format(classname, self.label, data)
-
-class Options(tuple):
-    """A tuple of ``Option`` objects for the ``select()`` helper.
-
-    ``select()`` calls this automatically so you don't have to.  However,
-    you may find it useful for organizing your code, and its methods can be
-    convenient.
-
-    This class has multiple jobs:
-
-    - Canonicalize the options given to ``select()`` into a consistent format.
-    - Avoid canonicalizing the same data multiple times.  It subclasses tuple
-      rather than a list to guarantee that nonconformant elements won't be 
-      added after canonicalization.
-    - Provide convenience methods to iterate the values and labels separately.
-    """
-    def __new__(class_, options):
-        text_type = six.text_type
-        opts = []
-        for opt in options:
-            if isinstance(opt, (Option, OptGroup)):
-                opts.append(opt)
-                continue
-            if isinstance(opt, (list, tuple)):
-                value, label = opt[:2]
-                if isinstance(value, (list, tuple)):  # It's an optgroup
-                    opts.append(OptGroup(label, value))
-                    continue
-            else:
-                value = label = opt
-            if not isinstance(value, text_type):
-                value = text_type(value)
-            if not isinstance(label, text_type):  # Preserves literal.
-                label = text_type(label)
-            opt = Option(value, label)
-            opts.append(opt)
-        return super(Options, class_).__new__(class_, opts)
-
-    def __repr__(self):
-        classname = self.__class__.__name__
-        data = [x for x in self]
-        return "{0}({1})".format(classname, data)
-
-    def values(self):
-        """Iterate the value element of each pair."""
-        return (x.value for x in self)
-
-    def labels(self):
-        """Iterate the label element of each pair."""
-        return (x.label for x in self)
 
 
 ########## Hyperlink tags ##########
@@ -948,3 +1027,9 @@ def _make_safe_id_component(idstring):
     # Remove everything that is not a hyphen or a member of \w
     idstring = re.sub(r'(?!-)\W', "", idstring).lower()
     return idstring
+
+def _repr(obj, *args):
+    """Helper for ``.__repr__`` using attributes as positional args."""
+    classname = obj.__class__.__name__
+    args_str = ", ".join(repr(x) for x in args)
+    return "{}({})".format(classname, args_str)

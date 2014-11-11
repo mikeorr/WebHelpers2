@@ -129,11 +129,33 @@ Deleted the sample CSS stylesheet.
 tags
 ----
 
-``select()`` no longer puts a 'value' attribute in an '<option>' tag if the
-corresponding element in the 'options' list is a scalar (not a tuple); it just
-sets the label instead. It also drops the 'value' attribute if the value and
-label are identical. We originally thought the 'value' attribute was
-mandatory but it isn't. This should not affect the behavior of applications.
+The select helpers were overhauled in version 2.0rc2:
+
+* ``select()`` and ``ModelTags.select()`` remain compatible but we recommend
+  testing your calls to make sure, especially if you have any unusual argument
+  types or other edge cases.
+
+* The ``Options``, ``Option``, and ``OptGroup`` classes are now fully autonomous
+  and can render themselves as strings. ``Options`` is now the main helper,
+  and ``select()`` is just a wrapper around it. ``Options`` can also be used on
+  its own inside a manual <select> or HTML 5 <datalist>.
+
+* The ``Option`` class has a new instance attribute ``selected`` to toggle the
+  selected state.
+
+* The ``Options`` class has a sophisticated new constructor that converts a
+  variety of option types and automatically calls ``Option`` and/or ``OptGroup``
+  to instantiate them. Users no longer have to create ``OptGroup`` objects
+  manually.
+
+* A new support class ``SelectedValues`` manages the ``selected_values``
+  arguments to a canonical format. The class is mainly for internal use but its
+  documentation explains the type(s) allowed in ``selected_values``.
+
+* When rendering an <option>, if the value is identical to the label or None,
+  the HTML 'value' attribute is suppressed. We originally thought the 'value'
+  attribute was mandatory but it isn't in either HTML 5 or HTML 4.0.1. This is a
+  difference in output HTML but it shouldn't affect browser behavior. 
 
 The ``image()`` helper no longer accepts args 'path' or 'use_pil', and raises
 TypeError if they are specified. These depended on the 'media' module which was

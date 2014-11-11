@@ -30,6 +30,9 @@ Form tags
 
 .. autofunction:: select
 
+Options helper and support classes
+----------------------------------
+
 .. autoclass:: Options
    :members:
 
@@ -37,6 +40,9 @@ Form tags
    :members:
 
 .. autoclass:: OptGroup
+   :members:
+
+.. autoclass:: SelectedValues
    :members:
 
 
