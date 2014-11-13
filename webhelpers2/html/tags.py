@@ -333,15 +333,9 @@ class Options(object):
       element is a string. This is converted to an ``OptGroup``. The first
       argument is recursively passed to me to create the group's options.
       The second argument becomes the group's label.
-
-    If the ``options`` argument is already an ``Options`` instance,
-    it is taken as-is without further processing.
     """
 
     def __init__(self, options, selected_values=None):
-        if isinstance(options, self.__class__):
-            self.options = options
-            return
         self.options = []
         selected_values = SelectedValues(selected_values)
         text_type = six.text_type

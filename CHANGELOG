@@ -1,3 +1,11 @@
+unreleased
+----------
+
+- webhelpers.html.tags
+
+  * You can no longer pass an 'Options' instance to its own constructor.
+    That was a useless feature and the implementation was broken.
+
 2.0rc2 (2014-11-11)
 -------------------
 
