@@ -1026,4 +1026,4 @@ def _repr(obj, *args):
     """Helper for ``.__repr__`` using attributes as positional args."""
     classname = obj.__class__.__name__
     args_str = ", ".join(repr(x) for x in args)
-    return "{}({})".format(classname, args_str)
+    return "{0}({1})".format(classname, args_str)
