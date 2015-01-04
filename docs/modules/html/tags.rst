@@ -28,22 +28,47 @@ Form tags
 
 .. autofunction:: submit
 
+Select and Options helpers
+++++++++++++++++++++++++++
+
+The ``select`` helper creates a dropdown selection box. It's mostly a wrapper
+around the ``Options`` class, which in turn is a container of ``Option`` and/or
+``OptGroup`` instances.
+
+You can call ``Options.render`` on its own to create a set of options. This can
+be useful to manually place options inside an HTML <select> in a template, or
+in an HTML 5 <datalist>.
+
+There are four main differences compared to WebHelpers:
+
+1. The availability of ``Options.render``.
+2. API overhaul in ``Options``, ``Option``, and ``OptGroup``, including "label
+   before value" argument order.
+3. If an option has no 'value' argument or it's identical to the label, then the
+   ``Option.value`` attribute will be None, the HTML <option> tag will have no
+   'value' attribute, and on form submission the parameter will be the same as
+   the label. We originally believed the 'value' attribute was required in HTML,
+   but it's optional in HTML 5 and 4.0.1. This is distinct from a value of
+   ``""`` (the empty string), which renders as is and on form submission the
+   parameter will be empty or missing.
+4. **[Late change in 2.0rc3]**
+   The ``options`` argument to ``select`` no longer accepts lists of lists,
+   lists of tuples, or other complex data structures. You can no longer pass
+   ``[(myvalue, mylabel)]`` or ``[(optgroup_label, options)]``; these
+   now raise ``TypeError``. Instead you should explicitly build up an
+   ``Options`` instance and pass it. This restriction was made for simplicity,
+   reliability, and maintainability.
+
 .. autofunction:: select
 
-Options helper and support classes
-----------------------------------
-
 .. autoclass:: Options
-   :members:
+   :members: __init__, add_option, add_optgroup, render
 
 .. autoclass:: Option
-   :members:
+   :members: __init__
 
 .. autoclass:: OptGroup
-   :members:
-
-.. autoclass:: SelectedValues
-   :members:
+   :members: __init__, add_option
 
 
 :class:`ModelTags` class

@@ -3,8 +3,19 @@ unreleased
 
 - webhelpers.html.tags
 
-  * You can no longer pass an 'Options' instance to its own constructor.
-    That was a useless feature and the implementation was broken.
+  * Further changes to ``select``, ``Options``, ``Option`` and ``OptGroup``:
+
+    + The ``options`` argument no longer accepts sequences representing
+      value-label pairs or option groups. Instead you must build up an
+      ``Options`` instance and pass it. You can still pass a simple list
+      of strings though.
+    + The ``Options``, ``Option``, and ``OptGroup`` clsses have incompatible
+      changes.
+    + ``options.render(selected_values=None)`` replaces ``str(options)``.
+    + ``Option`` and ``OptGroup`` no longer generate their own HTML.
+    + The 'Option.selected' attribute is deleted.
+    + The 'SelectedValues' class is deleted.
+
 
 2.0rc2 (2014-11-11)
 -------------------
@@ -28,10 +39,11 @@ unreleased
       in , especially if using unusual argument types or edge cases.
     + The main helper is now ``Options``; ``select`` is now a wrapper around it.
     + The classes are now fully autonomous and render themselves as strings.
+      (Reverted in 2.0rc3.)
     + When options are rendered, the 'value' attribute is suppressed if it's
       identical to the label or None.
     + ``SelectedValues`` is a new support class used to convert the
-      ``selected_values`` arguments.
+      ``selected_values`` arguments. (Reverted in 2.0rc3.)
 
   * [bug] Fix OptGroup.__repr__ to list its arguments in the correct order
 

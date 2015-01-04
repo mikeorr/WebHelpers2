@@ -23,12 +23,22 @@ class Holder(object):
     def __init__(self, settings):
         for k,v in settings.items():
             setattr(self, k, v)
+
+
+class LanguageOptions(object):
+    def get_language_options(self):
+        opts = Options()
+        opts.add_option("English", "en")
+        opts.add_option("German", "de")
+        opts.add_option("Japanese", "jp")
+        return opts
             
-class TestModelTagsHelperWithObject(HTMLTestCase):
+
+class TestModelTagsHelperWithObject(HTMLTestCase, LanguageOptions):
     def setup_method(self, method):
         obj = Holder(TEST_VALUES)
         self.m = ModelTags(obj)
-        
+
     def test_check_box(self):
         b = '<input checked="checked" id="fulltime" name="fulltime" type="checkbox" value="1" />'
         assert self.m.checkbox("fulltime") == b
@@ -72,7 +82,8 @@ class TestModelTagsHelperWithObject(HTMLTestCase):
        assert self.m.text("name") == b
 
     def test_select(self):
-       a = self.m.select("lang", [("en", "English"), ("de", "German"), ("jp", "Japanese")])
+       opts = self.get_language_options()
+       a = self.m.select("lang", opts)
        b = '<select id="lang" name="lang">\n<option selected="selected" value="en">English</option>\n<option value="de">German</option>\n<option value="jp">Japanese</option>\n</select>'
        assert a == b
 
@@ -90,6 +101,7 @@ class TestModelTagsHelperWithObject(HTMLTestCase):
     def test_date_no_date(self):
         assert self.m.date("lang") == (
             '<input id="lang" name="lang" type="text" value="" />')
+
 
 class TestModelTagsHelperWithDict(TestModelTagsHelperWithObject):
     def setup_method(self, method):
@@ -160,7 +172,8 @@ class TestModelTagsHelperWithIdGeneration(TestModelTagsHelperWithObject):
         assert self.m.text("name") == b
 
     def test_select(self):
-        a = self.m.select("lang", [("en", "English"), ("de", "German"), ("jp", "Japanese")])
+        opts = self.get_language_options()
+        a = self.m.select("lang", opts)
         b = '<select id="person:lang" name="lang">\n<option selected="selected" value="en">English</option>\n<option value="de">German</option>\n<option value="jp">Japanese</option>\n</select>'
         assert a == b
 
@@ -180,7 +193,8 @@ class TestModelTagsHelperWithIdGeneration(TestModelTagsHelperWithObject):
         assert self.m.date("lang") == (
             '<input id="person:lang" name="lang" type="text" value="" />')
 
-class TestModelTagsHelperWithoutObject(object):
+
+class TestModelTagsHelperWithoutObject(LanguageOptions):
     def setup_method(self, method):
         obj = ""
         self.m = ModelTags(obj)
@@ -218,7 +232,8 @@ class TestModelTagsHelperWithoutObject(object):
         assert self.m.text("name") == b
 
     def test_select(self):
-        a = self.m.select("lang", [("en", "English"), ("de", "German"), ("jp", "Japanese")])
+        opts = self.get_language_options()
+        a = self.m.select("lang", opts)
         b = '<select id="lang" name="lang">\n<option value="en">English</option>\n<option value="de">German</option>\n<option value="jp">Japanese</option>\n</select>'
         assert a == b
 

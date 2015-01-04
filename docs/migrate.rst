@@ -129,33 +129,29 @@ Deleted the sample CSS stylesheet.
 tags
 ----
 
-The select helpers were overhauled in version 2.0rc2:
+The **select** helpers were overhauled in 2.0rc2 and again in 2.0rc3:
 
-* ``select()`` and ``ModelTags.select()`` remain compatible but we recommend
-  testing your calls to make sure, especially if you have any unusual argument
-  types or other edge cases.
+* The ``options`` argument to ``select()`` and ``ModelTags.select()`` is more
+  restrictive. If you previously passed a list of value-label pairs, or embedded
+  lists representing groups, or other complex data structures, you'll have to
+  build up ``Options`` instance instead and pass it. This was changed in 2.0rc3.
 
-* The ``Options``, ``Option``, and ``OptGroup`` classes are now fully autonomous
-  and can render themselves as strings. ``Options`` is now the main helper,
-  and ``select()`` is just a wrapper around it. ``Options`` can also be used on
-  its own inside a manual <select> or HTML 5 <datalist>.
+* ``Options.render()`` is a new feature. It renders the options without an
+  enclosing select. This can be used to manually place options into an HTML
+  <select> or <datalist> in a template.
 
-* The ``Option`` class has a new instance attribute ``selected`` to toggle the
-  selected state.
-
-* The ``Options`` class has a sophisticated new constructor that converts a
-  variety of option types and automatically calls ``Option`` and/or ``OptGroup``
-  to instantiate them. Users no longer have to create ``OptGroup`` objects
-  manually.
-
-* A new support class ``SelectedValues`` manages the ``selected_values``
-  arguments to a canonical format. The class is mainly for internal use but its
-  documentation explains the type(s) allowed in ``selected_values``.
-
+* The ``Options``, ``Option``, and ``OptGroup`` APIs have incompatible changes.
+  They were changed in 2.0rc2 and again in 2.0rc3.
+ 
 * When rendering an <option>, if the value is identical to the label or None,
   the HTML 'value' attribute is suppressed. We originally thought the 'value'
   attribute was mandatory but it isn't in either HTML 5 or HTML 4.0.1. This is a
   difference in output HTML but it shouldn't affect browser behavior. 
+
+* The following were added in 2.0rc2 but deleted in 2.0rc3: a 'SelectedValues'
+  class, an 'Option.selected' attribute, and the self-HTMLizing of 'Option'
+  and 'OptGroup' instances.
+
 
 The ``image()`` helper no longer accepts args 'path' or 'use_pil', and raises
 TypeError if they are specified. These depended on the 'media' module which was

@@ -368,8 +368,15 @@ class TestImage(HTMLTestCase):
 
 
 class TestSelect(HTMLTestCase):
+    def get_currency_options(self):
+        opts = Options()
+        opts.add_option("Dollar", "$")
+        opts.add_option("Kroner", "DKK")
+        return opts
+
     def test1(self):
-        a = select("currency", "$", [["$", "Dollar"], ["DKK", "Kroner"]])
+        opts = self.get_currency_options()
+        a = select("currency", "$", opts)
         b = literal('<select id="currency" name="currency">\n<option selected="selected" value="$">Dollar</option>\n<option value="DKK">Kroner</option>\n</select>')
         self.check(a, b)
 
@@ -384,81 +391,92 @@ class TestSelect(HTMLTestCase):
         self.check(a, b)
 
     def test4(self):
-        a = select("currency", None, [["$", "Dollar"], ["DKK", "Kroner"]], prompt="Please choose ...")
+        opts = self.get_currency_options()
+        a = select("currency", None, opts, prompt="Please choose ...")
         b = literal('<select id="currency" name="currency">\n<option selected="selected" value="">Please choose ...</option>\n<option value="$">Dollar</option>\n<option value="DKK">Kroner</option>\n</select>')
         self.check(a, b)
 
     def test5(self):
-        a = select("privacy", 3, [(1, "Private"), (2, "Semi-public"), (3, "Public")])
+        opts = [
+            Option("Private", 1),
+            Option("Semi-public", 2),
+            Option("Public", 3),
+            ]
+        a = select("privacy", 3, opts)
         b = literal('<select id="privacy" name="privacy">\n<option value="1">Private</option>\n<option value="2">Semi-public</option>\n<option selected="selected" value="3">Public</option>\n</select>')
         self.check(a, b)
 
     def test6(self):
-        a = select("recipients", None, [([("u1", "User1"), ("u2", "User2")], "Users"), ([("g1", "Group1"), ("g2", "Group2")], "Groups")])
+        opts = Options()
+        users = opts.add_optgroup("Users")
+        users.add_option("User1", "u1")
+        users.add_option("User2", "u2")
+        groups = opts.add_optgroup("Groups")
+        groups.add_option("Group1", "g1")
+        groups.add_option("Group2", "g2")
+        a = select("recipients", None, opts)
         b = literal('<select id="recipients" name="recipients">\n<optgroup label="Users">\n<option value="u1">User1</option>\n<option value="u2">User2</option>\n</optgroup>\n<optgroup label="Groups">\n<option value="g1">Group1</option>\n<option value="g2">Group2</option>\n</optgroup>\n</select>')
         self.check(a, b)
 
     def test7(self):
-        a = select("enabled", True, [(False, "No"), (True, "Yes")])
+        opts = [Option("No", False), Option("Yes", True)]
+        a = select("enabled", True, opts)
         b = literal('<select id="enabled" name="enabled">\n<option value="False">No</option>\n<option selected="selected" value="True">Yes</option>\n</select>')
         self.check(a, b)
 
 
 class TestOptGroup(object):
     def test_repr(self):
-        group = OptGroup('foo', [Option('bar', 'baz')])
-        expected = "OptGroup(u'foo', Options([Option(u'bar', u'baz', False)]))"
+        group = OptGroup("foo")
+        group.add_option("baz", "bar")
+        expected = "OptGroup(u'foo', [Option(u'baz', u'bar')])"
         if six.PY3:
             expected = expected.replace("u'", "'")
         assert repr(group) == expected
 
+
+class TestOptionsArg(HTMLTestCase):
+    def test1(self):
+        with pytest.raises(TypeError):
+            opts = Options(["A", 1, ("b", "B")])
+
+
 class TestOptions(HTMLTestCase):
     def get_options(self):
-        return Options(["A", 1, ("b", "B")])
+        opts = Options()
+        opts.add_option("A")
+        opts.add_option(1)
+        opts.add_option("B", "b")
+        return opts
 
     def test1(self):
         a = self.get_options()
         assert isinstance(a, Options)
-        assert len(a.options) == 3
-        assert isinstance(a.options[0], Option)
-        assert a.options[0].value == "A"
-        assert a.options[0].label == "A"
-        assert a.options[1].value == "1"
-        assert a.options[1].label == "1"
-        assert a.options[2].value == "b"
-        assert a.options[2].label == "B"
-
-    def test_list_values(self):
-        assert list(self.get_options().values()) == ["A", "1", "b"]
-
-    def test_opts_2_value(self):
-        a = self.get_options()
-        assert a.options[2].value == "b"
-
-    def test_opts_2_label(self):
-        a = self.get_options()
-        assert a.options[2].label == "B"
-
-    def test_labels(self):
-        opts = self.get_options()
-        assert list(opts.labels()) == ['A', '1', 'B']
+        assert len(a) == 3
+        assert isinstance(a[0], Option)
+        assert a[0].label == "A"
+        assert a[0].value == None
+        assert a[1].label == 1
+        assert a[1].value == None
+        assert a[2].label == "B"
+        assert a[2].value == "b"
 
     def test_html(self):
         opts = self.get_options()
-        a = opts.__html__()
+        a = opts.render()
         b = literal('<option>A</option>\n<option>1</option>\n<option value="b">B</option>\n')
         self.check(a, b)
 
     def test_html_selected(self):
+        selected_values = [1]
         opts = self.get_options()
-        opts.options[1].selected = True
-        a = opts.__html__()
+        a = opts.render(selected_values)
         b = literal('<option>A</option>\n<option selected="selected">1</option>\n<option value="b">B</option>\n')
         self.check(a, b)
 
     def test_repr(self):
         opts = self.get_options()
-        expected = "Options([Option(u'A', u'A', False), Option(u'1', u'1', False), Option(u'b', u'B', False)])"
+        expected = "Options([Option(u'A', None), Option(1, None), Option(u'B', u'b')])"
         if six.PY3:
             expected = expected.replace("u'", "'")
         assert repr(opts) == expected

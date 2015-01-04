@@ -10,6 +10,7 @@ To create your own custom tags, see ``webhelpers2.html.builder``.
 """
 
 from __future__ import unicode_literals
+import collections
 import datetime
 import logging
 import os
@@ -26,7 +27,7 @@ __all__ = [
            "form", "end_form", 
            "text", "textarea", "hidden", "file", "password", 
            "checkbox", "radio", "submit",
-           "select", "Options", "Option", "OptGroup", "SelectedValues",
+           "select", "Options", "Option", "OptGroup",
            "ModelTags",
            # hyperlinks
            "link_to", "link_to_if", "link_to_unless",
@@ -258,238 +259,197 @@ def submit(name, value, id=NotGiven, **attrs):
 def select(name, selected_values, options, id=NotGiven, **attrs):
     """Create a dropdown selection box.
 
-    This is mostly a wrapper around the ``Options`` helper.
-
     Arguments:
 
-    **name**: the name of this control.
+    * **name**: the name of this control.
 
-    **selected_values**: the value(s) that should be preselected.
-      See the ``SelectedValues`` class for the allowed types.
+    * **selected_values**: the value(s) that should be preselected.
+      A string or list of strings. Some other types are allowed; see the
+      ``Options.render`` method for details.
 
-    **options**: an iterable of options. See the ``Options`` class
-      for the allowed types.
+    * **options**: an ``Options`` instance, or an iterable to pass to the
+      its constructor. See the ``Options`` class for allowed element types.
 
-    **id**: the HTML ID attribute. This should be a keyword argument if
+    * **id**: the HTML ID attribute. This should be a keyword argument if
       passed.  By default the ID is the same as the name.  filtered through
       ``_make_safe_id_component()``.  Pass None to suppress the
       ID attribute entirely.
 
     The following options may only be keyword arguments:
 
-    **multiple**: if true, this control will allow multiple
-       selections.
+    * **multiple**: if true, this control will allow multiple
+      selections.
 
-    **prompt**: An extra option that will be prepended to the list.
+    * **prompt**: An extra option that will be prepended to the list.
       The argument is the option label; e.g., "Please choose ...". The generated
       option's value will be the empty string (""), which is equivalent to not
-      making a selection.
+      making a selection. If you specify this and also pass an ``Options``
+      instance in ``options``, it will combine the two into a new ``Options``
+      object rather than reusing the existing one.
 
     Any other keyword args will become HTML attributes for the <select>.
     """
 
     _set_id_attr(attrs, id, name)
     attrs["name"] = name
-    # Prepend the prompt
     prompt = attrs.pop("prompt", None)
-    if prompt:
-        options = [("", prompt)] + list(options)
-    options = Options(options, selected_values)
-    return HTML.tag("select", NL, options, **attrs)
+    if prompt or not isinstance(options, Options):
+        options = Options(options, prompt=prompt)
+    return HTML.tag("select", NL, options.render(selected_values), **attrs)
 
 
 ########## Options helper and support classes ###########
 
-class Options(object):
-    """A list of options for a select or datalist.
+class _OptionsList(list):
+    """Base class of ``Options`` and  ``OptGroup``."""
 
-    The constructor takes an iterable of diverse types and converts them to
-    a list of ``Option`` and/or ``OptGroup`` instances. The list is available
-    under the ``options`` attribute.
+    def add_option(self, label, value=None):
+        """Create an option and append it to the list.
 
-    My string representation is a concatenation of <option> and <optgroup> tags
-    with a newline after each.  ``select()`` does this automatically, or you can
-    manually render me in an HTML <select> or <datalist>. If an option's value
-    is identical to its label, only the label will be rendered; see the
-    ``Option`` class for examples.
+        * **label**: the option's text label. String.
+        * **value**: the option's value if selected. Optional.
+        """
+        opt = Option(label, value)
+        self.append(opt)
 
-    Constructor args:
 
-    * **options**: An iterable whose elements are the type(s) in the next
-      paragraph. Required.
-    * **selected_values**: The value(s) that should be selected. See
-      the ``SelectedValues`` class for the allowed types.
+class OptGroup(_OptionsList):
+    """A group of options.
 
-    The elements in the ``options`` iterable can be any of the following
-    types:
-
-    * An ``Option`` instance. It will be appended to ``self.options`` as-is.
-    * An ``OptGroup`` instance. It will be appended to ``self.options`` as-is.
-    * A scalar value. It will be converted to a string and used as both the
-      option's value and label.
-    * A sequence whose first two elements are a scalar value and a string.
-      The first is the option value, the second is the option label.
-    * A sequence whose first element is a non-string iteratable and second
-      element is a string. This is converted to an ``OptGroup``. The first
-      argument is recursively passed to me to create the group's options.
-      The second argument becomes the group's label.
+    I'm a subclass of ``list``. My elements are ``Option`` instances.
+    I can be an element in ``Options``.
     """
 
-    def __init__(self, options, selected_values=None):
-        self.options = []
-        selected_values = SelectedValues(selected_values)
-        text_type = six.text_type
-        opts = []
-        for opt in options:
-            if isinstance(opt, (Option, OptGroup)):
-                self.options.append(opt)
-                continue
-            if isinstance(opt, (list, tuple)):
-                value, label = opt[:2]
-                if isinstance(value, (list, tuple)):  # It's an optgroup
-                    self.options.append(OptGroup(label, value))
-                    continue
-            else:
-                value = label = opt
-            if not isinstance(value, text_type):
-                value = text_type(value)
-            if not isinstance(label, text_type):  # Preserves literal.
-                label = text_type(label)
-            if value is not None:
-                selected = value in selected_values
-            else:
-                selected = label in selected_values
-            opt = Option(value, label, selected)
-            self.options.append(opt)
+    def __init__(self, label):
+        """Construct an ``OptGroup``.
 
-    def __html__(self):
-        return HTML(*self.options, nl=True)
+        * **label**: The group's label.
+        """
 
-    __str__ = __html__
+        self.label = label
 
     def __repr__(self):
-        return _repr(self, self.options)
+        classname = self.__class__.__name__
+        return "{0}({1!r}, {2!r})".format(classname, self.label, list(self))
 
-    def values(self):
-        """Iterate the ``value`` attribute of all options.
 
-        If the value is identical to the label it will appear here but it
-        won't be rendered in the HTML.
+class Options(_OptionsList):
+    """A list of options and/or optgroups for a select or datalist.
 
-        This method is intended only for flat option sequences, not groups. It
-        will raise AttributeError if it encounters an ``OptGroup``.
+    I'm a subclass of ``list``. My elements are ``Option`` and/or ``OptGroup``
+    instances. Do not add other element types or they may cause
+    ``options.render`` or ``str(options)`` to fail.
+    """
+
+    def __init__(self, options=None, prompt=None):
+        """Construct an ``Options`` instance.
+
+        **options**: An iterable of ``Option`` instances, ``OptGroup``
+        instances and/or strings. If you pass strings, they will be converted
+        to simple ``Option`` instances (i.e., the label will be the string, and
+        the value will be ``None``).
+
+        **prompt**: If passed, this will be turned into an extra option before
+        the others. The string argument will become the option's label, and
+        the option's value will be the empty string.
         """
-        return (x.value for x in self.options)
+        if prompt:
+            self.add_option(prompt, "")
+        if options:
+            parsed_types = (Option, OptGroup)
+            seq_types = (list, tuple)
+            for opt in options:
+                if isinstance(opt, parsed_types):
+                    self.append(opt)
+                elif isinstance(opt, seq_types):
+                    msg = (
+                        "lists/tuples are no longer allowed as elements in "
+                        "the 'options' arg: {0!r}")
+                    raise TypeError(msg.format(opt))
+                else:
+                    self.add_option(opt)
 
-    def labels(self):
-        """Iterate the ``label`` attribute of all options.
+    def __repr__(self):
+        classname = self.__class__.__name__
+        return "{0}({1!r})".format(classname, list(self))
 
-        This method is intended only for flat option sequences, not groups. It
-        will yield the group label if it encounters an ``OptGroup``.
+    def add_optgroup(self, label):
+        """Create an ``OptGroup``, append it, and return it.
+
+        The return value is the ``OptGroup`` instance. Call its
+        ``.add_option`` method to add options to the group.
         """
-        return (x.label for x in self.options)
+        group = OptGroup(label)
+        self.append(group)
+        return group
 
+    def render(self, selected_values=None):
+        """
+        Render the options as a concatenated literal of <option> and/or
+        <optgroup> tags, with a newline after each.
+
+        **selected_values**: The value(s) that should be preselected. You
+        can pass a string, int, bool, or other scalar type, or a sequence of
+        these. If you pass a scalar it will be standardized to a one-element
+        tuple. If you don't pass anything, it will default to ``("",)`` (a tuple
+        containing the empty string); this will correctly preselect prompts.
+
+        Note that ``selected_values`` *does not do type conversions*. If you
+        pass an int, the corresponding ``Option.value`` must also be an int or
+        otherwise equal to it. (The actual comparision operator is ``in``.)
+
+        Calling ``str(options)`` or ``options.__html__()`` is the same as
+        calling ``options.render()`` without arguments. This is only useful if
+        you don't want to pass any selected values.
+        """
+
+        selected_values = self._parse_selected_values(selected_values)
+        return self._render(self, selected_values)
+
+    __str__ = __html__ = render
+
+    def _render(self, options, selected_values):
+        tags = []
+        for opt in options:
+            if isinstance(opt, OptGroup):
+                content = self._render(opt, selected_values)
+                tag = HTML.tag("optgroup", NL, content, label=opt.label)
+                tags.append(tag)
+            else:
+                value = opt.value if opt.value is not None else opt.label
+                selected = value in selected_values
+                tag = HTML.tag("option", opt.label, value=opt.value,
+                    selected=selected)
+                tags.append(tag)
+        return HTML(*tags, nl=True)
+
+    @staticmethod
+    def _parse_selected_values(values):
+        if values is None:
+            return ("",)
+        is_string = isinstance(values, six.string_types)
+        is_seq = isinstance(values, collections.Sequence)
+        if is_string or not is_seq:
+            return (values,)
+        else:
+            return values
 
 class Option(object):
-    """An option for an HTML select or datalist.
+    """An option for a select or datalist.
 
-    The ``Options`` constructor calls me automatically.
-
-    Attributes and constructor args:
-
-    * **value**: The option value.
-    * **label**: The option label.
-    * **selected**: True if the option is selected. Default false.
-
-    My string representation is an HTML <option> tag. If the value is None or
-    identical to the label it will be suppressed, producing
-    '<option>LABEL</option>'.  If the value is different from the label it
-    produces '<option value="VALUE">LABEL</option>'.
+    I can be an element in ``Options``.
     """
 
-    __slots__ = ("value", "label", "selected")
+    __slots__ = ("label", "value")
 
-    def __init__(self, value, label, selected=False):
+    def __init__(self, label, value=None):
+        """Construct an ``Option``."""
+
+        self.label = label
         self.value = value
-        self.label = label
-        self.selected = selected
-
-    def __html__(self):
-        value = self.value
-        label = self.label
-        selected = self.selected
-        if value == label:
-            value = None
-        text_type = six.text_type
-        if value is not None and not isinstance(value, text_type):
-            value = text_type(value)
-        if not isinstance(label, text_type):  # Preserve literal.
-            label = text_type(label)
-        return HTML.tag("option", label, value=value, selected=selected)
-
-    __str__ = __html__
 
     def __repr__(self):
-        return _repr(self, self.value, self.label, self.selected)
-
-
-class OptGroup(object):
-    """An option group.
-
-    The ``Options`` constructor calls me automatically.
-
-    Attributes and constructor args:
-
-    * **label**: The group label.
-    * **options**: A list of options. This will be passed to ``Options``.
-
-    My string representation is an HTML <optgroup> tag.
-    """
-
-    __slots__ = ('options', 'label')
-
-    def __init__(self, label, options):
-        self.options = Options(options)
-        self.label = label
-
-    def __html__(self):
-        return HTML.tag("optgroup", NL, self.options, label=self.label)
-
-    __str__ = __html__
-
-    def __repr__(self):
-        return _repr(self, self.label, self.options)
-
-
-class SelectedValues(tuple):
-    """A tuple subclass to manage the selected values for an options list.
-
-    The ``Options`` constructor calls me automatically.
-
-    My main purpose is to convert my constructor arg to a tuple of strings
-    for the right side of ``x in selected_values`` expressions,
-    and to avoid converting the same argument repeatedly.
-
-    My constructor accepts the following types:
-
-    * A scalar value. Converted to a string.
-    * A non-string iterator. All elements are converted to strings.
-    * An instance of myself. Taken as-is.
-    * None. This imples the empty string ("") is selected.
-    * A ``SelectedValues`` instance. Taken as-is.
-    """
-
-    def __new__(cls, values):
-        if isinstance(values, cls):
-            return values
-        if values is None:
-            values = ("",)
-        elif isinstance(values, six.string_types) or \
-            not hasattr(values, "__iter__"):
-            values = (six.text_type(values),)
-        else:
-            values = tuple(map(six.text_type, values))
-        return super(SelectedValues, cls).__new__(cls, values)
+        return "Option({0!r}, {1!r})".format(self.label, self.value)
 
 
 ########## ModelTags helper ##########
@@ -1021,9 +981,3 @@ def _make_safe_id_component(idstring):
     # Remove everything that is not a hyphen or a member of \w
     idstring = re.sub(r'(?!-)\W', "", idstring).lower()
     return idstring
-
-def _repr(obj, *args):
-    """Helper for ``.__repr__`` using attributes as positional args."""
-    classname = obj.__class__.__name__
-    args_str = ", ".join(repr(x) for x in args)
-    return "{0}({1})".format(classname, args_str)
