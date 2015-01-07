@@ -434,6 +434,11 @@ class TestOptGroup(object):
             expected = expected.replace("u'", "'")
         assert repr(group) == expected
 
+    def test_init_options(self):
+        group = OptGroup("foo", ["bar"])
+        assert len(group) == 1
+        assert group[0].label == 'bar'
+
 
 class TestOptionsArg(HTMLTestCase):
     def test1(self):
@@ -480,6 +485,12 @@ class TestOptions(HTMLTestCase):
         if six.PY3:
             expected = expected.replace("u'", "'")
         assert repr(opts) == expected
+
+    def test_add_optgroup(self):
+        opts = Options()
+        opts.add_optgroup('Foo', ['bar'])
+        assert opts[0].label == 'Foo'
+        assert opts[0][0].label == 'bar'
 
 
 class TestThSortable(HTMLTestCase):
