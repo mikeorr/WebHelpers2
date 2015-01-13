@@ -400,6 +400,7 @@ class TestImage(HTMLTestCase):
         assert re.search(r"\buse_pil\b.*\bnot supported\b",
                          str(exc_info.value))
 
+
 class TestSelect(OptionsTestCase):
     def get_currency_options(self):
         opts = Options()
@@ -467,11 +468,51 @@ class TestOptGroup(OptionsTestCase):
             expected = expected.replace("u'", "'")
         assert repr(group) == expected
 
+    def test_init_options(self):
+        group = OptGroup("foo", ["bar"])
+        self.check_optgroup(group, "foo", 1)
+        self.check_option(group[0], "bar", None)
+
 
 class TestOptionsArg(OptionsTestCase):
     def test1(self):
         with pytest.raises(TypeError):
             opts = Options(["A", 1, ("b", "B")])
+
+    def test2(self):
+        opt1 = "A"
+        opt2 = Option("B")
+        opt3 = OptGroup("Group")
+        options = Options([opt1, opt2, opt3])
+        self.check_options(options, 3)
+        self.check_option(options[0], "A", None)
+        self.check_option(options[1], "B", None)
+        self.check_optgroup(options[2], "Group", 0)
+
+    def test_parse_option(self):
+        options = Options(["A"])
+        self.check_options(options, 1)
+        self.check_option(options[0], "A", None)
+
+    def test_parse_optgroup(self):
+        group = OptGroup("Group")
+        options = Options([group])
+        self.check_options(options, 1)
+        self.check_optgroup(options[0], "Group", 0)
+
+    def test_parse_optgroup_with_suboption(self):
+        group = OptGroup("Group", ["Member1"])
+        self.check_optgroup(group, "Group", 1)
+        self.check_option(group[0], "Member1", None)
+        options = Options([group])
+        self.check_options(options, 1)
+        self.check_optgroup(options[0], "Group", 1)
+        self.check_option(options[0][0], "Member1", None)
+
+    def test_parse_string_option(self):
+        options = Options(["@"])
+        self.check_options(options, 1)
+        self.check_option(options[0], "@", None)
 
 
 class TestOptions(OptionsTestCase):
@@ -508,6 +549,12 @@ class TestOptions(OptionsTestCase):
         if six.PY3:
             expected = expected.replace("u'", "'")
         assert repr(opts) == expected
+
+    def test_add_optgroup(self):
+        opts = Options()
+        opts.add_optgroup('Foo', ['bar'])
+        assert opts[0].label == 'Foo'
+        assert opts[0][0].label == 'bar'
 
 
 class TestThSortable(HTMLTestCase):

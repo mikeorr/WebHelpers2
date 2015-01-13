@@ -312,6 +312,20 @@ class _OptionsList(list):
         opt = Option(label, value)
         self.append(opt)
 
+    def _parse_options(self, options):
+        parsed_types = (Option, OptGroup)
+        seq_types = (list, tuple)
+        for opt in options:
+            if isinstance(opt, parsed_types):
+                option = opt
+            elif isinstance(opt, seq_types):
+                raise TypeError(
+                    "lists/tuples are no longer allowed as elements in the "
+                    "'options' arg: {0!r}".format(opt))
+            else:
+                option = Option(opt)
+            self.append(option)
+
 
 class OptGroup(_OptionsList):
     """A group of options.
@@ -320,13 +334,21 @@ class OptGroup(_OptionsList):
     I can be an element in ``Options``.
     """
 
-    def __init__(self, label):
+    def __init__(self, label, options=None):
         """Construct an ``OptGroup``.
 
-        * **label**: The group's label.
+        **label**: The group's label.
+
+        **options**: An iterable of ``Option`` instances, and/or
+        strings. If you pass strings, they will be converted to simple
+        ``Option`` instances (i.e., the label will be the string, and
+        the value will be ``None``).
+
         """
 
         self.label = label
+        if options:
+            self._parse_options(options)
 
     def __repr__(self):
         classname = self.__class__.__name__
@@ -356,30 +378,19 @@ class Options(_OptionsList):
         if prompt:
             self.add_option(prompt, "")
         if options:
-            parsed_types = (Option, OptGroup)
-            seq_types = (list, tuple)
-            for opt in options:
-                if isinstance(opt, parsed_types):
-                    self.append(opt)
-                elif isinstance(opt, seq_types):
-                    msg = (
-                        "lists/tuples are no longer allowed as elements in "
-                        "the 'options' arg: {0!r}")
-                    raise TypeError(msg.format(opt))
-                else:
-                    self.add_option(opt)
+            self._parse_options(options)
 
     def __repr__(self):
         classname = self.__class__.__name__
         return "{0}({1!r})".format(classname, list(self))
 
-    def add_optgroup(self, label):
+    def add_optgroup(self, label, options=None):
         """Create an ``OptGroup``, append it, and return it.
 
         The return value is the ``OptGroup`` instance. Call its
         ``.add_option`` method to add options to the group.
         """
-        group = OptGroup(label)
+        group = OptGroup(label, options)
         self.append(group)
         return group
 
@@ -433,6 +444,7 @@ class Options(_OptionsList):
             return (values,)
         else:
             return values
+
 
 class Option(object):
     """An option for a select or datalist.
