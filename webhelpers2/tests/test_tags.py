@@ -12,6 +12,40 @@ from webhelpers2.html.tags import *
 
 from . import HTMLTestCase
 
+#### Base classes ####
+
+class OptionsTestCase(HTMLTestCase):
+    def check_option(self, option, label, value):
+        """Perform common tests on an ``Option``.
+
+        I check the option's class, label, and value.
+        """
+        assert isinstance(option, Option)
+        assert option.label == label
+        assert option.value == value
+
+    def check_options(self, options, count):
+        """Perform common tests on an ``Options`` instance.
+
+        I check the class and number of options, but not the options
+        themselves.
+        """
+        assert isinstance(options, Options)
+        assert len(options) == count
+
+    def check_optgroup(self, optgroup, label, count):
+        """Do common tests on an ``OptGroup``.
+
+        I check the group's class, label, and number of options, but
+        not the options themselves.
+        """
+        assert isinstance(optgroup, OptGroup)
+        assert optgroup.label == label
+        assert len(optgroup) == count
+
+
+#### Test suites ####
+
 class TestForm(HTMLTestCase):
     def test1(self):
         b = '<form action="http://www.example.com" method="post">'
@@ -366,8 +400,7 @@ class TestImage(HTMLTestCase):
         assert re.search(r"\buse_pil\b.*\bnot supported\b",
                          str(exc_info.value))
 
-
-class TestSelect(HTMLTestCase):
+class TestSelect(OptionsTestCase):
     def get_currency_options(self):
         opts = Options()
         opts.add_option("Dollar", "$")
@@ -425,7 +458,7 @@ class TestSelect(HTMLTestCase):
         self.check(a, b)
 
 
-class TestOptGroup(object):
+class TestOptGroup(OptionsTestCase):
     def test_repr(self):
         group = OptGroup("foo")
         group.add_option("baz", "bar")
@@ -435,13 +468,13 @@ class TestOptGroup(object):
         assert repr(group) == expected
 
 
-class TestOptionsArg(HTMLTestCase):
+class TestOptionsArg(OptionsTestCase):
     def test1(self):
         with pytest.raises(TypeError):
             opts = Options(["A", 1, ("b", "B")])
 
 
-class TestOptions(HTMLTestCase):
+class TestOptions(OptionsTestCase):
     def get_options(self):
         opts = Options()
         opts.add_option("A")
@@ -451,15 +484,10 @@ class TestOptions(HTMLTestCase):
 
     def test1(self):
         a = self.get_options()
-        assert isinstance(a, Options)
-        assert len(a) == 3
-        assert isinstance(a[0], Option)
-        assert a[0].label == "A"
-        assert a[0].value == None
-        assert a[1].label == 1
-        assert a[1].value == None
-        assert a[2].label == "B"
-        assert a[2].value == "b"
+        self.check_options(a, 3)
+        self.check_option(a[0], "A", None)
+        self.check_option(a[1], 1, None)
+        self.check_option(a[2], "B", "b")
 
     def test_html(self):
         opts = self.get_options()
