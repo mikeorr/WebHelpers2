@@ -11,4 +11,4 @@ upload:
 	python setup.py egg_info -RDb '' sdist bdist_wheel upload
 
 upload3:
-	python setup.py egg_info -RDb '' sdist bdist_wheel upload
+	python setup.py egg_info -RDb '' bdist_wheel upload

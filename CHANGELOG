@@ -1,5 +1,5 @@
-unreleased
-----------
+2.0rc3 (2015-01-13)
+-------------------
 
 - webhelpers.html.tags
 
@@ -11,9 +11,12 @@ unreleased
       of strings though.
     + The ``Options``, ``Option``, and ``OptGroup`` clsses have incompatible
       changes.
-    + ``options.render(selected_values=None)`` replaces ``str(options)``.
-    + ``Option`` and ``OptGroup`` no longer generate their own HTML.
+    + Move the ``selected_values`` argument from the ``Options`` constructor
+      to the ``Options.render`` method. Calling ``str(options)`` now renders all
+      the options unselected. To render the options with some selected you
+      must call the ``render`` method (or let ``select`` call it for you).
     + The 'Option.selected' attribute is deleted.
+    + ``Option`` and ``OptGroup`` no longer generate their own HTML.
     + The 'SelectedValues' class is deleted.
 
 

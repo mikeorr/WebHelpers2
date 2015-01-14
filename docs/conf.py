@@ -52,7 +52,7 @@ master_doc = 'index'
 
 # General substitutions.
 project = 'WebHelpers2'
-copyright = '2009-2014, Mike Orr'
+copyright = '2009-2015, Mike Orr and contributors'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

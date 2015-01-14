@@ -1,6 +1,6 @@
 WebHelpers2
 %%%%%%%%%%%
-:Version: |release|, released 2014-11-11
+:Version: |release|, released 2015-01-13
 :PyPI: http://pypi.python.org/pypi/WebHelpers2
 :Docs: https://webhelpers2.readthedocs.org/en/latest/
 :Source: https://github.com/mikeorr/WebHelpers2 (Git)
@@ -18,9 +18,10 @@ other current frameworks.  It renovates the popular HTML builder, and
 keeps most of the HTML tag helpers and text-processing, number formatting,
 statistics, and date functions.
 
-**Version 2.0rc2** is the second release candidate. It overhauls the
-``select()`` helpers, improves test coverage, and fixes a few small bugs.  It is
-tested on Python 2.7 and 3.4. The final release will follow shortly.
+**Version 2.0rc3** is the third release candidate. It refines the ``select()``
+family of helpers further, reverting some RC2 changes and restricting the
+types in ``options`` arguments.
+It is tested on Python 2.7 and 3.4. The final release will follow shortly.
 
 For support/questions/patches, please use the pylons-discuss_ mailing list.
 
