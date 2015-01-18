@@ -29,8 +29,8 @@ run:
 
    $ pip install -r requirements.txt
 
-WebHelpers2 has been tested on Python 2.7 and 3.4. Earlier betas were
-tested on Python 3.3 and it's believed to still be compatible.
+WebHelpers2 has been tested on Python 2.7 and 3.4, and sometimes on 2.6. Earlier
+betas were tested on Python 3.3 and it's believed to still be compatible.
 
 
 Python 3.2 Caveats
@@ -58,6 +58,9 @@ WebHelpers2 has an extensive test suite using PyTest. To run the tests:
 
 PyTest has lots of options. To run a specific test module, pass the
 filename; e.g., 'webhelpers2/tests/test_text.py'.
+
+PyTest sometimes has trouble finding tests on some systems. In that case,
+specify the test directory or filename as an argument.
 
 
 .. include:: include.rst

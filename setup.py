@@ -47,7 +47,7 @@ It contains convenience functions to make HTML tags, process text, format number
       'pytest',
       ], 
     cmdclass = {'test': PyTest},
-    classifiers=["Development Status :: 4 - Beta",
+    classifiers=["Development Status :: 5 - Production/Stable",
                  "Environment :: Web Environment",
                  "Framework :: Pylons",
                  "Framework :: Pyramid",
