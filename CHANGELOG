@@ -1,3 +1,10 @@
+Not Released
+------------
+
+- Updated the lists of *empty elements*, *boolean attributes*, and
+  *composed attributes* in ``webhelpers2.html.builder`` to include all
+  of those listed in the current HTML 5.1 draft.
+
 2.0 (2015-01-17)
 ----------------
 
