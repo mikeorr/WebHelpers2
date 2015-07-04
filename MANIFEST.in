@@ -4,3 +4,4 @@ recursive-include unfinished *.py
 include CHANGELOG LICENSE README.txt requirements.txt
 prune docs/_build
 prune docs/_themes
+prune maintainer-scripts
