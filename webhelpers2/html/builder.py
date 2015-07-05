@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """HTML/XHTML/HTML 5 tag builder.
 """
 
@@ -188,28 +189,29 @@ class HTMLBuilder(object):
         * Replace non-trailing underscores with hyphens. ('data_foo' ->
           'data-foo').
 
-        * If the attribute is "defer", "disable", "multiple", or
-          "readonly", render it as an HTML 5 boolean attribute. If the
-          value is true, copy the attribute name to the value. If the
-          value is false, don't render the attribute at all.
-          See ``self.boolean_attrs`` and ``_bool`` to customize which
-          attributes are considered boolean.
+        * If the attribute is a *boolean attribute* — e.g. "defer",
+          "disable", "readonly" — render it as an HTML 5 boolean
+          attribute. If the value is true, copy the attribute name to
+          the value. If the value is false, don't render the attribute
+          at all.  See ``self.boolean_attrs`` and ``_bool`` to
+          customize which attributes are considered boolean.
 
-        * If the attribute is "class" or "class\_" and the value is a
-          list or tuple, convert the value to a space-delimited string.
-          If the value is an empty list/tuple, don't render the
-          attribute at all. If the value contains elements that are
-          2-tuples, the first subelement is the string item, and the
-          second subelement is a boolean flag; render only subelements
-          whose flag is true.  This allows users to programatically set
-          the parts of a composable attribute in a template without
-          extra loops or logic code.
-
-        * Likewise for "style", if the value is a list/tuple, convert it
-          to a semicolon-delimited string, with a space after the
-          semicolon. See ``self.compose_attrs`` to customize which
-          attributes have list/tuple conversion and what their delimiter
-          is.
+        * If the attribute is known to be list- or set- valued — e.g.
+          "class" (or "class_"), "style", "rel" — and the value is a
+          list or tuple, convert the value to a string by conjoining
+          the values.  A separator appropriate to the attribute will
+          be used to separate the values within the string.
+          (E.g. "class" is space-separated, "style" is
+          semicolon-separated.)  If the value is an empty list or
+          tuple, don't render the attribute at all. If the value
+          contains elements that are 2-tuples, the first subelement is
+          the string item, and the second subelement is a boolean
+          flag; render only subelements whose flag is true.  This
+          allows users to programatically set the parts of a
+          composable attribute in a template without extra loops or
+          logic code.  See ``self.compose_attrs`` to customize which
+          attributes have list/tuple conversion and what their
+          delimiter is.
 
         Examples:
 
