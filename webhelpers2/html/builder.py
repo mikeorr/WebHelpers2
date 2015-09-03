@@ -198,6 +198,8 @@ class HTMLBuilder(object):
             assert not args, "The special 'c' keyword argument cannot be used "\
     "in conjunction with non-keyword arguments"
             args = kw.pop("c")
+            if not hasattr(args, '__iter__'):
+                args = tuple(args)
         closed = kw.pop("_closed", True)
         nl = kw.pop("_nl", False)
         boolean_attrs = kw.pop("_bool", None)
