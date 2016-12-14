@@ -93,6 +93,7 @@ class HTMLBuilder(object):
         "headers": literal(" "),
         "media": literal(", "),
         "rel": literal(" "),
+        "rev": literal(" "),
         "sandbox": literal(" "),
         "sizes": literal(" "),
         "srcset": literal(", "),
