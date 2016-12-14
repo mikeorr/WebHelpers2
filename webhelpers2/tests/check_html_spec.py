@@ -32,8 +32,8 @@ except ImportError:
     pytest.skip("beautifulsoup4 is not installed")
 
 
-# Index of most recent published HTML 5.1 working draft
-HTML51_INDEX = "http://www.w3.org/TR/html51/index.html"
+# Most recent published HTML 5.1 working draft
+HTML51_INDEX = "http://www.w3.org/TR/html51/fullindex.html"
 
 # HTML 4.01 table of elements
 HTML401_ELEMENTS = "http://www.w3.org/TR/html401/index/elements.html"
@@ -95,9 +95,10 @@ def html5_index():
 @pytest.fixture(scope='module')
 def html5_element_table(html5_index):
     for table in html5_index.find_all('table'):
-        caption = get_text(table.caption)
-        if caption == 'List of elements':
-            break
+        if table.caption:
+            caption = get_text(table.caption)
+            if caption == 'List of elements':
+                break
     else:
         raise RuntimeError("Can not find element table")
     return parse_table(table)
@@ -106,9 +107,10 @@ def html5_element_table(html5_index):
 @pytest.fixture(scope='module')
 def html5_attribute_table(html5_index):
     for table in html5_index.find_all('table'):
-        caption = get_text(table.caption)
-        if caption.startswith('List of attributes'):
-            break
+        if table.caption:
+            caption = get_text(table.caption)
+            if caption.startswith('List of attributes'):
+                break
     else:
         raise RuntimeError("Can not find attribute table")
     return parse_table(table)
