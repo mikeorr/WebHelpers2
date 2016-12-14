@@ -79,7 +79,6 @@ class HTMLBuilder(object):
         "required",
         "reversed",
         "scoped",
-        "seamless",
         "selected",
         "typemustmatch",
         ])
