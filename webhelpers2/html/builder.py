@@ -81,7 +81,6 @@ class HTMLBuilder(object):
         "scoped",
         "seamless",
         "selected",
-        "sortable",
         "typemustmatch",
         ])
     compose_attrs = {
@@ -97,7 +96,6 @@ class HTMLBuilder(object):
         "rel": literal(" "),
         "sandbox": literal(" "),
         "sizes": literal(" "),
-        "sorted": literal(" "),
         "srcset": literal(", "),
         "style": literal("; "),
         }
