@@ -68,6 +68,7 @@ def test_compose_attrs(html5_attribute_table):
         ('space-separated', ' '),
         ('comma-separated', ', '),
         ('list of integers', ','),
+        ('list of floating-point numbers', ','),
         ('media query list', ', '),
         ('css declarations', '; '),
         ]
