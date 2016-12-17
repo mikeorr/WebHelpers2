@@ -1,5 +1,5 @@
-Not Released
-------------
+2.1 (unreleased)
+----------------
 
 - Updated the lists of *empty elements*, *boolean attributes*, and
   *composed attributes* in ``webhelpers2.html.builder`` to include all
