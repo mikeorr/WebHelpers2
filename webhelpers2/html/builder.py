@@ -237,6 +237,8 @@ class HTMLBuilder(object):
             assert not args, "The special 'c' keyword argument cannot be used "\
     "in conjunction with non-keyword arguments"
             args = kw.pop("c")
+            if isinstance(args, six.string_types):
+                args = (args,)
         closed = kw.pop("_closed", True)
         nl = kw.pop("_nl", False)
         boolean_attrs = kw.pop("_bool", None)
