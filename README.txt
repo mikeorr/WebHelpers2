@@ -6,6 +6,9 @@ showing results a pageful at a time, etc.  It may be used with any web
 framework or template engine.  A brief outline is below, but see the
 documentation and module docstrings for a more complete list.
 
+Documentation is in the docs/ directory or read the `online documentation`_.
+(It includes instructions on migrating from Webhelpers.)
+
 ``constants``
     Country codes, states and provinces.
 
@@ -51,6 +54,7 @@ WebHelpers2 depends on MarkupSafe_ and six_, and it can also use unidecode_ if
 you have it installed.
 
 
+.. _online documentation: http://webhelpers2.readthedocs.org/en/latest/
 .. _MarkupSafe: http://pypi.python.org/pypi/MarkupSafe
 .. _six: http://pypi.python.org/pypi/six
 .. _unidecode:  http://python.org/pypi/Unidecode/
