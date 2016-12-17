@@ -92,16 +92,16 @@ Normally you use the global rather than instantiating it yourself.
       ``disabled=True`` renders as 'disabled="disabled"', while
       ``disabled=False`` is not rendered at all.
 
-      The default set is conservative; it includes only "checked", "defer",
-      "disabled", "multiple", "readonly", and "selected". We may add to this
-      later as more standard boolean attributes are identified.
+      The default set contains all attributes designated as boolean
+      by the current HTML 5.1 draft specification.
 
    .. data:: compose_attrs
 
       A dict of attributes whose value may have string-delimited
       components.  The keys are attribute names and the values are
-      delimiter literals. The default configuration supports the "class"
-      and "style" attributes.
+      delimiter literals. The default configuration supports all
+      attributes designated as being set- or list-valued by the HTML
+      5.1 draft specification.
 
    .. data:: literal
 
