@@ -190,7 +190,7 @@ class HTMLBuilder(object):
           customize which attributes are considered boolean.
 
         * If the attribute is known to be list- or set- valued — e.g.
-          "class" (or "class_"), "style", "rel" — and the value is a
+          "class" (or "class\_"), "style", "rel" — and the value is a
           list or tuple, convert the value to a string by conjoining
           the values.  A separator appropriate to the attribute will
           be used to separate the values within the string.
