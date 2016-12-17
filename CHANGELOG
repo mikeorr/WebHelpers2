@@ -1,9 +1,11 @@
 2.1 (unreleased)
 ----------------
 
-- Updated the lists of *empty elements*, *boolean attributes*, and
-  *composed attributes* in ``webhelpers2.html.builder`` to include all
-  of those listed in the current HTML 5.1 draft.
+- webhelpers.html.builder:
+
+  * Update the lists of *empty elements*, *boolean attributes*, and
+    *composed attributes* in ``webhelpers2.html.builder`` to include all
+    of those listed in the current HTML 5.1 draft.
 
 - Switch doc theme source to 'pyramid-sphinx-themes' Python distribution.
   This doesn't change the theme; it only changes where we get it from.
