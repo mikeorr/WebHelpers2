@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# WebHelpers documentation build configuration file
+# WebHelpers2 documentation build configuration file
 #
 # This file is execfile()d with the current directory set to its containing dir.
 #
@@ -13,6 +13,8 @@
 # serve to show the default.
 
 import sys, os
+
+import pylons_sphinx_themes
 
 parent = os.path.dirname(os.path.dirname(__file__))
 sys.path.append(os.path.abspath(parent))
@@ -52,7 +54,7 @@ master_doc = 'index'
 
 # General substitutions.
 project = 'WebHelpers2'
-copyright = '2009-2015, Mike Orr and contributors'
+copyright = '2009-2016, Mike Orr and contributors'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -106,19 +108,14 @@ pygments_style = 'sphinx'
 # The theme to use for HTML and HTML Help pages.  Major themes that come with
 # Sphinx are currently 'default' and 'sphinxdoc'.
 
-sys.path.append(os.path.abspath('_themes'))
-html_theme_path = ['_themes']
-html_theme = 'pyramid'
+html_theme_path = pylons_sphinx_themes.get_html_themes_path()
 
-#html_theme = 'default'
+html_theme = "pyramid"
 
-# Theme options are theme-specific and customize the look and feel of a theme
-# further.  For a list of options available for each theme, see the
-# documentation.
-#html_theme_options = {"nosidebar": True}
-
-# Add any paths that contain custom themes here, relative to this directory.
-#html_theme_path = []
+html_theme_options = {
+    "canonical_url": "http://webhelpers2.readthedocs.io/en/latest/",
+    #"nosidebar": True,
+    }
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".

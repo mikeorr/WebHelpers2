@@ -12,6 +12,7 @@ wheel
 
 # Required for generating HTML documentation
 Sphinx
+pylons-sphinx-themes
 
 # Optional enhancement for certain helpers
 Unidecode
