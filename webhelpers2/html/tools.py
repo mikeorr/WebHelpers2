@@ -244,7 +244,7 @@ def mail_to(email_address, name=None, cc=None, bcc=None, subject=None,
             ['&#%d;' % ord(x) for x in email_address_obfuscated]))
         protocol = HTML.literal(''.join(['&#%d;' % ord(x) for x in protocol]))
 
-        word_re = re.compile('\w')
+        word_re = re.compile(r'\w')
         encoded_parts = []
         for x in email_address:
             if word_re.match(x):
