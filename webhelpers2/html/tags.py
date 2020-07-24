@@ -10,13 +10,13 @@ To create your own custom tags, see ``webhelpers2.html.builder``.
 """
 
 from __future__ import unicode_literals
-import collections
 import datetime
 import logging
 import os
 import re
 
 import six
+from six.moves import collections_abc
 
 from webhelpers2 import containers
 from webhelpers2.html import escape, HTML, literal, url_escape
@@ -439,7 +439,7 @@ class Options(_OptionsList):
         if values is None:
             return ("",)
         is_string = isinstance(values, six.string_types)
-        is_seq = isinstance(values, collections.Sequence)
+        is_seq = isinstance(values, collections_abc.Sequence)
         if is_string or not is_seq:
             return (values,)
         else:
