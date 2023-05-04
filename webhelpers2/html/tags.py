@@ -10,13 +10,13 @@ To create your own custom tags, see ``webhelpers2.html.builder``.
 """
 
 from __future__ import unicode_literals
-import collections
 import datetime
 import logging
 import os
 import re
 
 import six
+from six.moves import collections_abc
 
 from webhelpers2 import containers
 from webhelpers2.html import escape, HTML, literal, url_escape
@@ -439,7 +439,7 @@ class Options(_OptionsList):
         if values is None:
             return ("",)
         is_string = isinstance(values, six.string_types)
-        is_seq = isinstance(values, collections.Sequence)
+        is_seq = isinstance(values, collections_abc.Sequence)
         if is_string or not is_seq:
             return (values,)
         else:
@@ -648,7 +648,7 @@ class ModelTags(object):
         ``name``: The field to look up.
 
         ``kw``: The keyword args passed to the original method.  This is
-        _not_ a "\*\*" argument!  It's a dict that will be modified in place!
+        _not_ a ``**`` argument!  It's a dict that will be modified in place!
 
         ``kw["default"]`` will be popped from the dict in all cases for
         possible use as a default value.  If the record doesn't exist, this
@@ -671,9 +671,9 @@ class ModelTags(object):
         ``name``: The name of the HTML field.
 
         ``kw``: The keyword args passed to the original method.  This is
-        _not_ a "\*\*" argument!  It's a dict that will be modified in place!
+        _not_ a ``**`` argument!  It's a dict that will be modified in place!
 
-        If an ID format was specified but no 'id' keyword was passed, 
+        If an ID format was specified but no 'id' keyword was passed,
         set the 'id' attribute to a value generated from the format and name.
         Otherwise do nothing.
         """
@@ -975,18 +975,18 @@ def _set_id_attr(attrs, id_arg, name):
 
 def _make_safe_id_component(idstring):
     """Make a string safe for including in an id attribute.
-    
-    The HTML spec says that id attributes 'must begin with 
-    a letter ([A-Za-z]) and may be followed by any number 
-    of letters, digits ([0-9]), hyphens ("-"), underscores 
+
+    The HTML spec says that id attributes 'must begin with
+    a letter ([A-Za-z]) and may be followed by any number
+    of letters, digits ([0-9]), hyphens ("-"), underscores
     ("_"), colons (":"), and periods (".")'. These regexps
     are slightly over-zealous, in that they remove colons
     and periods unnecessarily.
-    
+
     Whitespace is transformed into underscores, and then
-    anything which is not a hyphen or a character that 
-    matches \w (alphanumerics and underscore) is removed.
-    
+    anything which is not a hyphen or a character that
+    matches ``\\w`` (alphanumerics and underscore) is removed.
+
     """
     # Transform all whitespace to underscore
     idstring = re.sub(r'\s', "_", '%s' % idstring)

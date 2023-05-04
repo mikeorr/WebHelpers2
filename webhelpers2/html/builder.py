@@ -176,8 +176,8 @@ class HTMLBuilder(object):
 
         * Ignore attributes whose value is None.
 
-        * Delete trailing underscores in attribute names. 
-          ('class\_' -> 'class').
+        * Delete trailing underscores in attribute names.
+          ('class\\_' -> 'class').
 
         * Replace non-trailing underscores with hyphens. ('data_foo' ->
           'data-foo').
@@ -190,7 +190,7 @@ class HTMLBuilder(object):
           customize which attributes are considered boolean.
 
         * If the attribute is known to be list- or set- valued — e.g.
-          "class" (or "class\_"), "style", "rel" — and the value is a
+          "class" (or "class\\_"), "style", "rel" — and the value is a
           list or tuple, convert the value to a string by conjoining
           the values.  A separator appropriate to the attribute will
           be used to separate the values within the string.
