@@ -262,7 +262,7 @@ def series(*items, **kw):
     'A or B'
     >>> series("A", "B", "C")
     'A, B, and C'
-    >>> series "A", "B", "C", strict=False)
+    >>> series("A", "B", "C", strict=False)
     'A, B and C'
     """
     conjunction = kw.pop("conj", "and")
