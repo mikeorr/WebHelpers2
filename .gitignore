@@ -10,3 +10,7 @@ novc
 env*
 venv
 .tox
+/.pytest_cache/
+/.virtualenv/
+
+.idea/
