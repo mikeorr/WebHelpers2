@@ -234,8 +234,11 @@ class HTMLBuilder(object):
         """
 
         if "c" in kw:
-            assert not args, "The special 'c' keyword argument cannot be used "\
-    "in conjunction with non-keyword arguments"
+            if args:
+                raise TypeError(
+                    "The special 'c' keyword argument cannot be used "
+                    "in conjunction with non-keyword arguments"
+                    )
             args = kw.pop("c")
             if isinstance(args, six.string_types):
                 args = (args,)

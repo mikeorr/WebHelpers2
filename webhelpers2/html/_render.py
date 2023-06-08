@@ -305,7 +305,7 @@ class Paragraph:
                 if tag == '<br>':
                     lines.append('')
                 else:
-                    assert 0, "Unknown tag: %r" % tag
+                    raise ValueError("Unknown tag: %r" % tag)
             else:
                 lines[-1] = lines[-1] + data
         return [normalize(line).strip()
