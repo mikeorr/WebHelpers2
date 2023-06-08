@@ -1,3 +1,0 @@
-This directory contains helpers that aren't ready to put into the distribution.
-Some work but need API changes or documentation. Others fail their tests or
-don't work at all.
