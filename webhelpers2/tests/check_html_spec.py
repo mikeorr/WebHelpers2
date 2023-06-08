@@ -90,7 +90,7 @@ def test_compose_attrs(html5_attribute_table):
 @pytest.fixture(scope='module')
 def html5_index():
     resp = urlopen(HTML51_INDEX)
-    return BeautifulSoup(resp, 'html.parser')
+    return BeautifulSoup(resp, 'html5lib')
 
 
 @pytest.fixture(scope='module')
