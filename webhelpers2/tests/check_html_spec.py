@@ -50,7 +50,15 @@ def test_void_tags(html5_element_table, html4_element_table):
                            if row.empty == 'E')
     assert 'br' in html4_empty_tags, "scraped results do not look sane"
 
-    assert HTML.void_tags == html5_empty_tags | html4_empty_tags
+    control = html5_empty_tags | html4_empty_tags
+    control.discard("iframe")     # Not empty.
+    control.discard("template")   # Not empty.
+
+    void_tags = set(HTML.void_tags)
+    void_tags.discard("keygen")     # Removed from HTML 5.
+    void_tags.discard("menuitem")   # Removed from HTML 5.
+
+    assert void_tags == control
 
 
 def test_boolean_attrs(html5_attribute_table):
@@ -60,7 +68,12 @@ def test_boolean_attrs(html5_attribute_table):
     assert 'selected' in html5_boolean_attrs, \
         "scraped results do not look sane"
 
-    assert HTML.boolean_attrs == html5_boolean_attrs
+    html5_boolean_attrs.add("hidden")   # Boolean-compatible attr.
+
+    boolean_attrs = set(HTML.boolean_attrs)
+    boolean_attrs.discard("typemustmatch")   # Removed from HTML 5.
+
+    assert boolean_attrs == html5_boolean_attrs
 
 
 def test_compose_attrs(html5_attribute_table):
@@ -84,7 +97,12 @@ def test_compose_attrs(html5_attribute_table):
     assert html5_compose_attrs['class'] == literal(' '), \
         "scraped results do not look sane"
 
-    assert HTML.compose_attrs == html5_compose_attrs
+    compose_attrs = HTML.compose_attrs.copy()
+    del compose_attrs["accept-charset"]   # No longer a compose attr.
+    del compose_attrs["dropzone"]         # Removed from HTML 5.
+    del compose_attrs["rev"]              # Removed from HTML 5.
+
+    assert compose_attrs == html5_compose_attrs
 
 
 @pytest.fixture(scope='module')
