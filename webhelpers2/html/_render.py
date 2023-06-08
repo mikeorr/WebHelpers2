@@ -44,6 +44,7 @@ from __future__ import print_function
 import re
 import textwrap
 
+import six
 from six.moves import html_parser
 from six.moves import html_entities
 
@@ -383,7 +384,7 @@ class HTMLSanitizer(html_parser.HTMLParser):
 def normalize(text):
     text = re.sub(r'\s+', ' ', text)
     # nbsp:
-    if not isinstance(text, unicode):
+    if not isinstance(text, six.text_type):
         text = text.replace('\xa0', ' ')
     return text
 
