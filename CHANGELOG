@@ -1,6 +1,9 @@
 2.1 (unreleased)
 ----------------
 
+- Tested on Python 3.9 - 3.12 and 2.7 on Linux.
+  This is the last version to support Python 2.7!
+
 - webhelpers.html.builder:
 
   * Update the lists of *empty elements*, *boolean attributes*, and
@@ -10,6 +13,8 @@
   * The ``tag`` method misinterpreted its ``c``argument if was a string
     or literal. This caused the wrong output if the ``_nl`` arg was true;
     it put a newline after every character.
+
+- Python 3 compatibility.
 
 - Switch doc theme source to 'pyramid-sphinx-themes' Python distribution.
   This doesn't change the theme; it only changes where we get it from.
