@@ -2,6 +2,7 @@
 *.egg
 *.egg-info
 *.pyc
+__pycache__
 build
 dist
 docs/_build
