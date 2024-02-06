@@ -10,9 +10,14 @@ import six
 from webhelpers2.html import HTML, literal
 from webhelpers2.html.tags import *
 
-from . import HTMLTestCase
 
 #### Base classes ####
+
+class HTMLTestCase(object):
+    def check(self, result, control):
+        assert result == control
+        assert isinstance(result, literal)
+
 
 class OptionsTestCase(HTMLTestCase):
     def check_option(self, option, label, value):

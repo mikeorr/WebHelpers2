@@ -4,7 +4,13 @@ from pytest import raises
 import six
 
 from webhelpers2.html import literal, lit_sub, escape, HTML
-from . import HTMLTestCase
+
+
+class HTMLTestCase(object):
+    def check(self, result, control):
+        assert result == control
+        assert isinstance(result, literal)
+
 
 class TestEscape(object):
     def test_double_escape(self):
@@ -12,6 +18,7 @@ class TestEscape(object):
         assert quoted == "This string is &#34;quoted&#34;"
         dbl_quoted = escape(quoted)
         assert quoted == dbl_quoted
+
 
 class TestLiteral(object):
     def test_literal(self):

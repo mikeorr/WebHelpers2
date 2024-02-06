@@ -1,10 +1,8 @@
 from datetime import date
 import time
 
-from webhelpers2.html import HTML
+from webhelpers2.html import HTML, literal
 from webhelpers2.html.tags import *
-
-from . import HTMLTestCase
 
 TEST_VALUES = {
     "name": "Jim",
@@ -18,6 +16,7 @@ TEST_VALUES = {
     "newyears": date(1970, 1, 1),
     "today": "today",
     }
+
 
 class Holder(object):
     def __init__(self, settings):
@@ -33,6 +32,12 @@ class LanguageOptions(object):
         opts.add_option("Japanese", "jp")
         return opts
             
+
+class HTMLTestCase(object):
+    def check(self, result, control):
+        assert result == control
+        assert isinstance(result, literal)
+
 
 class TestModelTagsHelperWithObject(HTMLTestCase, LanguageOptions):
     def setup_method(self, method):
