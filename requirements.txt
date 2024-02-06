@@ -5,7 +5,6 @@ six>=1.4.0
 
 # Test runner
 pytest
-tox
 
 # Making wheel distributions
 wheel
