@@ -19,10 +19,8 @@ class DumbObject(object):
         >>> do.b
         2
     
-    Alternatives to this class include ``collections.namedtuple`` in Python
-    2.6, and ``formencode.declarative.Declarative`` in Ian Bicking's FormEncode
-    package.  Both alternatives offer more features, but ``DumbObject``
-    shines in its simplicity and lack of dependencies.
+    Alternatives to this class include ``types.SimpleNamespace`` and
+    ``collections.namedtuple`` in the Python standard library.
 
     """
     def __init__(self, **kw):
