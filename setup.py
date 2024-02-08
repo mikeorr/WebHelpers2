@@ -33,8 +33,22 @@ setup(
     version=__version__,
     description='WebHelpers2',
     long_description="""
-WebHelpers2 is the successor to the widely-used WebHelpers utilities.
-It contains convenience functions to make HTML tags, process text, format numbers, do basic statistics, work with collections, and more.
+**WebHelpers2** contains convenience functions to make HTML tags, process text,
+format numbers, do basic statistics, work with collections, and more.
+It's the successor to WebHelpers.
+
+Version 2.1 fixes bugs and adds Python 3 support. The API and features are
+unchanged since 2.0. This version is tested on Python 3.9, 3.10, 3.11, 3.12,
+and 2.7.
+
+The next version will drop Python 2 and older Python 3 versions. No new
+helpers or API changes are expected. It will focus on updating the packaging
+and documentation. It may delete some helpers that now have equivalents in
+recent Python versions.
+
+For support/questions/patches, please use the pylons-discuss_ mailing list.
+
+.. _pylons-discuss: http://groups.google.com/group/pylons-discuss
 """,
     author='Mike Orr, Ben Bangert, Phil Jenvey',
     author_email='sluggoster@gmail.com, ben@groovie.org, pjenvey@groovie.org',
