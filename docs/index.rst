@@ -1,6 +1,6 @@
 WebHelpers2
 %%%%%%%%%%%
-:Version: |release|, released 2024-02-07
+:Version: |release|, released 2024-02-08
 :PyPI: http://pypi.python.org/pypi/WebHelpers2
 :Docs: https://webhelpers2.readthedocs.org/en/latest/
 :Source: https://github.com/mikeorr/WebHelpers2 (Git)
