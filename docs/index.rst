@@ -1,6 +1,6 @@
 WebHelpers2
 %%%%%%%%%%%
-:Version: |release|, released 2015-01-17
+:Version: |release|, released 2024-02-07
 :PyPI: http://pypi.python.org/pypi/WebHelpers2
 :Docs: https://webhelpers2.readthedocs.org/en/latest/
 :Source: https://github.com/mikeorr/WebHelpers2 (Git)
@@ -11,15 +11,18 @@ WebHelpers2
    :alt: WebHelpers Logo
    :align: right
 
-**WebHelpers2** is the successor to the widely-used WebHelpers_ utility
-functions.  It narrows the focus to a core set of utilities that are most
-widely used, feasable to port to Python 3,  and relevant to Pyramid and
-other current frameworks.  It renovates the popular HTML builder, and
-keeps most of the HTML tag helpers and text-processing, number formatting,
-statistics, and date functions.
+**WebHelpers2** contains convenience functions and classes to make HTML tags,
+process text, format numbers, do basic statistics, work with collections, and
+more. It's the successor to WebHelpers_.
 
-**Version 2.0** is the final release, and is suitable for production. There
-are no changes since RC 3.
+**Version 2.1** fixes bugs and adds Python 3 support. The API and features are
+unchanged since 2.0. This version works on both Python 3 and 2. It was tested
+on Python 3.9, 3,10, 3,11, 3.12, and 2.7 on Linux, and should work on other platforms.
+
+**The next version** will drop Python 2 and older Python 3 versions.
+No new helpers or API changes are expected.
+Instead it will focus on updating the packaging and documentation.
+It may delete some helpers that now have equivalents in recent Python versions.
 
 For support/questions/patches, please use the pylons-discuss_ mailing list.
 

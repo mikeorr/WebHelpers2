@@ -20,6 +20,7 @@ reprutils_
 
     Helpers to make a robust ``.__repr__`` method without reinventing
     the wheel.
+    See also Python 3's ``dataclasses`` module.
 
 Unidecode_
 
@@ -32,8 +33,8 @@ Unidecode_
 Unipath_
 
     An object-oriented alternative to the path functions in ``os``,
-    ``os.path``, and ``shutil``.  Similar packages include
-    path.py_. 
+    ``os.path``, and ``shutil``.
+    Python 3 now has a `pathlib` module with some of these features.
 
 
 .. include:: include.rst

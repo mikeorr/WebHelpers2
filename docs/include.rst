@@ -13,7 +13,6 @@
 .. _mako: https://pypi.python.org/pypi/Mako
 .. _markdown: https://pypi.python.org/pypi/markdown
 .. _markdown2: https://pypi.python.org/pypi/markdown2
-.. _path.py: https://pypi.python.org/pypi/path.py
 .. _Pillow: https://pypi.python.org/pypi/Pillow
 .. _paginate: https://pypi.python.org/pypi/paginate
 .. _paginate_sqlalchemy: https://pypi.python.org/pypi/paginate_sqlalchemy

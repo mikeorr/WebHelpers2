@@ -54,7 +54,7 @@ master_doc = 'index'
 
 # General substitutions.
 project = 'WebHelpers2'
-copyright = '2009-2016, Mike Orr and contributors'
+copyright = '2009-2024, Mike Orr and contributors'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -188,8 +188,8 @@ htmlhelp_basename = 'WebHelpersdoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('contents', 'WebHelpers.tex', u'WebHelpers Documentation',
-   u'Ben Bangert', 'manual'),
+  ('contents', 'WebHelpers.tex', 'WebHelpers Documentation',
+   'Mike Orr', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

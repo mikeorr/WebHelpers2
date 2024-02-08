@@ -15,7 +15,7 @@ or check out the source:
 .. code-block:: sh
 
    $ git clone https://github.com/mikeorr/WebHelpers2
-   $ pip install .
+   $ python -m pip install .
 
 It depends on MarkupSafe_ and six_, which pip will automatically
 install. Unidecode_ is optional; some of the text helpers will use it if
@@ -29,38 +29,20 @@ run:
 
    $ pip install -r requirements.txt
 
-WebHelpers2 has been tested on Python 2.7 and 3.4, and sometimes on 2.6. Earlier
-betas were tested on Python 3.3 and it's believed to still be compatible.
-
-
-Python 3.2 Caveats
-==================
-
-On Python 3.2 you must use MarkupSafe_ 0.15. Version 0.16 started
-using the "u" string prefix which is invalid in Python 3.0 - 3.2. (It was
-re-added in 3.3.)
-
-WebHelpers2 is believed to run on Python 3.2 but this has not been tested.
-All "u" prefixes have been removed from the code but remain in some
-former doctests.  (These are no longer supported as doctests but only as
-documentation.)
-
 
 Running the unit tests
 ======================
 
-WebHelpers2 has an extensive test suite using PyTest. To run the tests:
+WebHelpers2 has an extensive test suite using PyTest. To run the tests,
+check out the source and run:
 
 .. code-block:: sh
 
-   $ pip install pytest
-   $ py.test
+   $ python -m pip install pytest
+   $ py.test tests
 
 PyTest has lots of options. To run a specific test module, pass the
-filename; e.g., 'webhelpers2/tests/test_text.py'.
-
-PyTest sometimes has trouble finding tests on some systems. In that case,
-specify the test directory or filename as an argument.
+filename; e.g., 'tests/test_text.py'.
 
 
 .. include:: include.rst
